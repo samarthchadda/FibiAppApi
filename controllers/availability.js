@@ -38,24 +38,8 @@ exports.getSingleEmpAvailData=(req,res,next)=>{
       
         if(availDoc){
            
-            Employee.findEmployeeByEmpID(empId)
-            .then(emp=>{
-                // console.log(emp.saloonId);
-                if(emp)
-                {
-                    Availability.findAvailBySaloonId(emp.saloonId)
-                    .then(availSaloon=>{
-                        // console.log(availSaloon);
-                        
-                 res.json({status:true, data:availDoc,saloonData : availSaloon});
-                    })
-                }
-                else
-                {
-                    res.json({status:true,data:[]});
-                }             
-                
-            })
+            res.json({status:true, data:availDoc});
+            
         }
         else{
             res.json({status:false,message:"No such availability exist"});
@@ -101,7 +85,25 @@ exports.getSingleEmpAvailDataByDate=(req,res,next)=>{
         if(availDoc){
            
             // console.log(new Date(availDoc.startDate))
-             res.json({status:true, data:availDoc});
+            //  res.json({status:true, data:availDoc});
+             Employee.findEmployeeByEmpID(empId)
+            .then(emp=>{
+                // console.log(emp.saloonId);
+                if(emp)
+                {
+                    Availability.findAvailBySaloonId(emp.saloonId)
+                    .then(availSaloon=>{
+                        // console.log(availSaloon);
+                        
+                 res.json({status:true, data:availDoc,saloonData : availSaloon});
+                    })
+                }
+                else
+                {
+                    res.json({status:true,data:[]});
+                }             
+                
+            })
         }
         else{
             res.json({status:false,message:"No such availability exist"});
