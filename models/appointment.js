@@ -84,6 +84,30 @@ class Appointment
                                             .catch(err=>console.log(err));
     }
 
+    static findCurrentAppointByEmpIdAndDateTime(eid,cDate)
+    {
+        const db = getDb();
+                            
+        return db.collection('appointments').find({ empId:eid,bookingDate:{$gte:cDate} }).toArray()
+                                            .then(appointDetail=>{
+                                                                                                
+                                                return appointDetail;  
+                                            })
+                                            .catch(err=>console.log(err));
+    }
+
+    static findAppointsByClientPhone(phone)
+    {
+        const db = getDb();
+                            
+        return db.collection('appointments').find({ clientPhone:phone }).toArray()
+                                            .then(appointDetail=>{
+                                                                                                
+                                                return appointDetail;  
+                                            })
+                                            .catch(err=>console.log(err));
+    }
+
   
     static findAppointByEmpIdAndDate(eid,bDate)
     {

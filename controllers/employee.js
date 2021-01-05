@@ -3,6 +3,11 @@ const Employee = require('../models/employee');
 
 const Service = require('../models/services');
 
+const Appointment = require('../models/appointment');
+
+var request = require('request');
+
+var Client = require('../models/client');
 
 const getDb = require('../util/database').getDB; 
 
@@ -103,6 +108,32 @@ exports.getSaloonEmployees=(req,res,next)=>{
 exports.delEmployee=(req,res,next)=>{
 
     const empId = +req.params.empId;
+    //current Date
+    var currDate = new Date();
+    var dd = String(currDate.getDate()).padStart(2, '0');
+    var mm = String(currDate.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = currDate.getFullYear();
+
+    currDate =yyyy + '-' +mm + '-' + dd ;
+    // console.log(currDate);
+    currDate = new Date(currDate).getTime();
+
+    // var post_options = {
+    //     host: 'https://onesignal.com/',
+    //     port: '8080',
+    //     path: 'https://onesignal.com/api/v1/notifications',
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //         'Authorization': 'Basic NjQzMjNjYzktYmI2OC00YWMxLWJmMTgtYjQ1NjYzYzViOTZl'
+    //     }
+    // };
+    var myJSONObject = {
+        "app_id": "fec0b1c3-f072-4b70-9048-f79388e01968",
+        "include_player_ids": [],
+        "data": {"foo": "Title101"},
+        "contents": {"en": "APPOINTMENT CANCELLED\nEmployee Deleted"}
+      };
 
     Employee.findEmployeeByEmpID(JSON.parse(empId))
                     .then(employee=>{
@@ -110,15 +141,76 @@ exports.delEmployee=(req,res,next)=>{
                         {
                             return res.json({ message:'Employee does not exist',status:false});
                         }
-
+                        Appointment.findCurrentAppointByEmpIdAndDateTime(+empId,currDate)
+                        .then(appoints=>{
+                            console.log("Appointments : ",appoints)
+                            if(appoints.length>0)
+                            {
+                                let clientsData = [];
+                                appoints.forEach(ap=>{
+                                  
+                                    Client.findClientByPhone(ap.clientPhone)
+                                    .then(cl=>{
+                                        clientsData.push(cl);
+                                        myJSONObject["include_player_ids"]=[cl.deviceToken];
+                                        request({
+                                            url: "https://onesignal.com/api/v1/notifications",
+                                            method: "POST",
+                                            json: true,   // <--Very important!!!
+                                            body: myJSONObject,
+                                            headers:{
+                                                'Content-Type': 'application/json',
+                                               'Authorization': 'Basic NjQzMjNjYzktYmI2OC00YWMxLWJmMTgtYjQ1NjYzYzViOTZl'
+                                            }
+                                        }, function (error, response, body){
+                                            // console.log(response.body);
+                                            
+                                        });
+                                        // console.log(clientsData)
+                                        
+                                    if(clientsData.length==appoints.length)
+                                    {
+                                        // console.log(myJSONObject)
+                                        // return res.json({message:clientsData,status:true});
+                                        
                         const db = getDb();
                         db.collection('employees').deleteOne({empId:empId})
                                     .then(resultData=>{
+                                  
+                                            // res.json({message:'Employee Deleted',status:true});
+                                            db.collection('appointments').deleteMany({empId:empId})
+                                            .then(resultData=>{
+                                                // var post_req = http.request(post_options, function(res) {
+                                                //     res.setEncoding('utf8');
+                                                //     res.on('data', function (chunk) {
+                                                //         console.log('Response: ' + chunk);
+                                                //     })
+                                                // });
+                                                // 
+                                                return res.json({message:'Employee and Appoints Deleted',status:true});
+                                              
+                                            })
+
                                         
-                                        res.json({message:'Employee Deleted',status:true});
+                                    })
+
+                                    }
+
+                                    })
+
+                                })
+                               
+                               
+                            }
+                            else
+                            {
+                                return res.json({message:'No appointments',status:false});
+                            }
+                                       
                                     })
                                     .catch(err=>console.log(err));
                     })
+                    
 }
 
 
