@@ -95,7 +95,7 @@ exports.getSingleEmpAvailDataByDate=(req,res,next)=>{
                     .then(availSaloon=>{
                         // console.log(availSaloon);
                         
-                 res.json({status:true, data:availDoc,saloonData : availSaloon});
+                 res.json({status:true, data:availDoc,saloonData : [availSaloon]});
                     })
                 }
                 else
@@ -119,7 +119,7 @@ exports.getSingleEmpAvailDataByDate=(req,res,next)=>{
                             res.json({status:false,message:"No such availability exist",saloonData:[]});
                         }
                         else{
-                        res.json({status:false,message:"No such availability exist",saloonData:availSaloon});
+                        res.json({status:false,message:"No such availability exist",saloonData:[availSaloon]});
                         }
                     })
                 }
