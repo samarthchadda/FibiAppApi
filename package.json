@@ -31,6 +31,7 @@
     "nodemailer-sendgrid-transport": "^0.2.0",
     "nodemon": "^2.0.4",
     "request": "^2.88.2",
-    "smartystreets-javascript-sdk": "^1.6.0"
+    "smartystreets-javascript-sdk": "^1.6.0",
+    "stripe": "^8.129.0"
   }
 }

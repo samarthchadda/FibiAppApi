@@ -3,6 +3,9 @@ const Owner = require('../models/owner');
 
 const getDb = require('../util/database').getDB; 
 
+
+const stripe = require('stripe')('sk_test_51I4o2BEEiYQYyt5L1v76GKo0DFSGfDhXIXIKyZa2zppPybs02wdkQOF2vXp6xTsiHdCmWGBsQlOxlqE0s7PHNOiR00b98mLMmG');
+
 // var nodemailer = require('nodemailer');
 
 // var transporter = nodemailer.createTransport({
@@ -57,6 +60,126 @@ exports.getOwners=(req,res,next)=>{
 
                 })
                 .catch(err=>console.log(err));
+}
+
+exports.createCustomer=(req,res,next)=>{
+  
+    // const customer =  stripe.customers.create({
+    //   description: 'My First Test Customer (created for API docs)',
+    // });
+
+    var param = {};
+    //   param.email = "sam@gmail.com";
+    //   param.name = "Mike";
+    param.email = req.body.email;
+    param.name = req.body.name;
+      
+      stripe.customers.create(param,function(err,customer){
+          if(err){
+            //   console.log("Error Occured : ",err);
+            res.json({status:false,message:"Error Occured",error:err})
+          }
+          if(customer)
+          {
+            //   console.log("Customer Created : ",customer)
+            res.json({status:true,message:"Customer Created Successfully",customer:customer})
+          }
+          else
+          {
+              console.log("Something Wrong")
+            // res.json({status:false,message:"Error Occured"})
+          }
+      })
+      
+}
+
+
+exports.getCustomers=(req,res,next)=>{
+  
+    // var param = {};
+    //   param.email = "sam@gmail.com";
+    //   param.name = "Mike";
+    const customerId = req.body.customerId;
+      //'cus_IhbWWO3RBDXpDc'
+      stripe.customers.retrieve(customerId,function(err,customer){
+          if(err){
+            //   console.log("Error Occured : ",err);
+            res.json({status:false,message:"Error Occured",error:err})
+        }
+          if(customer)
+          {
+            //   console.log("Customer : ",customer)
+            res.json({status:true,customer:customer})
+          }
+          else{
+              console.log("Something Wrong")
+          }
+      })
+      
+}
+
+
+exports.createProduct=(req,res,next)=>{
+  
+    // const customer =  stripe.customers.create({
+    //   description: 'My First Test Customer (created for API docs)',
+    // });
+
+    var param = {};
+     
+      param.name = req.body.name;
+      param.description = req.body.description;
+      
+      stripe.products.create(param,function(err,product){
+          if(err){
+            //   console.log("Error Occured : ",err);
+            res.json({status:false,message:"Error Occured",error:err})
+          }
+          if(product)
+          {
+            //   console.log("Product Created : ",product);
+            res.json({status:true,message:"Product Created Successfully",product:product})
+          }
+          else{
+              console.log("Something Wrong")
+          }
+      })
+      
+}
+
+
+exports.createPrice=(req,res,next)=>{
+  
+    // const customer =  stripe.customers.create({
+    //   description: 'My First Test Customer (created for API docs)',
+    // });
+
+    var param = {};
+    //"prod_IfWWt8XiUpit3V"
+    
+      param.product = req.body.product;
+      param.unit_amount = +req.body.unit_amount;
+      param.currency = 'eur';
+    //   param.currency = req.body.name
+    //   param.recurring =  {interval: 'month'};
+      param.recurring =  {interval: req.body.recurring};     
+
+      
+      stripe.prices.create(param,function(err,price){
+          if(err){
+            //   console.log("Error Occured : ",err);
+            res.json({status:false,message:"Error Occured",error:err})
+          }
+          if(price)
+          {
+            //   console.log("Price Created : ",price);
+            res.json({status:true,message:"Price Added Successfully",price:price})
+          }
+          else{
+              console.log("Something Wrong")
+          }
+      })
+      
 }
 
 //POST

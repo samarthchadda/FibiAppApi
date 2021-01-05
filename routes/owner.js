@@ -16,6 +16,14 @@ router.post('/owner-register',ownerController.ownerRegister);
 
 router.get('/all-owners',ownerController.getOwners);
 
+router.post('/create-customer-stripe',ownerController.createCustomer);
+
+router.post('/create-product-stripe',ownerController.createProduct);
+
+router.post('/create-price-stripe',ownerController.createPrice);
+
+router.post('/get-customers-stripe',ownerController.getCustomers);
+
 router.post('/check-owner',ownerController.ownerCheckPhone);
 
 router.post('/check-owner-email',ownerController.ownerCheckEmail);
