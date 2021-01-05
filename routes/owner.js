@@ -22,6 +22,8 @@ router.post('/create-product-stripe',ownerController.createProduct);
 
 router.post('/create-price-stripe',ownerController.createPrice);
 
+router.post('/create-subscription-stripe',ownerController.createSubscription);
+
 router.post('/get-customers-stripe',ownerController.getCustomers);
 
 router.post('/check-owner',ownerController.ownerCheckPhone);

@@ -182,6 +182,40 @@ exports.createPrice=(req,res,next)=>{
       
 }
 
+
+exports.createSubscription=(req,res,next)=>{
+  
+    // const customer =  stripe.customers.create({
+    //   description: 'My First Test Customer (created for API docs)',
+    // });
+
+    var param = {};
+    //"prod_IfWWt8XiUpit3V"
+    
+      param.customer = req.body.customer;
+    //   param.items = req.body.items;
+    //   console.log(param.items)
+    param.items = [
+        {price: 'price_1I6GyJEEiYQYyt5LpuZZMDJo'},
+      ]
+
+      stripe.subscriptions.create(param,function(err,subscription){
+          if(err){
+            //   console.log("Error Occured : ",err);
+            res.json({status:false,message:"Error Occured",error:err})
+          }
+          if(subscription)
+          {
+            //   console.log("Price Created : ",price);
+            res.json({status:true,message:"Subscription Added Successfully",subscription:subscription})
+          }
+          else{
+              console.log("Something Wrong")
+          }
+      })
+      
+}
+
 //POST
 exports.ownerRegister = (req,res,next)=>{
   
