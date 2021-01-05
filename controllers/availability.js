@@ -91,7 +91,7 @@ exports.getSingleEmpAvailDataByDate=(req,res,next)=>{
                 // console.log(emp.saloonId);
                 if(emp)
                 {
-                    Availability.findAvailBySaloonId(emp.saloonId)
+                    Availability.findAvailBySaloonIdAndDate(emp.saloonId,startDate,endDate)
                     .then(availSaloon=>{
                         // console.log(availSaloon);
                         
@@ -112,11 +112,15 @@ exports.getSingleEmpAvailDataByDate=(req,res,next)=>{
                 // console.log(emp.saloonId);
                 if(emp)
                 {
-                    Availability.findAvailBySaloonId(emp.saloonId)
+                    Availability.findAvailBySaloonIdAndDate(emp.saloonId,startDate,endDate)
                     .then(availSaloon=>{
                         // console.log(availSaloon);
-                        
+                        if(availSaloon==null){
+                            res.json({status:false,message:"No such availability exist",saloonData:[]});
+                        }
+                        else{
                         res.json({status:false,message:"No such availability exist",saloonData:availSaloon});
+                        }
                     })
                 }
                 else
