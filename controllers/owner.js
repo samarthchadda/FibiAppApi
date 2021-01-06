@@ -3,6 +3,7 @@ const Owner = require('../models/owner');
 
 const getDb = require('../util/database').getDB; 
 
+const Employee = require('../models/employee');
 
 const stripe = require('stripe')('sk_test_51I4o2BEEiYQYyt5L1v76GKo0DFSGfDhXIXIKyZa2zppPybs02wdkQOF2vXp6xTsiHdCmWGBsQlOxlqE0s7PHNOiR00b98mLMmG');
 
@@ -289,22 +290,46 @@ exports.ownerRegister = (req,res,next)=>{
 exports.ownerLogin=(req,res,next)=>{
     const email = req.body.email;
     const password = req.body.password;
-    
-    Owner.findOwnerByEmail(email)
-                .then(user=>{
-                    if(!user)
-                    {
-                        return res.json({ message:'Enter valid email Id',status:false});
-                    }
+    const isOwner = req.body.isOwner;
 
-                    if(user.password == password)
-                    {                        
-                        res.json({ message:'Login Successful',status:true, owner:user});
-                    }else{
-                       
-                        res.json({ message:'Enter valid credentials',status:false});
-                    }
-                })
+    if(isOwner)
+    {
+        Owner.findOwnerByEmail(email)
+        .then(user=>{
+            if(!user)
+            {
+                return res.json({ message:'Enter valid email Id',status:false});
+            }
+
+            if(user.password == password)
+            {                        
+                res.json({ message:'Login Successful',status:true, owner:user});
+            }else{
+               
+                res.json({ message:'Enter valid credentials',status:false});
+            }
+        })
+    }
+    else
+    {
+        Employee.findEmployeesByEmail(email)
+        .then(user=>{
+            if(user.length==0)
+            {
+                return res.json({ message:'Enter valid email Id',status:false});
+            }
+
+            if(user[0].password == password)
+            {                        
+                res.json({ message:'Login Successful',status:true, employee:user[0]});
+            }else{
+               
+                res.json({ message:'Enter valid credentials',status:false});
+            }
+        })
+    }
+    
+   
 
 }
 
