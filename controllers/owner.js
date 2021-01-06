@@ -5,6 +5,8 @@ const getDb = require('../util/database').getDB;
 
 const Employee = require('../models/employee');
 
+const Saloon = require('../models/saloon')
+
 const stripe = require('stripe')('sk_test_51I4o2BEEiYQYyt5L1v76GKo0DFSGfDhXIXIKyZa2zppPybs02wdkQOF2vXp6xTsiHdCmWGBsQlOxlqE0s7PHNOiR00b98mLMmG');
 
 // var nodemailer = require('nodemailer');
@@ -120,6 +122,34 @@ exports.getCustomers=(req,res,next)=>{
 }
 
 
+
+exports.getProducts=(req,res,next)=>{
+  
+  
+    stripe.products.list(function(err,products){
+          if(err){
+            //   console.log("Error Occured : ",err);
+            res.json({status:false,message:"Error Occured",error:err})
+        }
+          if(products)
+          {
+              var newArr = [];
+              
+            products.data.forEach(prod=>{
+                var newData = {...prod}
+                console.log(prod.description)
+            })
+            //   console.log("Customer : ",customer)
+            res.json({status:true,products:products})
+          }
+          else{
+              console.log("Something Wrong")
+          }
+      })
+      
+}
+
+
 exports.createProduct=(req,res,next)=>{
   
     // const customer =  stripe.customers.create({
@@ -186,10 +216,6 @@ exports.createPrice=(req,res,next)=>{
 
 exports.createSubscription=(req,res,next)=>{
   
-    // const customer =  stripe.customers.create({
-    //   description: 'My First Test Customer (created for API docs)',
-    // });
-
     var param = {};
     //"prod_IfWWt8XiUpit3V"
     
@@ -321,7 +347,17 @@ exports.ownerLogin=(req,res,next)=>{
 
             if(user[0].password == password)
             {                        
-                res.json({ message:'Login Successful',status:true, employee:user[0]});
+                // console.log(user[0].saloonId)
+                Saloon.findSaloonBySaloonID(+user[0].saloonId)
+                .then(saloonData=>{
+                    // console.log(saloonData.ownerId)
+                    Owner.findOwnerById(saloonData.ownerId)
+                    .then(ownerData=>{
+                        
+                res.json({ message:'Login Successful',status:true, employee:user[0],owner:ownerData});
+                    })
+                    
+                })
             }else{
                
                 res.json({ message:'Enter valid credentials',status:false});

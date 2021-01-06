@@ -26,6 +26,9 @@ router.post('/create-subscription-stripe',ownerController.createSubscription);
 
 router.post('/get-customers-stripe',ownerController.getCustomers);
 
+router.get('/get-products-stripe',ownerController.getProducts);
+
+
 router.post('/check-owner',ownerController.ownerCheckPhone);
 
 router.post('/check-owner-email',ownerController.ownerCheckEmail);
