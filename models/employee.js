@@ -5,7 +5,7 @@ const ObjectId = mongodb.ObjectId;
 
 class Employee
 {
-    constructor(empId,saloonId,empName,type,img,services)
+    constructor(empId,saloonId,empName,type,img,services,email,password)
     {
         this.empId = empId;
         this.saloonId = saloonId;        
@@ -13,6 +13,8 @@ class Employee
         this.empType = type;
         this.empImg = img;
         this.empServices = services;
+        this.email = email;
+        this.password = password;
         
     }
  
@@ -42,6 +44,19 @@ class Employee
         const db = getDb();
                             
         return db.collection('employees').find({ saloonId:id}).toArray()
+                                            .then(employeeData=>{
+                                                                                                
+                                                return employeeData;  
+                                            })
+                                            .catch(err=>console.log(err));
+
+    }
+
+    static findEmployeesByEmail(email)
+    {
+        const db = getDb();
+                            
+        return db.collection('employees').find({ email:email}).toArray()
                                             .then(employeeData=>{
                                                                                                 
                                                 return employeeData;  

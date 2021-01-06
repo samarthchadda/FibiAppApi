@@ -214,5 +214,42 @@ exports.delEmployee=(req,res,next)=>{
 }
 
 
+exports.empCredentials = (req,res,next)=>{
+
+      const empId = +req.body.empId;
+      const email = req.body.email;
+      const password = req.body.password;
+      
+     
+      Employee.findEmployeeByEmpID(+empId)
+               .then(clientDoc=>{
+                   if(!clientDoc)
+                   {
+                       return res.json({ message:'Employee does not exist',status:false});
+                   }              
+                  console.log(email)
+                   Employee.findEmployeesByEmail(email)
+                   .then(empData=>{
+                       if(empData.length>0)
+                       {
+                        return res.json({ message:'Email already exist',status:false});
+                       }
+                       clientDoc.email = email;
+                       clientDoc.password = password;
+                   
+                       const db = getDb();
+                       db.collection('employees').updateOne({empId:empId},{$set:clientDoc})
+                                   .then(resultData=>{
+                                       
+                                       res.json({message:'Details Updated',status:true,employee:clientDoc});
+                                   })
+                                   .catch(err=>console.log(err));
+                                          
+                      })
+       
+                   })
+         
+}
+
 
 

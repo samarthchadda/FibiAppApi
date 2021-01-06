@@ -14,6 +14,7 @@ router.get('/all-saloon-employees/:saloonId',employeeController.getSaloonEmploye
 
 router.get('/del-employee/:empId',employeeController.delEmployee);
 
+router.post('/edit-emp-credentials',employeeController.empCredentials);
 
 const multer = require('multer');
 const getDb = require('../util/database').getDB; 
@@ -75,7 +76,7 @@ router.post('/post-employee',upload.single('empPhoto'),(req,res,next)=>{
                 
                              const db = getDb();
                 
-                            const employee = new Employee(empID,saloonId,empNm,empType,result.url,empServicesId);
+                            const employee = new Employee(empID,saloonId,empNm,empType,result.url,empServicesId,null,null);
                             //saving in database
                         
                             employee.save()
