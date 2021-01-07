@@ -143,7 +143,7 @@ exports.getProducts=(req,res,next)=>{
             res.json({status:true,products:products})
           }
           else{
-              console.log("Something Wrong")
+              console.log("Something Wrong");
           }
       })
       
@@ -256,13 +256,15 @@ exports.ownerRegister = (req,res,next)=>{
     const isVerified = false;
     const regDate = new Date().getTime();
     const deviceToken = req.body.deviceToken;
+    var subscription = {customerId:'',subscribedData:[]};
+    
+    var param = {};
 
     Owner.findOwnerByEmail(email)
                 .then(userDoc=>{
                     if(userDoc){                        
                         return res.json({status:false, message:'Onwer Already Exists(Enter unique email and phone)',owner:userDoc});
-                    }
-                   
+                    }                   
                     
                     Owner.findOwnerByPhone(phone)
                     .then(userDoc=>{
@@ -282,17 +284,43 @@ exports.ownerRegister = (req,res,next)=>{
                         
                         db.collection('ownerCounter').insertOne({count:newVal})
                                 .then(result=>{
-                                              
-                            const owner = new Owner(onwerID,ownerName,email,phone,password,ownerImg,isVerified,regDate,deviceToken);
-                            //saving in database
-                        
-                            return owner.save()
-                            .then(resultData=>{
+
+                                                                
+                            param.email = req.body.email;
+                            param.name = req.body.ownerName;
+                            
+                            stripe.customers.create(param,function(err,customer){
+                                if(err){
+                                    //   console.log("Error Occured : ",err);
+                                    res.json({status:false,message:"Error Occured",error:err})
+                                }
+                                if(customer)
+                                {
+                                      console.log("Customer Created : ",customer.id)
+                                      subscription.customerId = customer.id
+                                                            
+                                    const owner = new Owner(onwerID,ownerName,email,phone,password,ownerImg,isVerified,regDate,deviceToken,subscription);
+                                    //saving in database
                                 
-                                res.json({status:true,message:"Owner Registered",owner:resultData["ops"][0]});
-                                
+                                    return owner.save()
+                                    .then(resultData=>{
+                                        
+                                        res.json({status:true,message:"Owner Registered",owner:resultData["ops"][0]});
+                                        
+                                    })
+                                    .catch(err=>console.log(err)); 
+                                    // res.json({status:true,message:"Customer Created Successfully",customer:customer})
+                                }
+                                else
+                                {
+                                    console.log("Something Wrong")
+                                    // res.json({status:false,message:"Error Occured"})
+                                }
                             })
-                            .catch(err=>console.log(err));                                                    
+      
+
+
+                                                                           
                                   
                                 })
                                 .then(resultData=>{
