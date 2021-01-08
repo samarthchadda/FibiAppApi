@@ -7,7 +7,7 @@ const Employee = require('../models/employee');
 
 const Saloon = require('../models/saloon')
 
-const stripe = require('stripe')('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');
+const stripe = require('stripe')('sk_test_51I4o2BEEiYQYyt5L1v76GKo0DFSGfDhXIXIKyZa2zppPybs02wdkQOF2vXp6xTsiHdCmWGBsQlOxlqE0s7PHNOiR00b98mLMmG');
 
 // var nodemailer = require('nodemailer');
 
@@ -123,30 +123,76 @@ exports.getCustomers=(req,res,next)=>{
 
 
 
-exports.getProducts=(req,res,next)=>{
+exports.getProducts=async (req,res,next)=>{
   
   
-    stripe.products.list(function(err,products){
-          if(err){
-            //   console.log("Error Occured : ",err);
-            res.json({status:false,message:"Error Occured",error:err})
-        }
-          if(products)
-          {
-              var newArr = [];
+    // stripe.products.list(function(err,products){
+    //       if(err){
+    //         //   console.log("Error Occured : ",err);
+    //         res.json({status:false,message:"Error Occured",error:err})
+    //     }
+    //       if(products)
+    //       {
+    //           var newArr = [];
               
-            products.data.forEach(prod=>{
-                var newData = {...prod}
-                console.log(prod.description)
-            })
-            //   console.log("Customer : ",customer)
-            res.json({status:true,products:products})
-          }
-          else{
-              console.log("Something Wrong");
-          }
-      })
+    //         products.data.forEach(prod=>{
+    //             // var newData = {...prod}
+    //             // console.log(prod.description)
+             
+    //         })
+    //         //   console.log("Customer : ",customer)
+    //         res.json({status:true,products:products})
+    //       }
+    //       else{
+    //           console.log("Something Wrong");
+    //       }
+    //   })
       
+    
+const prices = await stripe.prices.list();
+const products = await stripe.products.list();
+
+var newProds = [];
+var newPrices = [];
+
+const products1 = [{id:1,name:'samarth'},{id:2,name:'sam'},{id:3,name:'manu'}]
+const prices1 = [{id:1,age:20,product:1},{id:2,age:20,product:1},{id:3,age:20,product:2},{id:4,age:20,product:4}]
+
+for(i=0;i<products.data.length;i++)
+{
+    newPrices = [];
+    for(j=0;j<prices.data.length;j++)
+    {
+        if(products.data[i].id==prices.data[j].product)
+        {
+            newPrices.push(prices.data[j])
+        }
+        
+        // newPrices = [];
+    }
+    
+    newProds.push({...products.data[i],prices:newPrices})
+}
+
+// for(i=0;i<products1.length;i++)
+// {
+//     newPrices = [];
+//     for(j=0;j<prices1.length;j++)
+//     {
+//         if(products1[i].id==prices1[j].product)
+//         {
+//             newPrices.push(prices1[j])
+//         }
+        
+//         // newPrices = [];
+//     }
+    
+//     newProds.push({...products1[i],prices:newPrices})
+// }
+
+await res.json({status:true,products:newProds})
+
+
 }
 
 
@@ -215,35 +261,100 @@ exports.createPrice=(req,res,next)=>{
 
 
 exports.createSubscription=(req,res,next)=>{
-  
-    var param = {};
-    //"prod_IfWWt8XiUpit3V"
     
-    //   param.customer = req.body.customer;
-    // param.customer = 'cus_IiPYBcpbVy9x5q'
-    // //   param.items = req.body.items;
-    // //   console.log(param.items)
-    // param.items = [
-    //     {price: 'price_1I6ynUEEiYQYyt5LdxyHRb9h'},
-    //   ]
+    const customerId = req.body.customerId;
+    const priceId = req.body.priceId;
+    const card = req.body.card;
 
-      stripe.subscriptions.create({customer: 'cus_IiPYBcpbVy9x5q',
-      items: [
-        {price: 'price_1I6ynUEEiYQYyt5LdxyHRb9h'},
-      ]},function(err,subscription){
-          if(err){
-            //   console.log("Error Occured : ",err);
-            res.json({status:false,message:"Error Occured",error:err})
-          }
-          if(subscription)
+    // card = {
+    //     number: '4242424242424242',
+    //     exp_month: 1,
+    //     exp_year: 2022,
+    //     cvc: '314',
+    //   }
+
+    // customerId = 'cus_Iii15tAh1ZqRa7';
+
+    // priceId = 'price_1I70LjEEiYQYyt5LxSpwC8AB'
+
+    stripe.paymentMethods.create({
+        type: 'card',
+        card: card,
+      },function(err,payment){
+          if(err)
           {
-            //   console.log("Price Created : ",price);
-            res.json({status:true,message:"Subscription Added Successfully",subscription:subscription})
+              console.log(err);
+              res.json({status:false,message:"Error Occured",error:err})
+          }
+          if(payment)
+          {
+              console.log(payment.id);
+              stripe.paymentMethods.attach(
+                payment.id,
+                {customer: customerId},function(err,payMethod){
+                    if(err)
+                    {
+                        console.log(err);
+                        res.json({status:false,message:"Error Occured",error:err})
+                    }
+                    if(payMethod)
+                    {
+                        // console.log(payMethod)
+                        stripe.customers.update(
+                            customerId,
+                             {
+                                invoice_settings: {
+                                    default_payment_method: payment.id
+                                  }
+                            },function(err,cust){
+                                if(err)
+                                {
+                                    console.log(err);
+                                    res.json({status:false,message:"Error Occured",error:err})
+                                }
+                                if(cust)
+                                {
+                                    console.log(cust.id)
+                                    stripe.subscriptions.create({customer: customerId,
+                                    items: [
+                                      {price: priceId},
+                                    ]},function(err,subscription){
+                                        if(err){
+                                          //   console.log("Error Occured : ",err);
+                                          res.json({status:false,message:"Error Occured",error:err})
+                                        }
+                                        if(subscription)
+                                        {
+                                          //   console.log("Price Created : ",price);
+                                          res.json({status:true,message:"Subscription Added Successfully",subscription:subscription})
+                                        }
+                                        else{
+                                            console.log("Something Wrong")
+                                        }
+                                    })
+                                    
+                                }
+                                else
+                                {
+                                    console.log("Something Wrong")
+                                }
+                            }
+                          );
+                       
+                    }   
+                    else{
+                        console.log("Something Wrong")
+                    }
+                }
+              );
+
           }
           else{
-              console.log("Something Wrong")
-          }
-      })
+              console.log("Something Wrong");
+        }
+      });
+
+
       
 }
 
