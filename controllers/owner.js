@@ -7,7 +7,7 @@ const Employee = require('../models/employee');
 
 const Saloon = require('../models/saloon')
 
-const stripe = require('stripe')('sk_test_51I4o2BEEiYQYyt5L1v76GKo0DFSGfDhXIXIKyZa2zppPybs02wdkQOF2vXp6xTsiHdCmWGBsQlOxlqE0s7PHNOiR00b98mLMmG');
+const stripe = require('stripe')('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');
 
 // var nodemailer = require('nodemailer');
 
@@ -219,14 +219,18 @@ exports.createSubscription=(req,res,next)=>{
     var param = {};
     //"prod_IfWWt8XiUpit3V"
     
-      param.customer = req.body.customer;
-    //   param.items = req.body.items;
-    //   console.log(param.items)
-    param.items = [
-        {price: 'price_1I6GyJEEiYQYyt5LpuZZMDJo'},
-      ]
+    //   param.customer = req.body.customer;
+    // param.customer = 'cus_IiPYBcpbVy9x5q'
+    // //   param.items = req.body.items;
+    // //   console.log(param.items)
+    // param.items = [
+    //     {price: 'price_1I6ynUEEiYQYyt5LdxyHRb9h'},
+    //   ]
 
-      stripe.subscriptions.create(param,function(err,subscription){
+      stripe.subscriptions.create({customer: 'cus_IiPYBcpbVy9x5q',
+      items: [
+        {price: 'price_1I6ynUEEiYQYyt5LdxyHRb9h'},
+      ]},function(err,subscription){
           if(err){
             //   console.log("Error Occured : ",err);
             res.json({status:false,message:"Error Occured",error:err})
