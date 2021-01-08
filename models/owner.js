@@ -54,6 +54,18 @@ class Owner
                                             .catch(err=>console.log(err));
     }
 
+    static findOwnerByCustomerId(customerId)
+    {
+        const db = getDb();
+                            
+        return db.collection('owners').findOne({'subscription.customerId':customerId })
+                                            .then(owner=>{                                               
+                                                
+                                                return owner;  
+                                            })
+                                            .catch(err=>console.log(err));
+    }
+
     static findOwnerById(id)
     {
         const db = getDb();

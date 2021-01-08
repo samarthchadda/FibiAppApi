@@ -325,8 +325,22 @@ exports.createSubscription=(req,res,next)=>{
                                         }
                                         if(subscription)
                                         {
+                                            Owner.findOwnerByCustomerId(customerId)
+                                            .then(owner=>{
+                                                console.log("Owner :",owner.subscription.subscribedData)
+                                                owner.subscription.subscribedData = subscription;
+                                                const db = getDb();
+                                                db.collection('owners').updateOne({ownerId:owner.ownerId},{$set:owner})
+                                                            .then(resultData=>{
+                                                                
+                                                                // res.json({ message:'Password successfully changed',status:true});
+                                                                res.json({status:true,message:"Subscription Added Successfully",subscription:subscription})
+                                                            })
+                                                            .catch(err=>console.log(err));
+
+                                            })
                                           //   console.log("Price Created : ",price);
-                                          res.json({status:true,message:"Subscription Added Successfully",subscription:subscription})
+                                        
                                         }
                                         else{
                                             console.log("Something Wrong")
