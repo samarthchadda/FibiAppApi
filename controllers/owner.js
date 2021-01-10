@@ -250,6 +250,13 @@ exports.createProduct=(req,res,next)=>{
      
       param.name = req.body.name;
       param.description = req.body.description;
+
+      var param1 = {};
+      //for price
+      param1.product = '';
+      param1.unit_amount = +req.body.unit_amount;
+      param1.currency = 'eur';
+      param1.recurring =  {interval: req.body.recurring};   
       
       stripe.products.create(param,function(err,product){
           if(err){
@@ -258,8 +265,26 @@ exports.createProduct=(req,res,next)=>{
           }
           if(product)
           {
+            param1.product = product.id;
+            console.log(product.id)
             //   console.log("Product Created : ",product);
-            res.json({status:true,message:"Product Created Successfully",product:product})
+            // res.json({status:true,message:"Product Created Successfully",product:product})
+
+            stripe.prices.create(param1,function(err,price){
+                if(err){
+                  //   console.log("Error Occured : ",err);
+                  res.json({status:false,message:"Error Occured",error:err})
+                }
+                if(price)
+                {
+                  //   console.log("Price Created : ",price);
+                  res.json({status:true,message:"Price and Product Added Successfully",price:price,product:product})
+                }
+                else{
+                    console.log("Something Wrong")
+                }
+            })
+
           }
           else{
               console.log("Something Wrong")
