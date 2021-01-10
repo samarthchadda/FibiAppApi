@@ -262,6 +262,8 @@ exports.createPrice=(req,res,next)=>{
 
 exports.createSubscription=(req,res,next)=>{
     
+    const saloonId = +req.body.saloonId;
+    console.log(saloonId)
     const customerId = req.body.customerId;
     const priceId = req.body.priceId;
     const card = req.body.card;
@@ -327,7 +329,12 @@ exports.createSubscription=(req,res,next)=>{
                                         {
                                             Owner.findOwnerByCustomerId(customerId)
                                             .then(owner=>{
+                                                if(!owner)
+                                                {   
+                                                   return res.json({status:false,message:"Owner Does not exist"})
+                                                }
                                                 console.log("Owner :",owner.subscription.subscribedData)
+                                                subscription = {...subscription,saloonId:saloonId};
                                                 owner.subscription.subscribedData = subscription;
                                                 const db = getDb();
                                                 db.collection('owners').updateOne({ownerId:owner.ownerId},{$set:owner})
@@ -335,7 +342,7 @@ exports.createSubscription=(req,res,next)=>{
                                                                 
                                                                 // res.json({ message:'Password successfully changed',status:true});
                                                                 res.json({status:true,message:"Subscription Added Successfully",subscription:subscription})
-                                                            })
+                                                            }) 
                                                             .catch(err=>console.log(err));
 
                                             })
