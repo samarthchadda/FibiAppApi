@@ -4,7 +4,7 @@ const Client = require('../models/client');
 const Owner = require('../models/owner');
 const Appointment = require('../models/appointment');
 
-
+const stripe = require('stripe')('sk_test_51I4o2BEEiYQYyt5L1v76GKo0DFSGfDhXIXIKyZa2zppPybs02wdkQOF2vXp6xTsiHdCmWGBsQlOxlqE0s7PHNOiR00b98mLMmG');
 
 const Service = require('../models/services');
 
@@ -313,6 +313,9 @@ exports.saloonRegister = (req,res,next)=>{
     const latitude = req.body.latitude;
     const longitude = req.body.longitude;
     const regDate = new Date().getTime();
+    var subscription = {customerId:'',subscribedData:[]};
+        
+    var param = {};
     
     const photos = null;
     const isVerified = 0;
@@ -347,16 +350,39 @@ exports.saloonRegister = (req,res,next)=>{
                         db.collection('saloonCounter').insertOne({count:newVal})
                                 .then(result=>{
                                               
-                            const saloon = new Saloon(saloonID,ownerId,saloonName,phone,landline,address,photos,isVerified,latitude,longitude,regDate);
-                            //saving in database
-                        
-                            return saloon.save()
-                            .then(resultData=>{
-                                
-                                res.json({status:true,message:"Saloon Registered",saloon:resultData["ops"][0]});
-                                
-                            })
-                            .catch(err=>console.log(err));                                                    
+                                    param.email = req.body.email;
+                                    param.name = req.body.ownerName;
+                                    
+                                    stripe.customers.create(param,function(err,customer){
+                                        if(err){
+                                            //   console.log("Error Occured : ",err);
+                                            res.json({status:false,message:"Error Occured",error:err})
+                                        }
+                                        if(customer)
+                                        {
+                                              console.log("Customer Created : ",customer.id)
+                                              subscription.customerId = customer.id
+                                                                    
+                                              const saloon = new Saloon(saloonID,ownerId,saloonName,phone,landline,address,photos,isVerified,latitude,longitude,regDate,subscription);
+                                              //saving in database
+                                          
+                                              return saloon.save()
+                                              .then(resultData=>{
+                                                  
+                                                  res.json({status:true,message:"Saloon Registered",saloon:resultData["ops"][0]});
+                                                  
+                                              })
+                                              .catch(err=>console.log(err));     
+                                            // res.json({status:true,message:"Customer Created Successfully",customer:customer})
+                                        }
+                                        else
+                                        {
+                                            console.log("Something Wrong")
+                                            // res.json({status:false,message:"Error Occured"})
+                                        }
+                                    })
+              
+                                                                     
                                   
                                 })
                                 .then(resultData=>{

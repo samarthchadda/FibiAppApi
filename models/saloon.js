@@ -5,7 +5,7 @@ const ObjectId = mongodb.ObjectId;
 
 class Saloon
 {
-    constructor(sid,oid,name,phone,landline,address,photos,isVerified,lat,long,date)
+    constructor(sid,oid,name,phone,landline,address,photos,isVerified,lat,long,date,subs)
     {
         this.saloonId = sid;   
         this.ownerId = oid;            
@@ -18,6 +18,7 @@ class Saloon
         this.latitude = lat;
         this.longitude = long;
         this.registrationDate = date;
+        this.subscription = subs;
     }
 
    
@@ -65,6 +66,18 @@ class Saloon
                                             })
                                             .catch(err=>console.log(err));
 
+    }
+
+    static findSaloonByCustomerId(customerId)
+    {
+        const db = getDb();
+                            
+        return db.collection('saloons').findOne({'subscription.customerId':customerId })
+                                            .then(owner=>{                                               
+                                                
+                                                return owner;  
+                                            })
+                                            .catch(err=>console.log(err));
     }
 
     static findSaloonBySaloonNameAddressPhone(phone,name,address)

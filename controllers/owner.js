@@ -262,8 +262,8 @@ exports.createPrice=(req,res,next)=>{
 
 exports.createSubscription=(req,res,next)=>{
     
-    const saloonId = +req.body.saloonId;
-    console.log(saloonId)
+    // const saloonId = +req.body.saloonId;
+    // console.log(saloonId)
     const customerId = req.body.customerId;
     const priceId = req.body.priceId;
     const card = req.body.card;
@@ -327,17 +327,17 @@ exports.createSubscription=(req,res,next)=>{
                                         }
                                         if(subscription)
                                         {
-                                            Owner.findOwnerByCustomerId(customerId)
-                                            .then(owner=>{
-                                                if(!owner)
+                                            Saloon.findSaloonByCustomerId(customerId)
+                                            .then(saloon=>{
+                                                if(!saloon)
                                                 {   
-                                                   return res.json({status:false,message:"Owner Does not exist"})
+                                                   return res.json({status:false,message:"Saloon Does not exist"})
                                                 }
-                                                console.log("Owner :",owner.subscription.subscribedData)
-                                                subscription = {...subscription,saloonId:saloonId};
-                                                owner.subscription.subscribedData = subscription;
+                                                console.log("Saloon :",saloon.subscription.subscribedData)
+                                                // subscription = {...subscription,saloonId:saloonId};
+                                                saloon.subscription.subscribedData = subscription;
                                                 const db = getDb();
-                                                db.collection('owners').updateOne({ownerId:owner.ownerId},{$set:owner})
+                                                db.collection('saloons').updateOne({saloonId:saloon.saloonId},{$set:saloon})
                                                             .then(resultData=>{
                                                                 
                                                                 // res.json({ message:'Password successfully changed',status:true});
@@ -392,9 +392,7 @@ exports.ownerRegister = (req,res,next)=>{
     const isVerified = false;
     const regDate = new Date().getTime();
     const deviceToken = req.body.deviceToken;
-    var subscription = {customerId:'',subscribedData:[]};
     
-    var param = {};
 
     Owner.findOwnerByEmail(email)
                 .then(userDoc=>{
@@ -422,20 +420,20 @@ exports.ownerRegister = (req,res,next)=>{
                                 .then(result=>{
 
                                                                 
-                            param.email = req.body.email;
-                            param.name = req.body.ownerName;
+                            // param.email = req.body.email;
+                            // param.name = req.body.ownerName;
                             
-                            stripe.customers.create(param,function(err,customer){
-                                if(err){
-                                    //   console.log("Error Occured : ",err);
-                                    res.json({status:false,message:"Error Occured",error:err})
-                                }
-                                if(customer)
-                                {
-                                      console.log("Customer Created : ",customer.id)
-                                      subscription.customerId = customer.id
+                            // stripe.customers.create(param,function(err,customer){
+                            //     if(err){
+                            //         //   console.log("Error Occured : ",err);
+                            //         res.json({status:false,message:"Error Occured",error:err})
+                            //     }
+                            //     if(customer)
+                            //     {
+                            //           console.log("Customer Created : ",customer.id)
+                            //           subscription.customerId = customer.id
                                                             
-                                    const owner = new Owner(onwerID,ownerName,email,phone,password,ownerImg,isVerified,regDate,deviceToken,subscription);
+                                    const owner = new Owner(onwerID,ownerName,email,phone,password,ownerImg,isVerified,regDate,deviceToken);
                                     //saving in database
                                 
                                     return owner.save()
@@ -446,13 +444,13 @@ exports.ownerRegister = (req,res,next)=>{
                                     })
                                     .catch(err=>console.log(err)); 
                                     // res.json({status:true,message:"Customer Created Successfully",customer:customer})
-                                }
-                                else
-                                {
-                                    console.log("Something Wrong")
-                                    // res.json({status:false,message:"Error Occured"})
-                                }
-                            })
+                                // }
+                                // else
+                                // {
+                                //     console.log("Something Wrong")
+                                //     // res.json({status:false,message:"Error Occured"})
+                                // }
+                            // })
       
 
 
