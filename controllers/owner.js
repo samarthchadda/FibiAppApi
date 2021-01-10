@@ -195,6 +195,50 @@ await res.json({status:true,products:newProds})
 
 }
 
+exports.getPaymentLogs = (req,res,next)=>{
+    
+    const customerId = req.body.customerId;
+    var allCharges = [];
+    
+    stripe.charges.list(function(err,charges){
+          if(err){
+            //   console.log("Error Occured : ",err);
+            res.json({status:false,message:"Error Occured",error:err})
+        }
+          if(charges)
+          {
+            
+            charges.data.forEach(charge=>{
+
+                if(charge.customer==customerId)
+                {
+                    console.log(charge.customer)
+                    allCharges.push(charge);
+                    // console.log(allCharges.length)
+                    // console.log(charges.data.length)
+                    // if(charges.data.length==allCharges.length)
+                    // {
+                    //     res.json({status:true,charges:charges})
+                    // }
+                }
+
+               
+            })
+
+            setTimeout(()=>{
+                console.log(allCharges.length)
+                res.json({status:true,charges:allCharges})
+            },2000)
+
+            
+          }
+          else{
+              console.log("Something Wrong");
+          }
+      })
+      
+}
+
 
 exports.createProduct=(req,res,next)=>{
   
