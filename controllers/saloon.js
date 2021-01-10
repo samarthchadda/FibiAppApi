@@ -350,8 +350,9 @@ exports.saloonRegister = (req,res,next)=>{
                         db.collection('saloonCounter').insertOne({count:newVal})
                                 .then(result=>{
                                               
-                                    param.email = req.body.saloonName+"@gmail.com";
-                                    param.description = req.body.saloonId;
+                                    param.description = req.body.address;
+                                    param.name = req.body.saloonName;
+                                    param.email = saloonID+"@gmail.com"
                                     
                                     stripe.customers.create(param,function(err,customer){
                                         if(err){
