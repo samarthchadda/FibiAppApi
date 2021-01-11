@@ -24,6 +24,8 @@ router.post('/create-price-stripe',ownerController.createPrice);
 
 router.post('/create-subscription-stripe',ownerController.createSubscription);
 
+router.post('/change-subscription-stripe',ownerController.changeSubscription);
+
 router.post('/get-customers-stripe',ownerController.getCustomers);
 
 router.get('/get-products-stripe',ownerController.getProducts);
@@ -31,6 +33,8 @@ router.get('/get-products-stripe',ownerController.getProducts);
 router.post('/get-paymentLogs-stripe',ownerController.getPaymentLogs);
 
 router.post('/cancel-subscription-stripe',ownerController.cancelSubscription);
+
+router.post('/delete-product-stripe',ownerController.delProduct);
 
 
 router.post('/check-owner',ownerController.ownerCheckPhone);
