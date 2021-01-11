@@ -81,6 +81,18 @@ class Saloon
                                             .catch(err=>console.log(err));
     }
 
+    static findSaloonBySubscriptionId(subscriptionId)
+    {
+        const db = getDb();
+                            
+        return db.collection('saloons').findOne({'subscription.subscribedData.id':subscriptionId })
+                                            .then(owner=>{                                               
+                                                
+                                                return owner;  
+                                            })
+                                            .catch(err=>console.log(err));
+    }
+
     static findSaloonBySaloonNameAddressPhone(phone,name,address)
     {
         const db = getDb();

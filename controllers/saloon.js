@@ -313,7 +313,7 @@ exports.saloonRegister = (req,res,next)=>{
     const latitude = req.body.latitude;
     const longitude = req.body.longitude;
     const regDate = new Date().getTime();
-    var subscription = {customerId:'',subscribedData:[]};
+    var subscription = {customerId:'',subscribedData:null};
         
     var param = {};
     

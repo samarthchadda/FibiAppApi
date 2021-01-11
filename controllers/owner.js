@@ -589,7 +589,28 @@ exports.cancelSubscription=(req,res,next)=>{
           if(subscription)
           {
             //   console.log("Customer Created : ",customer)
-            res.json({status:true,message:"Subscription Deleted Successfully",subscription:subscription})
+            Saloon.findSaloonBySubscriptionId(req.body.subscriptionId)
+            .then(saloon=>{
+                if(!saloon)
+                {   
+                   return res.json({status:false,message:"Saloon Does not exist"})
+                }
+                // console.log("Saloon :",saloon.subscription.subscribedData)
+                // subscription = {...subscription,saloonId:saloonId};
+                saloon.subscription.subscribedData = null;
+                saloon.empCount = -1;
+                saloon.isVerified = 2;
+                const db = getDb();
+                db.collection('saloons').updateOne({saloonId:saloon.saloonId},{$set:saloon})
+                            .then(resultData=>{
+                                
+                                // res.json({ message:'Password successfully changed',status:true});
+                                res.json({status:true,message:"Subscription Deleted Successfully",subscription:subscription})
+                            }) 
+                            .catch(err=>console.log(err));
+
+            })
+            
           }
           else
           {
