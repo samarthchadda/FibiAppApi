@@ -249,6 +249,7 @@ exports.createProduct=(req,res,next)=>{
     var param = {};
      
       param.name = req.body.name;
+      param.unit_label = req.body.unit_label;  ///no. of employees
       param.description = req.body.description;
 
       var param1 = {};
@@ -336,6 +337,7 @@ exports.createSubscription=(req,res,next)=>{
     const customerId = req.body.customerId;
     const priceId = req.body.priceId;
     const card = req.body.card;
+    const empCount = req.body.empCount;
 
     // card = {
     //     number: '4242424242424242',
@@ -405,6 +407,7 @@ exports.createSubscription=(req,res,next)=>{
                                                 console.log("Saloon :",saloon.subscription.subscribedData)
                                                 // subscription = {...subscription,saloonId:saloonId};
                                                 saloon.subscription.subscribedData = subscription;
+                                                saloon.empCount = +empCount;
                                                 const db = getDb();
                                                 db.collection('saloons').updateOne({saloonId:saloon.saloonId},{$set:saloon})
                                                             .then(resultData=>{

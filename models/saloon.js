@@ -5,7 +5,7 @@ const ObjectId = mongodb.ObjectId;
 
 class Saloon
 {
-    constructor(sid,oid,name,phone,landline,address,photos,isVerified,lat,long,date,subs)
+    constructor(sid,oid,name,phone,landline,address,photos,isVerified,lat,long,date,subs,count)
     {
         this.saloonId = sid;   
         this.ownerId = oid;            
@@ -19,6 +19,7 @@ class Saloon
         this.longitude = long;
         this.registrationDate = date;
         this.subscription = subs;
+        this.empCount = count;
     }
 
    

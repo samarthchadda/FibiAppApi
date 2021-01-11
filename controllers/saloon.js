@@ -364,7 +364,7 @@ exports.saloonRegister = (req,res,next)=>{
                                               console.log("Customer Created : ",customer.id)
                                               subscription.customerId = customer.id
                                                                     
-                                              const saloon = new Saloon(saloonID,ownerId,saloonName,phone,landline,address,photos,isVerified,latitude,longitude,regDate,subscription);
+                                              const saloon = new Saloon(saloonID,ownerId,saloonName,phone,landline,address,photos,isVerified,latitude,longitude,regDate,subscription,-1);
                                               //saving in database
                                           
                                               return saloon.save()
