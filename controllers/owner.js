@@ -448,6 +448,32 @@ exports.createSubscription=(req,res,next)=>{
       
 }
 
+
+
+exports.cancelSubscription=(req,res,next)=>{
+  
+      
+     stripe.subscriptions.del(req.body.subscriptionId,function(err,subscription){
+          if(err){
+            //   console.log("Error Occured : ",err);
+            res.json({status:false,message:"Error Occured",error:err})
+          }
+          if(subscription)
+          {
+            //   console.log("Customer Created : ",customer)
+            res.json({status:true,message:"Subscription Deleted Successfully",subscription:subscription})
+          }
+          else
+          {
+              console.log("Something Wrong")
+            // res.json({status:false,message:"Error Occured"})
+          }
+      })
+      
+}
+
+
+
 //POST
 exports.ownerRegister = (req,res,next)=>{
   

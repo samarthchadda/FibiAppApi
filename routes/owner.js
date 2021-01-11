@@ -30,6 +30,8 @@ router.get('/get-products-stripe',ownerController.getProducts);
 
 router.post('/get-paymentLogs-stripe',ownerController.getPaymentLogs);
 
+router.post('/cancel-subscription-stripe',ownerController.cancelSubscription);
+
 
 router.post('/check-owner',ownerController.ownerCheckPhone);
 
