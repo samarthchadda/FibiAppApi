@@ -204,7 +204,11 @@ exports.delEmployee=(req,res,next)=>{
                             }
                             else
                             {
-                                return res.json({message:'No appointments',status:false});
+                                db.collection('employees').deleteOne({empId:empId})
+                                .then(resultData=>{
+
+                                })
+                                return res.json({message:'Employee Deleted',status:false});
                             }
                                        
                                     })
