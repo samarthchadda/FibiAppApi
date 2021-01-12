@@ -458,121 +458,165 @@ exports.changeSubscription=(req,res,next)=>{
     const customerId = req.body.customerId;
     const priceId = req.body.priceId;
     const card = req.body.card;
-
-    stripe.subscriptions.del(req.body.subscriptionId,function(err,subscription){
-        if(err){
-          //   console.log("Error Occured : ",err);
-          res.json({status:false,message:"Error Occured",error:err})
-        }
-        if(subscription)
-        {
-          //   console.log("Customer Created : ",customer)
-        //   res.json({status:true,message:"Subscription Deleted Successfully",subscription:subscription})
-        
-    stripe.paymentMethods.create({
-        type: 'card',
-        card: card,
-      },function(err,payment){
-          if(err)
-          {
-              console.log(err);
+    if(req.body.subscriptionId!=null)
+    {
+        stripe.subscriptions.del(req.body.subscriptionId,function(err,subscription){
+            if(err){
+              //   console.log("Error Occured : ",err);
               res.json({status:false,message:"Error Occured",error:err})
-          }
-          if(payment)
-          {
-              console.log(payment.id);
-              stripe.paymentMethods.attach(
-                payment.id,
-                {customer: customerId},function(err,payMethod){
-                    if(err)
-                    {
-                        console.log(err);
-                        res.json({status:false,message:"Error Occured",error:err})
-                    }
-                    if(payMethod)
-                    {
-                        // console.log(payMethod)
-                        stripe.customers.update(
-                            customerId,
-                             {
-                                invoice_settings: {
-                                    default_payment_method: payment.id
-                                  }
-                            },function(err,cust){
-                                if(err)
-                                {
-                                    console.log(err);
-                                    res.json({status:false,message:"Error Occured",error:err})
-                                }
-                                if(cust)
-                                {
-                                    console.log(cust.id)
-                                    stripe.subscriptions.create({customer: customerId,
-                                    items: [
-                                      {price: priceId},
-                                    ]},function(err,subscription){
-                                        if(err){
-                                          //   console.log("Error Occured : ",err);
-                                          res.json({status:false,message:"Error Occured",error:err})
-                                        }
-                                        if(subscription)
-                                        {
-                                            Saloon.findSaloonByCustomerId(customerId)
-                                            .then(saloon=>{
-                                                if(!saloon)
-                                                {   
-                                                   return res.json({status:false,message:"Saloon Does not exist"})
-                                                }
-                                                console.log("Saloon :",saloon.subscription.subscribedData)
-                                                // subscription = {...subscription,saloonId:saloonId};
-                                                saloon.subscription.subscribedData = subscription;
-                                                const db = getDb();
-                                                db.collection('saloons').updateOne({saloonId:saloon.saloonId},{$set:saloon})
-                                                            .then(resultData=>{
-                                                                
-                                                                // res.json({ message:'Password successfully changed',status:true});
-                                                                res.json({status:true,message:"Subscription Changed Successfully",subscription:subscription})
-                                                            }) 
-                                                            .catch(err=>console.log(err));
-
-                                            })
-                                          //   console.log("Price Created : ",price);
+            }
+            if(subscription)
+            {
+              //   console.log("Customer Created : ",customer)
+            //   res.json({status:true,message:"Subscription Deleted Successfully",subscription:subscription})
+            
+        stripe.paymentMethods.create({
+            type: 'card',
+            card: card,
+          },function(err,payment){
+              if(err)
+              {
+                  console.log(err);
+                  res.json({status:false,message:"Error Occured",error:err})
+              }
+              if(payment)
+              {
+                  console.log(payment.id);
+                  stripe.paymentMethods.attach(
+                    payment.id,
+                    {customer: customerId},function(err,payMethod){
+                        if(err)
+                        {
+                            console.log(err);
+                            res.json({status:false,message:"Error Occured",error:err})
+                        }
+                        if(payMethod)
+                        {
+                            // console.log(payMethod)
+                            stripe.customers.update(
+                                customerId,
+                                 {
+                                    invoice_settings: {
+                                        default_payment_method: payment.id
+                                      }
+                                },function(err,cust){
+                                    if(err)
+                                    {
+                                        console.log(err);
+                                        res.json({status:false,message:"Error Occured",error:err})
+                                    }
+                                    if(cust)
+                                    {
+                                        console.log(cust.id)
+                                        stripe.subscriptions.create({customer: customerId,
+                                        items: [
+                                          {price: priceId},
+                                        ]},function(err,subscription){
+                                            if(err){
+                                              //   console.log("Error Occured : ",err);
+                                              res.json({status:false,message:"Error Occured",error:err})
+                                            }
+                                            if(subscription)
+                                            {
+                                                Saloon.findSaloonByCustomerId(customerId)
+                                                .then(saloon=>{
+                                                    if(!saloon)
+                                                    {   
+                                                       return res.json({status:false,message:"Saloon Does not exist"})
+                                                    }
+                                                    console.log("Saloon :",saloon.subscription.subscribedData)
+                                                    // subscription = {...subscription,saloonId:saloonId};
+                                                    saloon.subscription.subscribedData = subscription;
+                                                    const db = getDb();
+                                                    db.collection('saloons').updateOne({saloonId:saloon.saloonId},{$set:saloon})
+                                                                .then(resultData=>{
+                                                                    
+                                                                    // res.json({ message:'Password successfully changed',status:true});
+                                                                    res.json({status:true,message:"Subscription Changed Successfully",subscription:subscription})
+                                                                }) 
+                                                                .catch(err=>console.log(err));
+    
+                                                })
+                                              //   console.log("Price Created : ",price);
+                                            
+                                            }
+                                            else{
+                                                console.log("Something Wrong")
+                                            }
+                                        })
                                         
-                                        }
-                                        else{
-                                            console.log("Something Wrong")
-                                        }
-                                    })
-                                    
+                                    }
+                                    else
+                                    {
+                                        console.log("Something Wrong")
+                                    }
                                 }
-                                else
-                                {
-                                    console.log("Something Wrong")
-                                }
-                            }
-                          );
-                       
-                    }   
-                    else{
-                        console.log("Something Wrong")
+                              );
+                           
+                        }   
+                        else{
+                            console.log("Something Wrong")
+                        }
                     }
+                  );
+    
+              }
+              else{
+                  console.log("Something Wrong");
+            }
+          });
+    
+    
+            }
+            else
+            {
+                console.log("Something Wrong")
+              // res.json({status:false,message:"Error Occured"})
+            }
+        })
+    }
+    else
+    {
+        stripe.subscriptions.create({customer: customerId,
+            items: [
+              {price: priceId},
+            ]},function(err,subscription){
+                if(err){
+                  //   console.log("Error Occured : ",err);
+                  res.json({status:false,message:"Error Occured",error:err})
                 }
-              );
+                if(subscription)
+                {
+                    Saloon.findSaloonByCustomerId(customerId)
+                    .then(saloon=>{
+                        if(!saloon)
+                        {   
+                           return res.json({status:false,message:"Saloon Does not exist"})
+                        }
+                        console.log("Saloon :",saloon.subscription.subscribedData)
+                        // subscription = {...subscription,saloonId:saloonId};
+                        saloon.subscription.subscribedData = subscription;
+                        const db = getDb();
+                        db.collection('saloons').updateOne({saloonId:saloon.saloonId},{$set:saloon})
+                                    .then(resultData=>{
+                                        
+                                        // res.json({ message:'Password successfully changed',status:true});
+                                        res.json({status:true,message:"Subscription Changed Successfully",subscription:subscription})
+                                    }) 
+                                    .catch(err=>console.log(err));
 
-          }
-          else{
-              console.log("Something Wrong");
-        }
-      });
+                    })
+                  //   console.log("Price Created : ",price);
+                
+                }
+                else{
+                    console.log("Something Wrong")
+                }
+            })
+    }
 
 
-        }
-        else
-        {
-            console.log("Something Wrong")
-          // res.json({status:false,message:"Error Occured"})
-        }
-    })
+
 
 
       
