@@ -206,9 +206,9 @@ exports.delEmployee=(req,res,next)=>{
                             {
                                 db.collection('employees').deleteOne({empId:empId})
                                 .then(resultData=>{
-
+                                    return res.json({message:'Employee Deleted',status:false});
                                 })
-                                return res.json({message:'Employee Deleted',status:false});
+                                
                             }
                                        
                                     })
