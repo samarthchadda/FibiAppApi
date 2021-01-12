@@ -204,6 +204,7 @@ exports.delEmployee=(req,res,next)=>{
                             }
                             else
                             {
+                                const db = getDb();
                                 db.collection('employees').deleteOne({empId:empId})
                                 .then(resultData=>{
                                     return res.json({message:'Employee Deleted',status:false});
