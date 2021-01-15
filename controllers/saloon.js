@@ -451,31 +451,53 @@ exports.getDiffSaloon=(req,res,next)=>{
     let newSaloons = [];
     let checkData = [];
 
+    var current = new Date();     // get current date    
+    var weekstart = current.getDate() - current.getDay() +1;    
+    var weekend = weekstart + 6;       // end day is the first day + 6 
+    var monday = new Date(current.setDate(weekstart));  
+    var sunday = new Date(current.setDate(weekend));
+    console.log(new Date(monday).getTime(),new Date(sunday).getTime())
     Saloon.fetchAllSaloons()
     .then(saloons=>{
         
         saloons.forEach(saloon=>{
-            var point2 = new GeoPoint(saloon.latitude,saloon.longitude);
-            var distance = point1.distanceTo(point2, true)//output in kilometers
-            // console.log(distance);
+           
+            Availability.findAvailBySaloonIdAndDate(saloon.saloonId)
+            .then(availData=>{
 
-            var newSaloon = {...saloon,distance:distance};
-            checkData.push(newSaloon);
-            if(distance<=range)
-            {
-             newSaloons.push(newSaloon);
-            }
+                var point2 = new GeoPoint(saloon.latitude,saloon.longitude);
+                var distance = point1.distanceTo(point2, true)//output in kilometers
+                // console.log(distance);
+    
+                var newSaloon = {...saloon,distance:distance,availability:availData};
+                checkData.push(newSaloon);
+                if(distance<=range)
+                {
+                 newSaloons.push(newSaloon);
+                 console.log(newSaloons.length)
+                }
+
+                if(saloons.length == checkData.length)
+                {
+                     newSaloons.sort((a, b) => {
+                         return a.distance - b.distance;
+                     });
+                     res.json({message:"All Data returned",allSaloons:newSaloons})
+                }     
+
+            })
+
            
             // console.log(newSaloons);
         })
       
-       if(saloons.length == checkData.length)
-       {
-            newSaloons.sort((a, b) => {
-                return a.distance - b.distance;
-            });
-            res.json({message:"All Data returned",allSaloons:newSaloons})
-       }     
+    //    if(saloons.length == checkData.length)
+    //    {
+    //         newSaloons.sort((a, b) => {
+    //             return a.distance - b.distance;
+    //         });
+    //         res.json({message:"All Data returned",allSaloons:newSaloons})
+    //    }     
         
     })
     .catch(err=>console.log(err));
