@@ -478,16 +478,18 @@ exports.getDiffSaloon=(req,res,next)=>{
     
     var date1  = monday.getFullYear()+"-"+m1+"-"+monday.getDate();
     var date2 = sunday.getFullYear()+"-"+m2+"-"+sunday.getDate();
-    console.log(new Date(date1).getTime(),new Date(date2).getTime(),)
+    var date1 = new Date(date1).getTime();
+    var date2 = new Date(date2).getTime();
+    // console.log(new Date(date1).getTime(),new Date(date2).getTime())
     
     Saloon.fetchAllSaloons()
     .then(saloons=>{
         
         saloons.forEach(saloon=>{
-           
+           console.log(saloon.saloonId)
             Availability.findAvailBySaloonIdAndDate(saloon.saloonId,date1,date2)
             .then(availData=>{
-
+                console.log(availData)
                 var point2 = new GeoPoint(saloon.latitude,saloon.longitude);
                 var distance = point1.distanceTo(point2, true)//output in kilometers
                 // console.log(distance);
