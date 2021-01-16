@@ -32,7 +32,7 @@ router.post('/post-report',upload.single('reportPhoto'),(req,res,next)=>{
     var base64Img = req.file.buffer; 
     // console.log(req.file.mimetype);
 
-    if (req.file.mimetype === 'image/jpeg' || req.file.mimetype === 'image/png') {
+    if (req.file.mimetype === 'image/jpeg' || req.file.mimetype === 'image/png' || req.file!=null) {
         imagekit.upload({
             file : base64Img, //required
             fileName : "reportImg.jpg"   //required
