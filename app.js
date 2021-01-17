@@ -4,7 +4,16 @@ const mongoConnect = require('./util/database').mongoConnect;
 require('dotenv').config({path: __dirname + '/.env'})
 const app = express();
 
-
+const ownerRoutes = require('./routes/owner');
+const saloonRoutes = require('./routes/saloon');
+const servicesRoutes = require('./routes/services');
+const employeeRoutes = require('./routes/employee');
+const availRoutes = require('./routes/availability');
+const clientRoutes = require('./routes/client');
+const trainingRoutes = require('./routes/training');
+const adminRoutes = require('./routes/admin');
+const appointmentRoutes = require('./routes/appointment');
+const reportRoutes = require('./routes/report');
 
 
 
@@ -36,7 +45,16 @@ app.use((req,res,next)=>{
 app.get('/',(req,res)=>{
     res.json({message:"deploy api"});
 });
-
+app.use('/api',ownerRoutes);
+app.use('/api',saloonRoutes);
+app.use('/api',servicesRoutes);
+app.use('/api',employeeRoutes);
+app.use('/api',availRoutes);
+app.use('/api',clientRoutes);
+app.use('/api',trainingRoutes);
+app.use('/api',adminRoutes);
+app.use('/api',appointmentRoutes);
+app.use('/api',reportRoutes);
 
 
 let port = process.env.PORT || 8080;
