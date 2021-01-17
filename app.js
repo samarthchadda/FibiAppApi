@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoConnect = require('./util/database').mongoConnect;
-
+require('dotenv').config({path: __dirname + '/.env'})
 const app = express();
 
 const ownerRoutes = require('./routes/owner');

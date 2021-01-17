@@ -60,8 +60,8 @@ router.post('/client-register',upload.single('clientImg'),(req,res,next)=>{
     if(imgUrl==null|| imgUrl=="")
     {
     var imagekit = new ImageKit({
-        publicKey : "public_WlmDyQDHleOQopDhwUECOh0zPKU=",
-        privateKey : "private_0YX4jtTBzNLifx3C2Egcgb1xNZs=",
+        publicKey : process.env.IMAGE_KIT_PUBLIC_KEY,
+        privateKey : process.env.IMAGE_KIT_PRIVATE_KEY,
         urlEndpoint : "https://ik.imagekit.io/4afsv20kjs"
     });
     
@@ -198,8 +198,8 @@ router.post('/edit-client-image',upload.single('clientImg'),(req,res,next)=>{
     const clientId = +req.body.clientId;
 
     var imagekit = new ImageKit({
-        publicKey : "public_WlmDyQDHleOQopDhwUECOh0zPKU=",
-        privateKey : "private_0YX4jtTBzNLifx3C2Egcgb1xNZs=",
+        publicKey : process.env.IMAGE_KIT_PUBLIC_KEY,
+        privateKey : process.env.IMAGE_KIT_PRIVATE_KEY,
         urlEndpoint : "https://ik.imagekit.io/4afsv20kjs"
     });
     

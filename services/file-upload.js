@@ -4,8 +4,8 @@ const multerS3 = require('multer-s3');
  
 //providing some additional information for our aws service
 aws.config.update({
-    secretAccessKey:'LTANIV5aFd4mYI8qfv8Eiw+4rs5F4mBwPSg6NDdF',
-    accessKeyId:'AKIAI6LUKSBYLPH6MP6Q',
+    secretAccessKey:process.env.ACCESS_KEY,
+    accessKeyId:process.env.ACCESS_KEY_ID,
     region:'us-east-1'
 });
 
@@ -54,43 +54,3 @@ const upload = multer({
 
 
 module.exports = upload;
-
-
-// const aws = require('aws-sdk');
-// const multer = require('multer');
-// const multerS3 = require('multer-s3');
-
-
-
-// aws.config.update({
-//   secretAccessKey: 'LTANIV5aFd4mYI8qfv8Eiw+4rs5F4mBwPSg6NDdF',
-//   accessKeyId: 'AKIAI6LUKSBYLPH6MP6Q',
-//   region: 'us-east-1'
-// });
-
-// const s3 = new aws.S3();
-
-// const fileFilter = (req, file, cb) => {
-//   if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-//       cb(null, true)
-//   } else {
-//       cb(new Error('Invalid Mime Type, only JPEG and PNG'), false);
-//   }
-// }
-
-// const upload = multer({
-//   fileFilter,
-//   storage: multerS3({
-//     s3,
-//     bucket: 'manusamarth',
-//     acl: 'public-read',
-//     metadata: function (req, file, cb) {
-//       cb(null, {fieldName: 'TESTING_META_DATA!'});
-//     },
-//     key: function (req, file, cb) {
-//       cb(null, Date.now().toString())
-//     }
-//   })
-// })
-
-// module.exports = upload;

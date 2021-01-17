@@ -7,40 +7,7 @@ const Employee = require('../models/employee');
 
 const Saloon = require('../models/saloon')
 
-const stripe = require('stripe')('sk_test_51I4o2BEEiYQYyt5L1v76GKo0DFSGfDhXIXIKyZa2zppPybs02wdkQOF2vXp6xTsiHdCmWGBsQlOxlqE0s7PHNOiR00b98mLMmG');
-
-// var nodemailer = require('nodemailer');
-
-// var transporter = nodemailer.createTransport({
-//     host: 'smtp.gmail.com',
-//     port: 465,
-//     secure: true, // use SSL
-//     auth: {
-//         user: 'samarthchadda@zohomail.com',
-//         pass: 'q6v2Li0L8CAn'
-//     }
-// });
-
-// var mailOptions = {
-//     from: '"Our Code World " <samarthchadda@gmail.com>', // sender address (who sends)
-//     to: 'samarthchadda@gmail.com', // list of receivers (who receives)
-//     subject: 'Hello', // Subject line
-//     text: 'Hello world ', // plaintext body
-//     html: '<b>Hello world </b><br> This is the first email sent with Nodemailer in Node.js' // html body
-// };
-
-// // send mail with defined transport object
-// transporter.sendMail(mailOptions, function(error, info){
-//     if(error){
-//         return console.log(error);
-//     }
-
-//     console.log('Message sent: ' + info.response);
- // });
-
-
-// client Id = 1000.S1B7TJAEGYE7WP33H9WHUR9Y5K8U3W
-// client secret = 485c422708fe85a5a85dcf75cc5f25a6d43c2c113a
+const stripe = require('stripe')(process.env.STRIPE_KEY);
 
 
 const nodemailer = require('nodemailer');
@@ -48,7 +15,7 @@ const sendgridTransport = require('nodemailer-sendgrid-transport');
 
 const transporter = nodemailer.createTransport(sendgridTransport({
     auth:{
-        api_key:'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'
+        api_key:process.env.NODE_MAILER_KEY
         
     }
 }))

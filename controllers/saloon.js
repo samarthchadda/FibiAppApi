@@ -4,7 +4,7 @@ const Client = require('../models/client');
 const Owner = require('../models/owner');
 const Appointment = require('../models/appointment');
 
-const stripe = require('stripe')('sk_test_51I4o2BEEiYQYyt5L1v76GKo0DFSGfDhXIXIKyZa2zppPybs02wdkQOF2vXp6xTsiHdCmWGBsQlOxlqE0s7PHNOiR00b98mLMmG');
+const stripe = require('stripe')(process.env.STRIPE_KEY);
 
 const Service = require('../models/services');
 
@@ -18,8 +18,7 @@ var geocoder = NodeGeocoder({
     provider: 'opencage',
     // provider: 'google',
     
-  apiKey: '3e5c1837f6424d34a41eac19b3816699',
-// apiKey:"AIzaSyBYt9wgUL1_UysYwqcFNjlcCGOb71Leeog",
+  apiKey: process.env.GEOCODER_API_KEY,
    formatter: null // 
 });
 
@@ -29,9 +28,6 @@ var geocoder = NodeGeocoder({
 //     console.log(res);
 //   })();
 
-// var distance = require('google-distance');
-// distance.apiKey = 'AIzaSyA-4AeTIBBRTGw291lqA-oDBYcfXvaVg0I';
-// distance.provider = "opencage"
 var GeoPoint = require('geopoint');
 
 exports.getSaloons=(req,res,next)=>{

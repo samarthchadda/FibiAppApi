@@ -52,8 +52,8 @@ router.post('/add-saloon-photos',upload.array('saloonPhotos',10),(req,res,next)=
     let saloonImages = [];
 
     var imagekit = new ImageKit({
-        publicKey : "public_WlmDyQDHleOQopDhwUECOh0zPKU=",
-        privateKey : "private_0YX4jtTBzNLifx3C2Egcgb1xNZs=",
+        publicKey : process.env.IMAGE_KIT_PUBLIC_KEY,
+        privateKey : process.env.IMAGE_KIT_PRIVATE_KEY,
         urlEndpoint : "https://ik.imagekit.io/4afsv20kjs"
     });
               
