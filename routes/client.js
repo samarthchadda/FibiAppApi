@@ -35,7 +35,7 @@ router.post('/file-test-upload',function(req,res,next){
         // req.file.originalname = req.file.originalname.replace(/ /g, "");
         req.file.filename = req.file.filename.replace(/ /g, "");
         
-        res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"http://fibiapp.herokuapp.com/api/download/"+req.file.filename })
+        res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"http://160.153.254.97:8000/api/download/"+req.file.filename })
     })
 })
 
@@ -48,7 +48,7 @@ router.post('/add-privacy-policy',function(req,res,next){
         // req.file.originalname = req.file.originalname.replace(/ /g, "");
         req.file.filename = req.file.filename.replace(/ /g, "");
         
-        res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"http://fibiapp.herokuapp.com/api/download/"+req.file.filename })
+        res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"http://160.153.254.97:8000/api/download/"+req.file.filename })
     })
 })
 
@@ -150,9 +150,9 @@ router.post('/client-register',function(req,res,next){
                         
                                     const db = getDb();
                                     console.log(regDate);
-                                    // res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"http://fibiapp.herokuapp.com/api/download/"+req.file.filename })
+                                    // res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"http://160.153.254.97:8000/api/download/"+req.file.filename })
                                     
-                                    const newclient = new Client(clientID,clientName,phone,email,password,"http://fibiapp.herokuapp.com/api/download/"+imgName,deviceToken,regDate);
+                                    const newclient = new Client(clientID,clientName,phone,email,password,"http://160.153.254.97:8000/api/download/"+imgName,deviceToken,regDate);
     
                                     //saving in database                        
                                     newclient.save()
@@ -253,7 +253,7 @@ router.post('/edit-client-image',(req,res,next)=>{
         {
             return res.json({message:"Error Occured",error:err})
         }
-        // res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"http://fibiapp.herokuapp.com/api/download/"+req.file.filename })
+        // res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"http://160.153.254.97:8000/api/download/"+req.file.filename })
         const clientId = +req.body.clientId;
         const newClientImg = req.file.filename;
       
@@ -267,7 +267,7 @@ router.post('/edit-client-image',(req,res,next)=>{
             else{
     
                         
-              clientDoc.clientImg = "http://fibiapp.herokuapp.com/api/download/"+newClientImg;            
+              clientDoc.clientImg = "http://160.153.254.97:8000/api/download/"+newClientImg;            
                           
                const db = getDb();
                db.collection('clients').updateOne({clientId:clientId},{$set:clientDoc})
