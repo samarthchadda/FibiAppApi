@@ -3,6 +3,7 @@ const router = express.Router();
 const clientController = require('../controllers/client');
 
 const Client = require('../models/client');
+const path = require('path')
 
 const multer = require('multer');
 const getDb = require('../util/database').getDB; 
@@ -10,6 +11,56 @@ const upload = multer();
 
 var ImageKit = require("imagekit");
 var fs = require('fs');
+
+var store = multer.diskStorage({
+    destination:function(req,file,cb){
+        cb(null,'./newFileUploads');
+    },
+    filename:function(req,file,cb){
+        var newOrignalName = file.originalname.replace(/ /g, "");
+        cb(null,newOrignalName)
+    }
+})
+
+var upload1 = multer({storage:store}).single('file');
+
+var upload2 = multer({storage:store}).single('clientImg');
+
+router.post('/file-test-upload',function(req,res,next){
+    upload1(req,res,function(err){
+        if(err)
+        {
+            return res.json({message:"Error Occured",error:err})
+        }
+        // req.file.originalname = req.file.originalname.replace(/ /g, "");
+        req.file.filename = req.file.filename.replace(/ /g, "");
+        
+        res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"http://fibiapp.herokuapp.com/api/download/"+req.file.filename })
+    })
+})
+
+router.post('/add-privacy-policy',function(req,res,next){
+    upload1(req,res,function(err){
+        if(err)
+        {
+            return res.json({message:"Error Occured",error:err})
+        }
+        // req.file.originalname = req.file.originalname.replace(/ /g, "");
+        req.file.filename = req.file.filename.replace(/ /g, "");
+        
+        res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"http://fibiapp.herokuapp.com/api/download/"+req.file.filename })
+    })
+})
+
+
+router.get('/download/:filename', function(req,res,next){
+    // console.log(req.body.filename)
+    filepath = path.join(__dirname,'../newFileUploads') +'/'+ req.params.filename;
+    // res.json({path:filepath});
+    // res.sendFile(filepath)
+    res.download(filepath, req.params.filename);    
+});
+
 
 
 router.post('/client-login',clientController.clientLogin);
@@ -43,98 +94,35 @@ router.post('/client-fav-saloon',clientController.clientFavSaloon);
 router.get('/all-fav-saloons/:clientId',clientController.getFavSaloons);
 
 
-router.post('/client-register',upload.single('clientImg'),(req,res,next)=>{
-
-    let clientID;
-    const clientName = req.body.clientName;
-    const phone = +req.body.phone;
-    const email = req.body.email;    
-    const password = req.body.password;
-    const deviceToken = req.body.deviceToken;
-    const imgUrl = req.body.imgUrl;
-    const regDate = new Date().getTime();
-
-       // adding auto-generated id
-       let newVal;
-       const db = getDb();   
-    if(imgUrl==null|| imgUrl=="")
-    {
-    var imagekit = new ImageKit({
-        publicKey : process.env.IMAGE_KIT_PUBLIC_KEY,
-        privateKey : process.env.IMAGE_KIT_PRIVATE_KEY,
-        urlEndpoint : "https://ik.imagekit.io/4afsv20kjs"
-    });
-    
-    var base64Img = req.file.buffer;
-    
-   
-    db.collection('clientCounter').find().toArray().then(data=>{
-        
-        newVal = data[data.length-1].count;
+// router.post('/client-register',upload.single('clientImg'),(req,res,next)=>{
+router.post('/client-register',function(req,res,next){
+    upload2(req,res,function(err){
+        if(err)
+        {
+            return res.json({message:"Error Occured",error:err})
+        }
+        let clientID;
+        const clientName = req.body.clientName;
+        const phone = +req.body.phone;
+        const email = req.body.email;    
+        const password = req.body.password;
+        const deviceToken = req.body.deviceToken;
+        const imgUrl = req.body.imgUrl;
+        const regDate = new Date().getTime();
+        req.file.originalname = req.file.originalname.replace(/ /g, "");
+        req.file.filename = req.file.filename.replace(/ /g, "");
+        const imgName = req.file.filename
+    // console.log(req.file.filename)
+           // adding auto-generated id
+           let newVal;
+           const db = getDb();   
+        if(imgUrl==null|| imgUrl=="")
+        {
        
-        newVal = newVal + 1;
-        console.log(newVal);
-       
-        clientID = newVal;
         
-        db.collection('clientCounter').insertOne({count:newVal})
-                .then(result=>{
-
-               Client.findClientByEmail(email)
-                .then(client=>{
-                    if(client){                        
-                        return res.json({status:false, message:'Client already exists(Enter unique email)'});
-                    }
-
-                    Client.findClientByPhone(phone)
-                    .then(client=>{
-                        if(client){                        
-                            return res.json({status:false, message:'Client already exists(Enter unique phone)'});
-                        }
-                        
-                        imagekit.upload({
-                            file : base64Img, //required
-                            fileName : "clientImg.jpg"   //required
-                        
-                        }, function(error, result) {
-                            if(error) {console.log(error);}
-                            else {
-                                console.log(result.url);
-                    
-                                const db = getDb();
-                                console.log(regDate);
-
-                                const client = new Client(clientID,clientName,phone,email,password,result.url,deviceToken,regDate);
-
-                                //saving in database                        
-                                client.save()
-                                .then(resultData=>{
-                                    
-                                    res.json({status:true,message:"Client Added",data:resultData["ops"][0]});
-                                    
-                                })
-                                .catch(err=>{
-                                    res.json({status:false,message:"Client not added"});
-                                    
-                                });                
-                            }
-                        })
-                    })
-
-                }).catch(err=>console.log(err));                
-                                   
-                })
-                .then(resultData=>{
-                   
-                })
-                .catch(err=>{
-                    res.json({status:false,error:err})
-                })             
-     })
-    }
-    else{
+       
         db.collection('clientCounter').find().toArray().then(data=>{
-        
+            
             newVal = data[data.length-1].count;
            
             newVal = newVal + 1;
@@ -156,16 +144,18 @@ router.post('/client-register',upload.single('clientImg'),(req,res,next)=>{
                             if(client){                        
                                 return res.json({status:false, message:'Client already exists(Enter unique phone)'});
                             }
-                           
-                           
-                                    // console.log(result.url);
+                            
+                          
+                                    console.log(result.url);
                         
                                     const db = getDb();
-                                    console.log(imgUrl);
-                                    client = new Client(clientID,clientName,phone,email,password,imgUrl,deviceToken,regDate);
+                                    console.log(regDate);
+                                    // res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"http://fibiapp.herokuapp.com/api/download/"+req.file.filename })
+                                    
+                                    const newclient = new Client(clientID,clientName,phone,email,password,"http://fibiapp.herokuapp.com/api/download/"+imgName,deviceToken,regDate);
     
                                     //saving in database                        
-                                    client.save()
+                                    newclient.save()
                                     .then(resultData=>{
                                         
                                         res.json({status:true,message:"Client Added",data:resultData["ops"][0]});
@@ -179,7 +169,7 @@ router.post('/client-register',upload.single('clientImg'),(req,res,next)=>{
                             
                         })
     
-                    }).catch(err=>console.log(err));                
+                    }).catch(err=>console.log("Error Occured"));                
                                        
                     })
                     .then(resultData=>{
@@ -188,56 +178,112 @@ router.post('/client-register',upload.single('clientImg'),(req,res,next)=>{
                     .catch(err=>{
                         res.json({status:false,error:err})
                     })             
-         }) 
-    }
+         })
+        }
+        else{
+            db.collection('clientCounter').find().toArray().then(data=>{
+            
+                newVal = data[data.length-1].count;
+               
+                newVal = newVal + 1;
+                console.log(newVal);
+               
+                clientID = newVal;
+                
+                db.collection('clientCounter').insertOne({count:newVal})
+                        .then(result=>{
+        
+                       Client.findClientByEmail(email)
+                        .then(client=>{
+                            if(client){                        
+                                return res.json({status:false, message:'Client already exists(Enter unique email)'});
+                            }
+        
+                            Client.findClientByPhone(phone)
+                            .then(client=>{
+                                if(client){                        
+                                    return res.json({status:false, message:'Client already exists(Enter unique phone)'});
+                                }
+                               
+                               
+                                        // console.log(result.url);
+                            
+                                        const db = getDb();
+                                        console.log(imgUrl);
+                                        client = new Client(clientID,clientName,phone,email,password,imgUrl,deviceToken,regDate);
+        
+                                        //saving in database                        
+                                        client.save()
+                                        .then(resultData=>{
+                                            res.json({status:true,message:"Client Added",data:resultData["ops"][0]});
+                                            
+                                        })
+                                        .catch(err=>{
+                                            res.json({status:false,message:"Client not added"});
+                                            
+                                        });                
+                                    
+                                
+                            })
+        
+                        }).catch(err=>console.log(err));                
+                                           
+                        })
+                        .then(resultData=>{
+                           
+                        })
+                        .catch(err=>{
+                            res.json({status:false,error:err})
+                        })             
+             }) 
+        }
+    
+    })
+  
 });
 
 
-router.post('/edit-client-image',upload.single('clientImg'),(req,res,next)=>{
-    
-    const clientId = +req.body.clientId;
-
-    var imagekit = new ImageKit({
-        publicKey : process.env.IMAGE_KIT_PUBLIC_KEY,
-        privateKey : process.env.IMAGE_KIT_PRIVATE_KEY,
-        urlEndpoint : "https://ik.imagekit.io/4afsv20kjs"
-    });
-    
-    var base64Img = req.file.buffer;
+router.post('/edit-client-image',(req,res,next)=>{
+    console.log(req)
  
-    const db = getDb();
-    Client.findClientByClientId(JSON.parse(+clientId))
-    .then(clientDoc=>{        
-        if(!clientDoc)
+    upload2(req,res,function(err){
+           req.file.originalname = req.file.originalname.replace(/ /g, "");
+    req.file.filename = req.file.filename.replace(/ /g, "");
+        if(err)
         {
-             res.json({ message:'Client does not exist',status:false});
+            return res.json({message:"Error Occured",error:err})
         }
-        else{
-
-            imagekit.upload({
-                file : base64Img, //required
-                fileName : "clientImg.jpg"   //required
-               
-            }, function(error, result) {
-                if(error) {console.log(error);}
-                else {
-                    console.log(result.url);
+        // res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"http://fibiapp.herokuapp.com/api/download/"+req.file.filename })
+        const clientId = +req.body.clientId;
+        const newClientImg = req.file.filename;
+      
+        const db = getDb();
+        Client.findClientByClientId(JSON.parse(+clientId))
+        .then(clientDoc=>{        
+            if(!clientDoc)
+            {
+                 res.json({ message:'Client does not exist',status:false});
+            }
+            else{
+    
+                        
+              clientDoc.clientImg = "http://fibiapp.herokuapp.com/api/download/"+newClientImg;            
+                          
+               const db = getDb();
+               db.collection('clients').updateOne({clientId:clientId},{$set:clientDoc})
+                           .then(resultData=>{
+                               
+                               res.json({message:'Details Updated',status:true,client:clientDoc});
+                           })
+                          .catch(err=>console.log(err));  
                     
-          clientDoc.clientImg = result.url;            
-                      
-           const db = getDb();
-           db.collection('clients').updateOne({clientId:clientId},{$set:clientDoc})
-                       .then(resultData=>{
-                           
-                           res.json({message:'Details Updated',status:true,client:clientDoc});
-                       })
-                      .catch(err=>console.log(err));  
-                }
-            });      
-
-           }
-        })      
-})
+                 
+    
+               }
+            })      
+    
+    })
+   })
 
 
 
