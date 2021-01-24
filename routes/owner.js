@@ -5,9 +5,22 @@ const Owner = require('../models/owner');
 const getDb = require('../util/database').getDB; 
 const multer = require('multer');
 const upload = multer();
+const path = require('path')
 
 var ImageKit = require("imagekit");
 var fs = require('fs');
+
+var store = multer.diskStorage({
+    destination:function(req,file,cb){
+        cb(null,'./newFileUploads');
+    },
+    filename:function(req,file,cb){
+        var newOrignalName = file.originalname.replace(/ /g, "");
+        cb(null,newOrignalName)
+    }
+})
+
+var upload1 = multer({storage:store}).single('ownerPhoto');
 
 
 router.post('/owner-login',ownerController.ownerLogin);
@@ -58,54 +71,57 @@ router.get('/del-owner/:ownerId',ownerController.delOwner);
 router.post('/owner-verify',ownerController.ownerVerify);
 
 
-router.post('/edit-owner-photo',upload.single('ownerPhoto'),(req,res,next)=>{
-    
-    const ownerId = +req.body.ownerId;
+router.post('/edit-owner-photo',(req,res,next)=>{
 
-    var imagekit = new ImageKit({
-        publicKey : process.env.IMAGE_KIT_PUBLIC_KEY,
-        privateKey : process.env.IMAGE_KIT_PRIVATE_KEY,
-        urlEndpoint : "https://ik.imagekit.io/4afsv20kjs"
-    });
-    
-    var base64Img = req.file.buffer;
- 
-
-    const db = getDb();
-    Owner.findOwnerById(+ownerId)
-    .then(empDoc=>{
-        
-        if(!empDoc)
+    upload1(req,res,function(err){
+        if(err)
         {
-             res.json({ message:'Owner does not exist',status:false});
+            return res.json({message:"Error Occured",error:err})
         }
-        else{
+        req.file.originalname = req.file.originalname.replace(/ /g, "");
+        req.file.filename = req.file.filename.replace(/ /g, "");
+        
+        // res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"http://160.153.254.97:8000/api/download/"+req.file.filename })
+    
+        const ownerId = +req.body.ownerId;
 
-        imagekit.upload({
-            file : base64Img, //required
-            fileName : "ownerImg.jpg"   //required
+        // var imagekit = new ImageKit({
+        //     publicKey : process.env.IMAGE_KIT_PUBLIC_KEY,
+        //     privateKey : process.env.IMAGE_KIT_PRIVATE_KEY,
+        //     urlEndpoint : "https://ik.imagekit.io/4afsv20kjs"
+        // });
+        
+        // var base64Img = req.file.buffer;
+     
+    
+        const db = getDb();
+        Owner.findOwnerById(+ownerId)
+        .then(empDoc=>{
             
-        }, function(error, result) {
-            if(error) {console.log(error);}
-            else {
-                console.log(result.url);                    
-            
-          empDoc.ownerImg = result.url;             
-           
-           const db = getDb();
-           db.collection('owners').updateOne({ownerId:ownerId},{$set:empDoc})
-                       .then(resultData=>{
-                           
-                           res.json({message:'Details Updated',status:true,imageUrl:result.url});
-                       })
-                      .catch(err=>console.log(err));
-  
-                }
-            });      
-
-           }
-        })      
-})
+            if(!empDoc)
+            {
+                 res.json({ message:'Owner does not exist',status:false});
+            }
+            else{              
+                
+              empDoc.ownerImg ="http://160.153.254.97:8000/api/download/"+req.file.filename;             
+               
+               const db = getDb();
+               db.collection('owners').updateOne({ownerId:ownerId},{$set:empDoc})
+                           .then(resultData=>{
+                               
+                               res.json({message:'Details Updated',status:true,imageUrl:"http://160.153.254.97:8000/api/download/"+req.file.filename});
+                           })
+                          .catch(err=>console.log(err));
+        
+    
+               }
+            })      
+    
+    
+    })
+    
+   })
 
 
 

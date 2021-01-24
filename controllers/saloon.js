@@ -308,6 +308,7 @@ exports.saloonRegister = (req,res,next)=>{
     const address = req.body.address;
     const latitude = req.body.latitude;
     const longitude = req.body.longitude;
+    const deviceToken = req.body.deviceToken;
     const regDate = new Date().getTime();
     var subscription = {customerId:'',subscribedData:null};
         
@@ -360,7 +361,7 @@ exports.saloonRegister = (req,res,next)=>{
                                               console.log("Customer Created : ",customer.id)
                                               subscription.customerId = customer.id
                                                                     
-                                              const saloon = new Saloon(saloonID,ownerId,saloonName,phone,landline,address,photos,isVerified,latitude,longitude,regDate,subscription,-1);
+                                              const saloon = new Saloon(saloonID,ownerId,saloonName,phone,landline,address,photos,isVerified,latitude,longitude,regDate,subscription,-1,deviceToken);
                                               //saving in database
                                           
                                               return saloon.save()

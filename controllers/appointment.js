@@ -519,6 +519,15 @@ exports.getMonthRevenuePerEmp=(req,res,next)=>{
 exports.editAppointment=(req,res,next)=>{
     //parsing data from incoming request
     const appointId = +req.body.appointId;
+
+    const saloonId = +req.body.saloonId ;
+    const empId = +req.body.empId;   
+    const serviceId = req.body.serviceId;
+    const serviceName = req.body.serviceName;
+    const clientName = req.body.clientName;
+    const clientPhone = req.body.clientPhone;
+    const empName = req.body.empName;
+
     const bookingTime = req.body.bookingTime;
     const bookingDay = req.body.bookingDay;
         
@@ -532,7 +541,15 @@ exports.editAppointment=(req,res,next)=>{
                  {
                      return res.json({ message:'Appointment does not exist',status:false});
                  }
-                
+                 
+                 appDoc.saloonId = saloonId;
+                 appDoc.empId = empId;
+                 appDoc.serviceId = serviceId;                 
+                 appDoc.serviceName = serviceName;
+                 appDoc.clientName = clientName;
+                 appDoc.clientPhone = clientPhone;
+                 appDoc.empName = empName;
+                 
                  appDoc.bookingTime = bookingTime;
                  appDoc.bookingDay = bookingDay;
                  appDoc.bookingDate = bookingDate;
