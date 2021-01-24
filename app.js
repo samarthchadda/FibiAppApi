@@ -14,6 +14,7 @@ const trainingRoutes = require('./routes/training');
 const adminRoutes = require('./routes/admin');
 const appointmentRoutes = require('./routes/appointment');
 const reportRoutes = require('./routes/report');
+const notificationRoutes = require('./routes/notifications');
 
 
 
@@ -55,6 +56,7 @@ app.use('/api',trainingRoutes);
 app.use('/api',adminRoutes);
 app.use('/api',appointmentRoutes);
 app.use('/api',reportRoutes);
+app.use('/api',notificationRoutes);
 
 
 let port = process.env.PORT || 8080;
