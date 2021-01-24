@@ -389,7 +389,8 @@ exports.createSubscription=(req,res,next)=>{
                                         
                                         }
                                         else{
-                                            console.log("Something Wrong")
+                                            console.log("Something Wrong");
+                                            res.json({status:false, message:"Something wrong Occured"})
                                         }
                                     })
                                     
@@ -397,6 +398,7 @@ exports.createSubscription=(req,res,next)=>{
                                 else
                                 {
                                     console.log("Something Wrong")
+                                    res.json({status:false, message:"Something wrong Occured"})
                                 }
                             }
                           );
@@ -404,13 +406,15 @@ exports.createSubscription=(req,res,next)=>{
                     }   
                     else{
                         console.log("Something Wrong")
+                        res.json({status:false, message:"Something wrong Occured"})
                     }
                 }
               );
 
           }
           else{
-              console.log("Something Wrong");
+              console.log("Something Wrong");              
+              res.json({status:false, message:"Something wrong Occured"})
         }
       });
 
