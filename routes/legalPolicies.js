@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const serverName = "https://fibiapp.herokuapp.com/api/download/";
+const serverName = "http://160.153.254.97:8000/api/download";
 
 const LegalPolicies = require('../models/legalPolicies');
 const path = require('path')
