@@ -109,9 +109,14 @@ router.post('/client-register',function(req,res,next){
         const deviceToken = req.body.deviceToken;
         const imgUrl = req.body.imgUrl;
         const regDate = new Date().getTime();
-        req.file.originalname = req.file.originalname.replace(/ /g, "");
-        req.file.filename = req.file.filename.replace(/ /g, "");
-        const imgName = req.file.filename
+        let imgName = '';
+        if(imgUrl==null|| imgUrl=="")
+        {
+            req.file.originalname = req.file.originalname.replace(/ /g, "");
+            req.file.filename = req.file.filename.replace(/ /g, "");
+            imgName = req.file.filename
+        }
+       
     // console.log(req.file.filename)
            // adding auto-generated id
            let newVal;
@@ -144,10 +149,7 @@ router.post('/client-register',function(req,res,next){
                             if(client){                        
                                 return res.json({status:false, message:'Client already exists(Enter unique phone)'});
                             }
-                            
-                          
-                                    console.log(result.url);
-                        
+                                                    
                                     const db = getDb();
                                     console.log(regDate);
                                     // res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"http://160.153.254.97:8000/api/download/"+req.file.filename })
@@ -205,9 +207,6 @@ router.post('/client-register',function(req,res,next){
                                     return res.json({status:false, message:'Client already exists(Enter unique phone)'});
                                 }
                                
-                               
-                                        // console.log(result.url);
-                            
                                         const db = getDb();
                                         console.log(imgUrl);
                                         client = new Client(clientID,clientName,phone,email,password,imgUrl,deviceToken,regDate);

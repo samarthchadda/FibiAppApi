@@ -755,56 +755,59 @@ exports.ownerRegister = (req,res,next)=>{
 exports.ownerLogin=(req,res,next)=>{
     const email = req.body.email;
     const password = req.body.password;
-    const isOwner = req.body.isOwner;
+    // const isOwner = req.body.isOwner;
 
-    if(isOwner)
-    {
+    // if(isOwner)
+    // {
         Owner.findOwnerByEmail(email)
         .then(user=>{
             if(!user)
             {
-                return res.json({ message:'Enter valid email Id',status:false});
+                // return res.json({ message:'Enter valid email Id',status:false});
+                Employee.findEmployeesByEmail(email)
+                .then(user=>{
+                    if(user.length==0)
+                    {
+                        return res.json({ message:'Owner does not exist',status:false});
+                    }
+        
+                    if(user[0].password == password)
+                    {                        
+                        // console.log(user)
+                        // console.log(user[0].saloonId)
+                        Saloon.findSaloonBySaloonID(+user[0].saloonId)
+                        .then(saloonData=>{
+                            // console.log(saloonData.ownerId)
+                            Owner.findOwnerById(saloonData.ownerId)
+                            .then(ownerData=>{
+                                
+                       return res.json({ message:'Login Successful',status:true, employee:user[0],owner:ownerData,type:"employee"});
+                            })
+                            
+                        })
+                    }else{
+                       
+                        return res.json({ message:'Enter valid employee credentials',status:false});
+                    }
+                })
             }
+            else{
 
             if(user.password == password)
             {                        
-                res.json({ message:'Login Successful',status:true, owner:user});
+                res.json({ message:'Login Successful',status:true, owner:user,type:"owner"});
             }else{
                
-                res.json({ message:'Enter valid credentials',status:false});
+                res.json({ message:'Enter valid owner credentials',status:false});
             }
+        }
         })
-    }
-    else
-    {
-        Employee.findEmployeesByEmail(email)
-        .then(user=>{
-            if(user.length==0)
-            {
-                return res.json({ message:'Enter valid email Id',status:false});
-            }
-
-            if(user[0].password == password)
-            {                        
-                // console.log(user[0].saloonId)
-                Saloon.findSaloonBySaloonID(+user[0].saloonId)
-                .then(saloonData=>{
-                    // console.log(saloonData.ownerId)
-                    Owner.findOwnerById(saloonData.ownerId)
-                    .then(ownerData=>{
-                        
-                res.json({ message:'Login Successful',status:true, employee:user[0],owner:ownerData});
-                    })
-                    
-                })
-            }else{
-               
-                res.json({ message:'Enter valid credentials',status:false});
-            }
-        })
-    }
-    
-   
+    // }
+    // else
+    // {
+       
+    // }
+      
 
 }
 
