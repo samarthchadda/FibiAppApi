@@ -495,7 +495,7 @@ exports.changeSubscription=(req,res,next)=>{
                                                     {   
                                                        return res.json({status:false,message:"Saloon Does not exist"})
                                                     }
-                                                    console.log("Saloon :",saloon.subscription.subscribedData)
+                                                    console.log("Saloon :",saloon)
                                                     // subscription = {...subscription,saloonId:saloonId};
                                                     saloon.subscription.subscribedData = subscription;
                                                     const db = getDb();
