@@ -7,7 +7,7 @@ class Appointment
 {
    
    
-    constructor(id,saloonId,empId,serviceId,serviceName,clientName,clientPhone,empName,time,date,day,cost,note)
+    constructor(id,saloonId,empId,serviceId,serviceName,clientName,clientPhone,empName,time,date,day,cost,note,clientId)
     {          
         this.appointmentId = id;
         this.saloonId = saloonId;
@@ -22,6 +22,7 @@ class Appointment
         this.bookingDay = day;
         this.totalCost = cost;         
         this.note = note;     
+        this.clientId = clientId;
         this.appointDate = new Date();             
         
     }

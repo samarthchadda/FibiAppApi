@@ -8,6 +8,7 @@ exports.postAppointment = (req,res,next)=>{
     const saloonId = +req.body.saloonId ;
     const empId = +req.body.empId;   
     const serviceId = req.body.serviceId;
+    const clientId = +req.body.clientId;
     const serviceName = req.body.serviceName;
     const clientName = req.body.clientName;
     const clientPhone = req.body.clientPhone;
@@ -41,7 +42,7 @@ exports.postAppointment = (req,res,next)=>{
             db.collection('appCounter').insertOne({count:newVal})
                     .then(result=>{
                         
-                        const appointment = new Appointment(appointId,saloonId,empId,serviceId,serviceName,clientName,clientPhone,empName,bookingTime,bookingDate,bookingDay,totalCost,note);
+                        const appointment = new Appointment(appointId,saloonId,empId,serviceId,serviceName,clientName,clientPhone,empName,bookingTime,bookingDate,bookingDay,totalCost,note,clientId);
                        
                         //saving in database                    
                         return appointment.save()
