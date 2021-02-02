@@ -5,6 +5,8 @@ const Appointment = require('../models/appointment');
 
 const Employee = require('../models/employee');
 
+const Saloon = require('../models/saloon');
+
 const getDb = require('../util/database').getDB; 
 
 
@@ -136,7 +138,7 @@ exports.getSingleEmpAvailDataByDate=(req,res,next)=>{
 
 
 
-exports.getSingleEmpAvailDataBySingleDate=(req,res,next)=>{
+exports.getSingleEmpAvailDataBySingleDate= (req,res,next)=>{
   
     const empId = +req.body.empId;
     let day = req.body.day;
@@ -180,6 +182,23 @@ exports.getSingleEmpAvailDataBySingleDate=(req,res,next)=>{
        
         if(availDoc){
 
+            Employee.findEmployeeByEmpID(availDoc.empId)
+            .then(empAllData=>{
+                if(empAllData)
+                {
+                    Availability.findAvailBySaloonIdAndSingleDate(+empAllData.saloonId,oneDate)
+                    .then(saloonAvailData=>{
+                        if(!saloonAvailData)
+                        {
+                            return res.json({status:false,message:"Saloon not available"});
+                        }
+                       else
+                       {
+                        //    console.log(saloonAvailData.availStatus[statusKey])
+                        if(saloonAvailData.availStatus[statusKey]==0)
+                        {
+                            return res.json({status:false,message:"Saloon not available"});
+                        }
             let availArr = [];
             availDoc.timeslot[statusKey].forEach(avail=>{
                 var timePartsStart = avail.srtTime.split(":");
@@ -282,7 +301,7 @@ exports.getSingleEmpAvailDataBySingleDate=(req,res,next)=>{
                                 res.json({status:true, availData:availArr,appointData:appointArr});
                             }
                         }else{
-                            res.json({status:false,message:"Employee not available"});
+                            return res.json({status:false,message:"Employee not available"});
                         }
                            
                         }
@@ -292,6 +311,11 @@ exports.getSingleEmpAvailDataBySingleDate=(req,res,next)=>{
                 
                     })         
                 } 
+                       }
+                    })
+                }
+            })
+
             
         }
         else{

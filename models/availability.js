@@ -77,6 +77,19 @@ class Availability
 
     }
 
+    static findAvailBySaloonIdAndSingleDate(id,sDate)
+    {
+        const db = getDb();
+                            
+        return db.collection('availabilities').findOne({ saloonId:id ,startDate:{$lte:sDate},endDate:{$gte:sDate}})
+                                            .then(avail=>{
+                                                                                                
+                                                return avail;  
+                                            })
+                                            .catch(err=>console.log(err));
+
+    }
+
     
     static findAvailBySaloonIdAndDate(id,sDate,eDate)
     {
