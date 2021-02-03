@@ -235,9 +235,9 @@ exports.getSingleEmpAvailDataBySingleDate= (req,res,next)=>{
 
                                 appointArr.push(app.bookingTime);
                             })
-
+                           
                             if(availDoc.availStatus[statusKey]==1)
-                            {
+                            { 
                             if(appoint.length==appointArr.length)
                             {
                                 // console.log(availDoc.availStatus[statusKey])
@@ -306,6 +306,10 @@ exports.getSingleEmpAvailDataBySingleDate= (req,res,next)=>{
                            
                         }
                         else{
+                            if(availDoc.availStatus[statusKey]==0)
+                            {
+                                return res.json({status:false,message:"Employee not available"})
+                            }
                             res.json({status:true, availData:availArr,appointData:[]});
                         }          
                 
