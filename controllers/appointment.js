@@ -908,6 +908,12 @@ exports.currentAppoints = (req,res,next)=>{
 
     //current Date
     var currDate = new Date();
+
+    var currMinutes = (''+currDate.getHours()+':'+currDate.getMinutes()).toString();
+    currMinutes = currMinutes.split(":");
+    currMinutes = Number(currMinutes[0]) * 60 + Number(currMinutes[1]);
+    console.log(currMinutes);
+
     var dd = String(currDate.getDate()).padStart(2, '0');
     var mm = String(currDate.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = currDate.getFullYear();
@@ -916,12 +922,7 @@ exports.currentAppoints = (req,res,next)=>{
     // console.log(currDate);
     currDate = new Date(currDate).getTime();
     // console.log(currDate.getMinutes());
-    var newDt = new Date();
     // console.log(newDt.getMinutes(),newDt.getHours())
-    var currMinutes = (''+newDt.getHours()+':'+newDt.getMinutes()).toString();
-    currMinutes = currMinutes.split(":");
-    currMinutes = Number(currMinutes[0]) * 60 + Number(currMinutes[1]);
-    console.log("Curr Minutes : "+currMinutes);
      
     var currApps = [];
 
