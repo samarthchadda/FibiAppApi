@@ -921,7 +921,7 @@ exports.currentAppoints = (req,res,next)=>{
     var currMinutes = (''+newDt.getHours()+':'+newDt.getMinutes()).toString();
     currMinutes = currMinutes.split(":");
     currMinutes = Number(currMinutes[0]) * 60 + Number(currMinutes[1]);
-    console.log(currMinutes);
+    console.log("Curr Minutes : "+currMinutes);
      
     var currApps = [];
 
