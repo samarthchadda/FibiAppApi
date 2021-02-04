@@ -915,8 +915,16 @@ exports.currentAppoints = (req,res,next)=>{
     currDate =yyyy + '-' +mm + '-' + dd ;
     // console.log(currDate);
     currDate = new Date(currDate).getTime();
-    // console.log(currDate);
+    // console.log(currDate.getMinutes());
+    var newDt = new Date();
+    // console.log(newDt.getMinutes(),newDt.getHours())
+    var currMinutes = (''+newDt.getHours()+':'+newDt.getMinutes()).toString();
+    currMinutes = currMinutes.split(":");
+    currMinutes = Number(currMinutes[0]) * 60 + Number(currMinutes[1]);
+    console.log(currMinutes);
      
+    var currApps = [];
+
     Appointment.findAppointByClientPhoneAndCDate(phone,currDate)
                 .then(appoint=>{
                     if(appoint.length==0)
@@ -937,12 +945,21 @@ exports.currentAppoints = (req,res,next)=>{
                         var time = year + '-' + month + '-' + date;                    
                         // console.log(time)
                         app.bookingDate = time;
-                        // console.log(app)
+                        var timePartsStart = app.bookingTime.srtTime.split(":");
+                        timePartsStart = Number(timePartsStart[0]) * 60 + Number(timePartsStart[1]);
+                        console.log(timePartsStart);
+                        if(timePartsStart>=currMinutes)
+                        {
+                            currApps.push(app);
+                        }
+
                         });    
-                    res.json({ message:'Appointment Exists',data:appoint});
+                        setTimeout(()=>{
+                            res.json({ message:'Appointment Exists',data:currApps});
+                        },500)
+                    
                 })
 }
-
 
 
 exports.previousAppoints = (req,res,next)=>{

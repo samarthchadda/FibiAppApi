@@ -151,6 +151,10 @@ exports.delEmployee=(req,res,next)=>{
                                   
                                     Client.findClientByPhone(ap.clientPhone)
                                     .then(cl=>{
+                                     
+                                        // console.log('The appointment at '+ap.bookingTime.srtTime+'Hours is deleted due to the unavailability of the employee.please create the  new appointment.')
+                                        myJSONObject["contents"] = 'The appointment at '+ap.bookingTime.srtTime+' Hours is deleted due to the unavailability of the employee.please create the  new appointment.';
+                                           console.log(myJSONObject["contents"]);
                                         clientsData.push(cl);
                                         myJSONObject["include_player_ids"]=[cl.deviceToken];
                                         request({
