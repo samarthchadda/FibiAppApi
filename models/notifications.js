@@ -51,7 +51,7 @@ class Notifications
     {
         const db = getDb();
                             
-        return db.collection('notifications').find({ saloonId:sid }).toArray()
+        return db.collection('notifications').find({ saloonId:sid }).sort({date:-1}).toArray()
                                             .then(avail=>{
                                                                                                                                                
                                                 return avail;  
