@@ -907,15 +907,17 @@ exports.currentAppoints = (req,res,next)=>{
 
     //current Date
     var currDate = new Date();
+    var currDate1 = new Date('2021-02-08').getTime();
+    console.log(currDate1);
 
     var currMinutes = (''+currDate.getUTCHours()+':'+currDate.getUTCMinutes()).toString();
     currMinutes = currMinutes.split(":");
     currMinutes = Number(currMinutes[0]) * 60 + Number(currMinutes[1]);
-    console.log("Curr Minutes : "+currMinutes);
+    console.log("Curr MInutes : "+currMinutes);
 
-    var dd = String(currDate.getDate()).padStart(2, '0');
-    var mm = String(currDate.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = currDate.getFullYear();
+    var dd = String(currDate.getUTCDate()).padStart(2, '0');
+    var mm = String(currDate.getUTCMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = currDate.getUTCFullYear();
 
     currDate =yyyy + '-' +mm + '-' + dd ;
     currDate = new Date(currDate).getTime();
@@ -935,44 +937,51 @@ exports.currentAppoints = (req,res,next)=>{
                     }           
                     appoint.forEach(app=>{       
                         var a = new Date(app.bookingDate);
-
-                console.log(a);
+                        console.log(a);
                         // var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
                         var months = ['01','02','03','04','05','06','07','08','09','10','11','12'];                    
-                        var year = a.getFullYear();
-                        var month = months[a.getMonth()];
+                        var year = a.getUTCFullYear();
+                        var month = months[a.getUTCMonth()];
                         var date = a.getUTCDate();
                         var hour = a.getHours();
                         var min = a.getMinutes();
                         var sec = a.getSeconds();
                         // var time = year + ' ' + month + ' ' + date + ' ' + hour + ':' + min + ':' + sec ;
-
-                        var time = year + '-' + month + '-' + date;                    
-                        //  console.log(time)
                         if(date.toString().length==1)
                         {
                             date = '0'+date;
                         }   
                         var time = year + '-' + month + '-' + date;   
-
-                        console.log(time);
-
+                        // console.log(time)
+                        var appDt1 = app.bookingDate;
                         app.bookingDate = time;
+                        // console.log()
                         var timePartsStart = app.bookingTime.srtTime.split(":");
+                        console.log(timePartsStart)
                         timePartsStart = Number(timePartsStart[0]) * 60 + Number(timePartsStart[1]);
-                        // console.log(timePartsStart);
-                        if(timePartsStart>=currMinutes)
+                        console.log(timePartsStart);
+                        if(currDate==appDt1)
+                        {
+                            if(timePartsStart>=currMinutes)
+                            {
+                                currApps.push(app);
+                            }
+                        }
+                        if(appDt1>=currDate)
                         {
                             currApps.push(app);
-                        }
+                        }                       
+                        
 
                         });    
                         setTimeout(()=>{
                             res.json({ message:'Appointment Exists',data:currApps});
+                           
                         },500)
                     
                 })
 }
+
 
 
 
