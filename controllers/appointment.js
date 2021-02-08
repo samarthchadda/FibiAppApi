@@ -922,7 +922,7 @@ exports.currentAppoints = (req,res,next)=>{
     currDate =yyyy + '-' +mm + '-' + dd ;
     currDate = new Date(currDate).getTime();
     console.log(currDate);
-    // console.log(new Date('2021-02-23').getTime())
+    // console.log(new Date('2021-02-09').getTime())
     // console.log(currDate.getMinutes());
     // console.log(newDt.getMinutes(),newDt.getHours())
     
@@ -961,14 +961,17 @@ exports.currentAppoints = (req,res,next)=>{
                         timePartsStart = Number(timePartsStart[0]) * 60 + Number(timePartsStart[1]);
                         console.log(timePartsStart);
                         if(currDate==appDt1)
-                        {
+                        {console.log("Equal Date")
                             if(timePartsStart>=currMinutes)
                             {
                                 currApps.push(app);
+                                console.log("Greater Time")
                             }
+
                         }
-                        if(appDt1>=currDate)
+                        else if(appDt1>=currDate)
                         {
+                            console.log("Greater Date")
                             currApps.push(app);
                         }                       
                         
@@ -981,7 +984,6 @@ exports.currentAppoints = (req,res,next)=>{
                     
                 })
 }
-
 
 
 
