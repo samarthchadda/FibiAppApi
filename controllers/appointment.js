@@ -856,7 +856,6 @@ exports.getWeekGraphPerEmp=(req,res,next)=>{
     //     }
 
     //     if (dayOfWeek === 6 || i === daysInMonth) {
-
     //         end = i;
 
     //         if (start !== end) {
@@ -935,22 +934,28 @@ exports.currentAppoints = (req,res,next)=>{
                     }           
                     appoint.forEach(app=>{       
                         var a = new Date(app.bookingDate);
-                        console.log(a);
+
+                console.log(a);
                         // var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
                         var months = ['01','02','03','04','05','06','07','08','09','10','11','12'];                    
                         var year = a.getFullYear();
                         var month = months[a.getMonth()];
-                        var date = a.getDate();
+                        var date = a.getUTCDate();
                         var hour = a.getHours();
                         var min = a.getMinutes();
                         var sec = a.getSeconds();
                         // var time = year + ' ' + month + ' ' + date + ' ' + hour + ':' + min + ':' + sec ;
+
+                        var time = year + '-' + month + '-' + date;                    
+                        //  console.log(time)
                         if(date.toString().length==1)
                         {
                             date = '0'+date;
                         }   
                         var time = year + '-' + month + '-' + date;   
+
                         console.log(time);
+
                         app.bookingDate = time;
                         var timePartsStart = app.bookingTime.srtTime.split(":");
                         timePartsStart = Number(timePartsStart[0]) * 60 + Number(timePartsStart[1]);

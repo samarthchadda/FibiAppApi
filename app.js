@@ -60,7 +60,7 @@ app.use('/api',legalRoutes);
 app.use('/api',notificationRoutes);
 
 
-let port = process.env.PORT || 8080;
+let port = process.env.PORT || 8000;
 //establishing DB connection
 mongoConnect(()=>{
      
@@ -69,4 +69,5 @@ mongoConnect(()=>{
     app.listen(port);
 
 });
+
 
