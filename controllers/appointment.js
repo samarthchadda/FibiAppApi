@@ -908,7 +908,7 @@ exports.currentAppoints = (req,res,next)=>{
     //current Date
     var currDate = new Date();
 
-    var currMinutes = (''+currDate.getHours()+':'+currDate.getMinutes()).toString();
+    var currMinutes = (''+currDate.getUTCHours()+':'+currDate.getUTCMinutes()).toString();
     currMinutes = currMinutes.split(":");
     currMinutes = Number(currMinutes[0]) * 60 + Number(currMinutes[1]);
     console.log("Curr Minutes : "+currMinutes);
