@@ -856,7 +856,6 @@ exports.getWeekGraphPerEmp=(req,res,next)=>{
     //     }
 
     //     if (dayOfWeek === 6 || i === daysInMonth) {
-
     //         end = i;
 
     //         if (start !== end) {
@@ -941,7 +940,7 @@ console.log(a);
                         var months = ['01','02','03','04','05','06','07','08','09','10','11','12'];                    
                         var year = a.getFullYear();
                         var month = months[a.getMonth()];
-                        var date = a.getDate();
+                        var date = a.getUTCDate();
                         var hour = a.getHours();
                         var min = a.getMinutes();
                         var sec = a.getSeconds();
