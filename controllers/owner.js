@@ -167,7 +167,7 @@ exports.getPaymentLogs = (req,res,next)=>{
     const customerId = req.body.customerId;
     var allCharges = [];
     
-    stripe.charges.list(function(err,charges){
+    stripe.invoices.list(function(err,charges){
           if(err){
             //   console.log("Error Occured : ",err);
             res.json({status:false,message:"Error Occured",error:err})
