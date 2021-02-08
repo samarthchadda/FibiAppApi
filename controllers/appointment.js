@@ -911,7 +911,7 @@ exports.currentAppoints = (req,res,next)=>{
     var currMinutes = (''+currDate.getHours()+':'+currDate.getMinutes()).toString();
     currMinutes = currMinutes.split(":");
     currMinutes = Number(currMinutes[0]) * 60 + Number(currMinutes[1]);
-    console.log(currMinutes);
+    console.log("Curr Minutes : "+currMinutes);
 
     var dd = String(currDate.getDate()).padStart(2, '0');
     var mm = String(currDate.getMonth() + 1).padStart(2, '0'); //January is 0!
