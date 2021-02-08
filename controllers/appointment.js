@@ -906,7 +906,7 @@ exports.currentAppoints = (req,res,next)=>{
     const phone = +req.params.phone;
 
     //current Date
-    var currDate = new Date();
+    var currDate = new Date('2021-02-08');
 
     var currMinutes = (''+currDate.getHours()+':'+currDate.getMinutes()).toString();
     currMinutes = currMinutes.split(":");
