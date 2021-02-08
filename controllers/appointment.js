@@ -950,7 +950,7 @@ exports.currentAppoints = (req,res,next)=>{
                             date = '0'+date;
                         }   
                         var time = year + '-' + month + '-' + date;   
-                        // console.log(time)
+                        console.log(time);
                         app.bookingDate = time;
                         var timePartsStart = app.bookingTime.srtTime.split(":");
                         timePartsStart = Number(timePartsStart[0]) * 60 + Number(timePartsStart[1]);
@@ -997,7 +997,7 @@ exports.previousAppoints = (req,res,next)=>{
                     var months = ['01','02','03','04','05','06','07','08','09','10','11','12'];                    
                     var year = a.getFullYear();
                     var month = months[a.getMonth()];
-                    var date = a.getDate();
+                    var date = a.getUTCDate();
                     var hour = a.getHours();
                     var min = a.getMinutes();
                     var sec = a.getSeconds();
