@@ -935,11 +935,8 @@ exports.currentAppoints = (req,res,next)=>{
                     }           
                     appoint.forEach(app=>{       
                         var a = new Date(app.bookingDate);
-<<<<<<< HEAD
+
 console.log(a);
-=======
-                        console.log(a);
->>>>>>> 0e3f2dd9ebdb53fc249e00bfc438c93530d15740
                         // var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
                         var months = ['01','02','03','04','05','06','07','08','09','10','11','12'];                    
                         var year = a.getFullYear();
@@ -949,17 +946,15 @@ console.log(a);
                         var min = a.getMinutes();
                         var sec = a.getSeconds();
                         // var time = year + ' ' + month + ' ' + date + ' ' + hour + ':' + min + ':' + sec ;
-<<<<<<< HEAD
+
                         var time = year + '-' + month + '-' + date;                    
                          console.log(time)
-=======
                         if(date.toString().length==1)
                         {
                             date = '0'+date;
                         }   
                         var time = year + '-' + month + '-' + date;   
-                        // console.log(time)
->>>>>>> 0e3f2dd9ebdb53fc249e00bfc438c93530d15740
+                        console.log(time)
                         app.bookingDate = time;
                         var timePartsStart = app.bookingTime.srtTime.split(":");
                         timePartsStart = Number(timePartsStart[0]) * 60 + Number(timePartsStart[1]);
