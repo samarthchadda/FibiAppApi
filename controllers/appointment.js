@@ -919,10 +919,11 @@ exports.currentAppoints = (req,res,next)=>{
     var yyyy = currDate.getFullYear();
 
     currDate =yyyy + '-' +mm + '-' + dd ;
-    // console.log(currDate);
     currDate = new Date(currDate).getTime();
+    // console.log(new Date('2021-02-23').getTime())
     // console.log(currDate.getMinutes());
     // console.log(newDt.getMinutes(),newDt.getHours())
+    
      
     var currApps = [];
 
@@ -934,6 +935,7 @@ exports.currentAppoints = (req,res,next)=>{
                     }           
                     appoint.forEach(app=>{       
                         var a = new Date(app.bookingDate);
+                        console.log(a);
                         // var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
                         var months = ['01','02','03','04','05','06','07','08','09','10','11','12'];                    
                         var year = a.getFullYear();
@@ -943,12 +945,16 @@ exports.currentAppoints = (req,res,next)=>{
                         var min = a.getMinutes();
                         var sec = a.getSeconds();
                         // var time = year + ' ' + month + ' ' + date + ' ' + hour + ':' + min + ':' + sec ;
-                        var time = year + '-' + month + '-' + date;                    
+                        if(date.toString().length==1)
+                        {
+                            date = '0'+date;
+                        }   
+                        var time = year + '-' + month + '-' + date;   
                         // console.log(time)
                         app.bookingDate = time;
                         var timePartsStart = app.bookingTime.srtTime.split(":");
                         timePartsStart = Number(timePartsStart[0]) * 60 + Number(timePartsStart[1]);
-                        console.log(timePartsStart);
+                        // console.log(timePartsStart);
                         if(timePartsStart>=currMinutes)
                         {
                             currApps.push(app);
@@ -961,6 +967,7 @@ exports.currentAppoints = (req,res,next)=>{
                     
                 })
 }
+
 
 
 exports.previousAppoints = (req,res,next)=>{
