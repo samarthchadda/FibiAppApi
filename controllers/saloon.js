@@ -449,32 +449,32 @@ exports.getDiffSaloon=(req,res,next)=>{
     let checkData = [];
 
     var current = new Date();     // get current date    
-    var weekstart = current.getDate() - current.getDay() +1;    
+    var weekstart = current.getUTCDate() - current.getUTCDay() +1;    
     var weekend = weekstart + 6;       // end day is the first day + 6 
     var monday = new Date(current.setDate(weekstart));  
     var sunday = new Date(current.setDate(weekend));
     // console.log(new Date(monday).getTime(),new Date(sunday).getTime())
     // console.log(monday.getFullYear()+"-"+monday.getMonth()+"-"+monday.getDate())
     // console.log(sunday.getFullYear()+"-"+sunday.getMonth()+"-"+sunday.getDate())
-    if(monday.getMonth().toString().length==1 && monday.getMonth()!=9)
+    if(monday.getUTCMonth().toString().length==1 && monday.getUTCMonth()!=9)
     {
-        var m1 = "0"+(monday.getMonth()+1);
+        var m1 = "0"+(monday.getUTCMonth()+1);
     }
-    if(sunday.getMonth().toString().length==1 && sunday.getMonth()!=9)
+    if(sunday.getUTCMonth().toString().length==1 && sunday.getUTCMonth()!=9)
     {
-        var m2 = "0"+(sunday.getMonth()+1);
+        var m2 = "0"+(sunday.getUTCMonth()+1);
     }
-    if(monday.getMonth()>=9)
+    if(monday.getUTCMonth()>=9)
     {
-        var m1 = (monday.getMonth()+1);
+        var m1 = (monday.getUTCMonth()+1);
     }
-    if(sunday.getMonth()>=9)
+    if(sunday.getUTCMonth()>=9)
     {
-        var m2 = (sunday.getMonth()+1);
+        var m2 = (sunday.getUTCMonth()+1);
     }
     
-    var date1  = monday.getFullYear()+"-"+m1+"-"+monday.getDate();
-    var date2 = sunday.getFullYear()+"-"+m2+"-"+sunday.getDate();
+    var date1  = monday.getUTCFullYear()+"-"+m1+"-"+monday.getUTCDate();
+    var date2 = sunday.getUTCFullYear()+"-"+m2+"-"+sunday.getUTCDate();
     var date1 = new Date(date1).getTime();
     var date2 = new Date(date2).getTime();
     // console.log(new Date(date1).getTime(),new Date(date2).getTime())
