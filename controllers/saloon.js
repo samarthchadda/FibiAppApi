@@ -304,7 +304,8 @@ exports.saloonRegister = (req,res,next)=>{
     const ownerId = +req.body.ownerId;
     const saloonName = req.body.saloonName;
     const phone = +req.body.phone;    
-    const landline = +req.body.landline;
+    let landline = +req.body.landline;
+    landline = landline.toString();
     const address = req.body.address;
     const latitude = req.body.latitude;
     const longitude = req.body.longitude;
@@ -626,7 +627,8 @@ exports.editSaloon=(req,res,next)=>{
     const saloonName = req.body.saloonName;
     const address = req.body.address;
     const phone = +req.body.phone;
-    const landline = +req.body.landline;
+    let landline = +req.body.landline;
+    landline = landline.toString();
     
    
     Saloon.findSaloonBySaloonID(JSON.parse(saloonId))
