@@ -241,18 +241,35 @@ exports.empCredentials = (req,res,next)=>{
                    .then(empData=>{
                        if(empData.length>0)
                        {
-                        return res.json({ message:'Email already exist',status:false});
-                       }
-                       clientDoc.email = email;
-                       clientDoc.password = password;
-                   
-                       const db = getDb();
-                       db.collection('employees').updateOne({empId:empId},{$set:clientDoc})
+                        if(empData[0].empId == empId)
+                        {
+                            clientDoc.email = email;
+                            clientDoc.password = password;
+                            const db = getDb();
+                            db.collection('employees').updateOne({empId:empId},{$set:clientDoc})
                                    .then(resultData=>{
                                        
-                                       res.json({message:'Details Updated',status:true,employee:clientDoc});
+                                       return res.json({message:'Details Updated',status:true,employee:clientDoc});
                                    })
                                    .catch(err=>console.log(err));
+                        }
+                        else{
+                        return res.json({ message:'Email already exist',status:false});
+                        }
+                       }
+                       else{
+                        clientDoc.email = email;
+                        clientDoc.password = password;
+                    
+                        const db = getDb();
+                        db.collection('employees').updateOne({empId:empId},{$set:clientDoc})
+                                    .then(resultData=>{
+                                        
+                                        return res.json({message:'Details Updated',status:true,employee:clientDoc});
+                                    })
+                                    .catch(err=>console.log(err));
+                       }
+                      
                                           
                       })
        
