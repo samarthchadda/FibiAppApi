@@ -472,10 +472,20 @@ exports.getDiffSaloon=(req,res,next)=>{
     {
         var m2 = (sunday.getUTCMonth()+1);
     }
+    if(monday.getUTCDate().toString().length == 1)
+    {
+        monday.getUTCDate().toString() = '0'+monday.getUTCDate().toString(); 
+    }
+
+    if(sunday.getUTCDate().toString().length == 1)
+    {
+        sunday.getUTCDate().toString() = '0'+sunday.getUTCDate().toString(); 
+    }
+    
     
     var date1  = monday.getUTCFullYear()+"-"+m1+"-"+monday.getUTCDate();
     var date2 = sunday.getUTCFullYear()+"-"+m2+"-"+sunday.getUTCDate();
-    var date1 = new Date('2021-02-08').getTime();
+    var date1 = new Date(date1).getTime();
     var date2 = new Date(date2).getTime();
     // console.log(new Date(date1).getTime(),new Date(date2).getTime())
     
