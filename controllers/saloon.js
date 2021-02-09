@@ -483,7 +483,8 @@ exports.getDiffSaloon=(req,res,next)=>{
     .then(saloons=>{
         
         saloons.forEach(saloon=>{
-           console.log(saloon.saloonId)
+        //    console.log(saloon.saloonId)
+        console.log(date1,date2);
             Availability.findAvailBySaloonIdAndDate(saloon.saloonId,date1,date2)
             .then(availData=>{
                 console.log(availData)
