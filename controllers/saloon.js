@@ -478,10 +478,16 @@ exports.getDiffSaloon=(req,res,next)=>{
     {
         onlyDate1 = '0'+monday.getUTCDate().toString(); 
     }
+    else{
+        onlyDate1 = monday.getUTCDate().toString();
+    }
 
     if(sunday.getUTCDate().toString().length == 1)
     {
         onlyDate2 = '0'+sunday.getUTCDate().toString(); 
+    }
+    else{
+        onlyDate2 = sunday.getUTCDate().toString(); 
     }
     
     
