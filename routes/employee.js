@@ -137,8 +137,7 @@ router.post('/post-employee',(req,res,next)=>{
 
 router.post('/edit-employee',(req,res,next)=>{
     upload1(req,res,function(err){
-        req.file.originalname = req.file.originalname.replace(/ /g, "");
-        req.file.filename = req.file.filename.replace(/ /g, "");
+   
         if(err)
         {
             return res.json({message:"Error Occured",error:err})
@@ -157,6 +156,8 @@ router.post('/edit-employee',(req,res,next)=>{
     
         if(empUrl==null||empUrl=="")
         {
+            req.file.originalname = req.file.originalname.replace(/ /g, "");
+            req.file.filename = req.file.filename.replace(/ /g, "");
                         
         const db = getDb();
         Employee.findEmployeeByEmpID(+empId)
