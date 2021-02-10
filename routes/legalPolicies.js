@@ -72,7 +72,7 @@ router.get('/download/:filename', function(req,res,next){
 router.get('/post-policies',(req,res,next)=>{
     const db = getDb();     
                                                             
-    const legalPolicies = new LegalPolicies(1,null,null,null,null,null,null,null,null,null,null);
+    const legalPolicies = new LegalPolicies(1,null,null,null,null,null,null,null,null,null,null,null,null);
     //saving in database
 
     return legalPolicies.save()
@@ -485,6 +485,86 @@ router.post('/edit-cookieClientOwnerEs',(req,res,next)=>{
     
                         
                 legalDoc.cookieClientOwnerEs =  {policyName:"Cookies Policy Client & Business Side-Spanish",filename:newClientImg,filepath:serverName+newClientImg};           
+                          
+               const db = getDb();
+               db.collection('legalPolicies').updateOne({id:id},{$set:legalDoc})
+                           .then(resultData=>{
+                               
+                               res.json({message:'Details Updated',status:true,legalPolicies:legalDoc});
+                           })
+                          .catch(err=>console.log(err));                                     
+    
+               }
+            })          
+    })
+})
+
+
+router.post('/edit-infoClientOwnerEng',(req,res,next)=>{
+    // console.log(req)
+ 
+    upload2(req,res,function(err){
+           req.file.originalname = req.file.originalname.replace(/ /g, "");
+    req.file.filename = req.file.filename.replace(/ /g, "");
+        if(err)
+        {
+            return res.json({message:"Error Occured",error:err})
+        }
+        // res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"https://fibiapp.herokuapp.com/api/download/"+req.file.filename })
+        const id = +req.body.id;
+        const newClientImg = req.file.filename;
+      
+        const db = getDb();
+        LegalPolicies.findlegalPolicyById(+id)
+        .then(legalDoc=>{        
+            if(!legalDoc)
+            {
+                 res.json({ message:'Policy does not exist',status:false});
+            }
+            else{
+    
+                        
+                legalDoc.infoClientOwnerEng =  {policyName:"Info Client & Business side - English",filename:newClientImg,filepath:serverName+newClientImg};           
+                          
+               const db = getDb();
+               db.collection('legalPolicies').updateOne({id:id},{$set:legalDoc})
+                           .then(resultData=>{
+                               
+                               res.json({message:'Details Updated',status:true,legalPolicies:legalDoc});
+                           })
+                          .catch(err=>console.log(err));                                     
+    
+               }
+            })          
+    })
+})
+
+
+router.post('/edit-infoClientOwnerEs',(req,res,next)=>{
+    // console.log(req)
+ 
+    upload2(req,res,function(err){
+           req.file.originalname = req.file.originalname.replace(/ /g, "");
+    req.file.filename = req.file.filename.replace(/ /g, "");
+        if(err)
+        {
+            return res.json({message:"Error Occured",error:err})
+        }
+        // res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"https://fibiapp.herokuapp.com/api/download/"+req.file.filename })
+        const id = +req.body.id;
+        const newClientImg = req.file.filename;
+      
+        const db = getDb();
+        LegalPolicies.findlegalPolicyById(+id)
+        .then(legalDoc=>{        
+            if(!legalDoc)
+            {
+                 res.json({ message:'Policy does not exist',status:false});
+            }
+            else{
+    
+                        
+                legalDoc.infoClientOwnerEs =  {policyName:"Info Client & Business side - Spanish",filename:newClientImg,filepath:serverName+newClientImg};           
                           
                const db = getDb();
                db.collection('legalPolicies').updateOne({id:id},{$set:legalDoc})
