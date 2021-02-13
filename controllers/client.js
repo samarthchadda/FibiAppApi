@@ -325,6 +325,57 @@ exports.clientFavSaloon=(req,res,next)=>{
 exports.getFavSaloons=(req,res,next)=>{
     
     const clientId = +req.params.clientId;
+
+    
+    var current = new Date();     // get current date    
+    var weekstart = current.getUTCDate() - current.getUTCDay() +1;    
+    var weekend = weekstart + 6;       // end day is the first day + 6 
+    var monday = new Date(current.setDate(weekstart));  
+    var sunday = new Date(current.setDate(weekend));
+    // console.log(new Date(monday).getTime(),new Date(sunday).getTime())
+    // console.log(monday.getFullYear()+"-"+monday.getMonth()+"-"+monday.getDate())
+    // console.log(sunday.getFullYear()+"-"+sunday.getMonth()+"-"+sunday.getDate())
+    if(monday.getUTCMonth().toString().length==1 && monday.getUTCMonth()!=9)
+    {
+        var m1 = "0"+(monday.getUTCMonth()+1);
+    }
+    if(sunday.getUTCMonth().toString().length==1 && sunday.getUTCMonth()!=9)
+    {
+        var m2 = "0"+(sunday.getUTCMonth()+1);
+    }
+    if(monday.getUTCMonth()>=9)
+    {
+        var m1 = (monday.getUTCMonth()+1);
+    }
+    if(sunday.getUTCMonth()>=9)
+    {
+        var m2 = (sunday.getUTCMonth()+1);
+    }
+    var onlyDate1 = '';
+    var onlyDate2 = '';
+    if(monday.getUTCDate().toString().length == 1)
+    {
+        onlyDate1 = '0'+monday.getUTCDate().toString(); 
+    }
+    else{
+        onlyDate1 = monday.getUTCDate().toString();
+    }
+
+    if(sunday.getUTCDate().toString().length == 1)
+    {
+        onlyDate2 = '0'+sunday.getUTCDate().toString(); 
+    }
+    else{
+        onlyDate2 = sunday.getUTCDate().toString(); 
+    }
+    
+    
+    var date1  = monday.getUTCFullYear()+"-"+m1+"-"+onlyDate1;
+    var date2 = sunday.getUTCFullYear()+"-"+m2+"-"+onlyDate2;
+    var date1 = new Date(date1).getTime();
+    var date2 = new Date(date2).getTime();
+    // console.log(new Date(date1).getTime(),new Date(date2).getTime())
+
    
     Client.findClientByClientId(JSON.parse(clientId))
                 .then(appoint=>{
@@ -339,12 +390,17 @@ exports.getFavSaloons=(req,res,next)=>{
                     appoint.favourites.forEach(fav=>{
                         Saloon.findSaloonBySaloonID(+fav)
                         .then(saloonData=>{
-                            saloonDataArr.push(saloonData)
-                            // console.log(saloonDataArr)
-                            if(saloonDataArr.length==appoint.favourites.length)
-                            {
-                                res.json({status:true, message:'Client exists',favourites:appoint.favourites,favSaloons:saloonDataArr});
-                            }
+                            Availability.findAvailBySaloonIdAndDate(saloonData.saloonId,date1,date2)
+                            .then(availData=>{
+                                // console.log("Avail Data : ",availData)
+                                saloonDataArr.push({...saloonData,availability:availData})
+                                // console.log(saloonDataArr)
+                                if(saloonDataArr.length==appoint.favourites.length)
+                                {
+                                    res.json({status:true, message:'Client exists',favourites:appoint.favourites,favSaloons:saloonDataArr});
+                                }
+                            })
+                           
                         })                      
 
                     })
