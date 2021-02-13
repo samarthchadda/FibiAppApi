@@ -3,6 +3,8 @@ const Client = require('../models/client');
 
 const Saloon = require('../models/saloon');
 
+const Availability = require('../models/availability');
+
 const getDb = require('../util/database').getDB; 
 
 
