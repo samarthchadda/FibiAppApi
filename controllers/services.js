@@ -1,5 +1,6 @@
 const Service = require('../models/services');
 const Saloon = require('../models/saloon');
+const Employee = require('../models/employee');
 const getDb = require('../util/database').getDB; 
 
 
@@ -166,11 +167,41 @@ exports.delService=(req,res,next)=>{
                         const db = getDb();
                         db.collection('services').deleteOne({serviceId:serviceId})
                                     .then(resultData=>{
+                                        Employee.fetchAllEmployees()
+                                        .then(empData=>{
+                                            if(empData.length >= 0)
+                                            {
+                                                empData.forEach(emp=>{
+                                                    // console.log(emp.empName)
+                                                    emp.empServices.forEach(empServ=>{
+                                                        // console.log(empServ)
+                                                        if(empServ.toString() == serviceId.toString())
+                                                        {
+                                                            console.log("Service Exist", emp.empId);
+                                                            const index = emp.empServices.indexOf(empServ);
+                                                            if(index > -1)
+                                                            {
+                                                                emp.empServices.splice(index,1);
+                                                            }
+                                                            console.log(emp.empServices);
+                                                            //updating employee
+                                                             const db = getDb();
+                                                             db.collection('employees').updateOne({empId:emp.empId},{$set:emp})
+                                                                         .then(resultData=>{
+                                                                             console.log("Employee Updated")
+                                                                         })
+
+                                                        }
+                                                    })
+                                                })
+                                            }
+                                        })
+                                        setTimeout(()=>{
+                                            res.json({message:'Service Deleted',status:true});
+                                        },1500)
                                         
-                                        res.json({message:'Service Deleted',status:true});
                                     })
                                     .catch(err=>console.log(err));
                     })
 }
-
 
