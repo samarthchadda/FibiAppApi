@@ -88,6 +88,8 @@ router.get('/post-policies',(req,res,next)=>{
 router.get('/get-all-policies',(req,res,next)=>{
     LegalPolicies.fetchAllPolicies()
     .then(legalData=>{
+        var stream = fs.readFileSync('http://160.153.254.97:8000/api/download/7ea56442-6d44-11eb-8b25-0cc47a792c0a_id_7ea56442-6d44-11eb-8b25-0cc47a792c0a.html','utf8');
+        console.log(stream)
         res.json({status:true,policies:legalData})
     })
 })
