@@ -85,15 +85,42 @@ router.get('/post-policies',(req,res,next)=>{
 
 })
 
+
 router.get('/get-all-policies',(req,res,next)=>{
     LegalPolicies.fetchAllPolicies()
-    .then(legalData=>{
-        var stream = fs.readFileSync('http://160.153.254.97:8000/api/download/7ea56442-6d44-11eb-8b25-0cc47a792c0a_id_7ea56442-6d44-11eb-8b25-0cc47a792c0a.html','utf8');
-        console.log(stream)
+    .then(legalData=>{ 
+
+        if(legalData[0].infoClientOwnerEng!==null)
+        {
+            if(legalData[0].infoClientOwnerEng.filepath != null)
+            {
+                var filepath = path.join(__dirname,'../newFileUploads') +'/'+ legalData[0].infoClientOwnerEng.filename;
+                var stream = fs.readFileSync(filepath,'utf8');
+                stream = stream.replace(/\r\n/g, "")
+                stream = stream.replace(/\"/g, "'")
+                legalData[0].infoClientOwnerEng = {...legalData[0].infoClientOwnerEng,content:stream};
+                // console.log(legalData)
+            }
+        }
+        
+        if(legalData[0].infoClientOwnerEs!==null)
+        {
+            if(legalData[0].infoClientOwnerEs.filepath != null)
+            {
+                var filepath = path.join(__dirname,'../newFileUploads') +'/'+ legalData[0].infoClientOwnerEs.filename;
+                var stream = fs.readFileSync(filepath,'utf8');
+                stream = stream.replace(/\r\n/g, "")
+                stream = stream.replace(/\"/g, "'")
+                legalData[0].infoClientOwnerEs = {...legalData[0].infoClientOwnerEs,content:stream};
+                // console.log(legalData)
+            }
+        }
+
+        
+    // console.log(stream)
         res.json({status:true,policies:legalData})
     })
 })
-
 
 router.post('/edit-privacyPolicyClientOwnerEng',(req,res,next)=>{
     // console.log(req)
