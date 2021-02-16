@@ -202,3 +202,51 @@ exports.delNotification=(req,res,next)=>{
 }
 
 
+
+var request = require('request');
+
+exports.sendPushNotification = (req,res,next)=>{
+    let content = req.body.content;
+    let playerId = req.body.playerId;
+
+    var myJSONObject = {
+        "app_id": "fec0b1c3-f072-4b70-9048-f79388e01968",
+        "include_player_ids": [],
+        "data": {"foo": "Title101"},
+        "contents": {"en": "APPOINTMENT CANCELLED\nEmployee Deleted"}
+      };
+      myJSONObject["contents"] = {"en":content};
+      console.log(myJSONObject["contents"]);
+   myJSONObject["include_player_ids"]=[playerId];
+   request({
+       url: "https://onesignal.com/api/v1/notifications",
+       method: "POST",
+       json: true,   // <--Very important!!!
+       body: myJSONObject,
+       headers:{
+           'Content-Type': 'application/json',
+          'Authorization': 'Basic NjQzMjNjYzktYmI2OC00YWMxLWJmMTgtYjQ1NjYzYzViOTZl'
+       }
+   }, function (error, response, body){
+       if(response)
+       {
+        //    console.log(response);
+           return res.json({message:"Notification sent sucessfully",status:true})
+       }
+     
+       if(error)
+       {
+        //    console.log(error)
+           return res.json({message:"Notification not sent", err:error,status:false})
+       }
+       if(body)
+       {
+        //    console.log(body)
+           return res.json({message:"Notification sent sucessfully",status:true})
+       }
+      
+       
+   });
+  
+
+}

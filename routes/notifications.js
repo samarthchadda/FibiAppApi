@@ -17,6 +17,7 @@ router.post('/post-saloon-notification',notiController.postSaloonNotiData);
 
 router.get('/del-notification/:notificationId',notiController.delNotification);
 
+router.post('/send-push-notification',notiController.sendPushNotification);
 
 
 module.exports = router;
