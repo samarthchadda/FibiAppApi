@@ -514,7 +514,7 @@ exports.getDiffSaloon=(req,res,next)=>{
                 var distance = point1.distanceTo(point2, true)//output in kilometers
                 // console.log(distance);
     
-                if(saloon.isVerified.toString() != 2)
+                if(+saloon.isVerified != 2)
                 {
                     var newSaloon = {...saloon,distance:distance,availability:availData};
                     checkData.push(newSaloon);
