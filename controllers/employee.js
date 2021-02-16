@@ -168,9 +168,9 @@ exports.delEmployee=(req,res,next)=>{
                                             }
                                         }, function (error, response, body){
                                             console.log(response.body);
-                                            if(err)
+                                            if(error)
                                             {
-                                                console.log(err)
+                                                console.log(error)
                                             }
                                            
                                             
