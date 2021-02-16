@@ -485,12 +485,12 @@ exports.getDiffSaloon=(req,res,next)=>{
         onlyDate1 = weekstart.toString();
     }
 
-    if(sunday.getUTCDate().toString().length == 1)
+    if(weekend.toString().length == 1)
     {
-        onlyDate2 = '0'+sunday.getUTCDate().toString(); 
+        onlyDate2 = '0'+weekend.toString(); 
     }
     else{
-        onlyDate2 = sunday.getUTCDate().toString(); 
+        onlyDate2 = weekend.toString(); 
     }
     
     
