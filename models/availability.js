@@ -95,7 +95,7 @@ class Availability
     {
         const db = getDb();
                             
-        return db.collection('availabilities').findOne({ saloonId:id ,startDate:{$lte:sDate},endDate:eDate})
+        return db.collection('availabilities').findOne({ saloonId:id ,endDate:eDate})
                                             .then(avail=>{
                                                                                                 
                                                 return avail;  
