@@ -429,6 +429,7 @@ exports.changeSubscription=(req,res,next)=>{
     const customerId = req.body.customerId;
     const priceId = req.body.priceId;
     const card = req.body.card;
+    const count = +req.body.count;
     if(req.body.subscriptionId!=null)
     {
         stripe.subscriptions.del(req.body.subscriptionId,function(err,subscription){
@@ -498,6 +499,7 @@ exports.changeSubscription=(req,res,next)=>{
                                                     console.log("Saloon Data:",saloon)
                                                     // subscription = {...subscription,saloonId:saloonId};
                                                     saloon.subscription.subscribedData = subscription;
+                                                    saloon.empCount = +count;
                                                     const db = getDb();
                                                     db.collection('saloons').updateOne({saloonId:saloon.saloonId},{$set:saloon})
                                                                 .then(resultData=>{
