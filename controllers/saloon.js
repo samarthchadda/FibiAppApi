@@ -451,6 +451,7 @@ exports.getDiffSaloon=(req,res,next)=>{
 
     var current = new Date();     // get current date    
     var weekstart = current.getUTCDate() - current.getUTCDay() +1;    
+    console.log(weekstart)
     var weekend = weekstart + 6;       // end day is the first day + 6 
     var monday = new Date(current.setDate(weekstart));  
     var sunday = new Date(current.setDate(weekend));
