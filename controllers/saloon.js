@@ -454,7 +454,7 @@ exports.getDiffSaloon=(req,res,next)=>{
     console.log(weekstart)
     var weekend = weekstart + 6;       // end day is the first day + 6 
     var monday = new Date(current.setDate(weekstart));  
-    console.log("Monday:",monday)
+    // console.log("Monday:",monday)
     var sunday = new Date(current.setDate(weekend));
     // console.log(new Date(monday).getTime(),new Date(sunday).getTime())
     // console.log(monday.getFullYear()+"-"+monday.getMonth()+"-"+monday.getDate())
@@ -477,12 +477,12 @@ exports.getDiffSaloon=(req,res,next)=>{
     }
     var onlyDate1 = '';
     var onlyDate2 = '';
-    if(monday.getUTCDate().toString().length == 1)
+    if(weekstart.toString().length == 1)
     {
-        onlyDate1 = '0'+monday.getUTCDate().toString(); 
+        onlyDate1 = '0'+weekstart.toString(); 
     }
     else{
-        onlyDate1 = monday.getUTCDate().toString();
+        onlyDate1 = weekstart.toString();
     }
 
     if(sunday.getUTCDate().toString().length == 1)
