@@ -514,14 +514,17 @@ exports.getDiffSaloon=(req,res,next)=>{
                 var distance = point1.distanceTo(point2, true)//output in kilometers
                 // console.log(distance);
     
-                var newSaloon = {...saloon,distance:distance,availability:availData};
-                checkData.push(newSaloon);
-                if(distance<=range)
+                if(saloon.isVerified.toString() != 2)
                 {
-                 newSaloons.push(newSaloon);
-                 console.log(newSaloons.length)
+                    var newSaloon = {...saloon,distance:distance,availability:availData};
+                    checkData.push(newSaloon);
+                    if(distance<=range)
+                    {
+                     newSaloons.push(newSaloon);
+                     console.log(newSaloons.length)
+                    }    
                 }
-
+             
                 if(saloons.length == checkData.length)
                 {
                      newSaloons.sort((a, b) => {
