@@ -454,6 +454,7 @@ exports.getDiffSaloon=(req,res,next)=>{
     console.log(weekstart)
     var weekend = weekstart + 6;       // end day is the first day + 6 
     var monday = new Date(current.setDate(weekstart));  
+    console.log("Monday:",monday)
     var sunday = new Date(current.setDate(weekend));
     // console.log(new Date(monday).getTime(),new Date(sunday).getTime())
     // console.log(monday.getFullYear()+"-"+monday.getMonth()+"-"+monday.getDate())
