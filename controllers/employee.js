@@ -167,7 +167,12 @@ exports.delEmployee=(req,res,next)=>{
                                                'Authorization': 'Basic NjQzMjNjYzktYmI2OC00YWMxLWJmMTgtYjQ1NjYzYzViOTZl'
                                             }
                                         }, function (error, response, body){
-                                            // console.log(response.body);
+                                            console.log(response.body);
+                                            if(err)
+                                            {
+                                                console.log(err)
+                                            }
+                                           
                                             
                                         });
                                         // console.log(clientsData)
