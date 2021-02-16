@@ -513,7 +513,7 @@ exports.getDiffSaloon=(req,res,next)=>{
                 var point2 = new GeoPoint(saloon.latitude,saloon.longitude);
                 var distance = point1.distanceTo(point2, true)//output in kilometers
                 // console.log(distance);
-    
+                console.log(+saloon.isVerified);
                 if(+saloon.isVerified != 2)
                 {
                     var newSaloon = {...saloon,distance:distance,availability:availData};
