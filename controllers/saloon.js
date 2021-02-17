@@ -311,6 +311,7 @@ exports.saloonRegister = (req,res,next)=>{
     const longitude = req.body.longitude;
     const deviceToken = req.body.deviceToken;
     const regDate = new Date().getTime();
+    const ownerEmail = req.body.ownerEmail;
     var subscription = {customerId:'',subscribedData:null};
         
     var param = {};
@@ -350,8 +351,9 @@ exports.saloonRegister = (req,res,next)=>{
                                               
                                     param.description = req.body.address;
                                     param.name = req.body.saloonName;
-                                    param.email = saloonID+"@gmail.com"
-                                    
+                                    // param.email = saloonID+"@gmail.com"
+                                    param.email = ownerEmail;
+                                                                        
                                     stripe.customers.create(param,function(err,customer){
                                         if(err){
                                             //   console.log("Error Occured : ",err);
