@@ -482,7 +482,7 @@ exports.changeSubscription=(req,res,next)=>{
                                         console.log(cust.id)
                                         stripe.subscriptions.create({customer: customerId,
                                         items: [
-                                          {price: priceId},
+                                          {price: priceId,tax_rates:'txr_1ILTM6EEiYQYyt5Loh63cstX'},
                                         ]},function(err,subscription){
                                             if(err){
                                               //   console.log("Error Occured : ",err);
@@ -552,7 +552,7 @@ exports.changeSubscription=(req,res,next)=>{
     {
         stripe.subscriptions.create({customer: customerId,
             items: [
-              {price: priceId},
+              {price: priceId,tax_rates:'txr_1ILTM6EEiYQYyt5Loh63cstX'},
             ]},function(err,subscription){
                 if(err){
                   //   console.log("Error Occured : ",err);
