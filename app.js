@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const bodyParser = require('body-parser');
 const mongoConnect = require('./util/database').mongoConnect;
 require('dotenv').config({path: __dirname + '/.env'})
@@ -46,6 +47,15 @@ app.use((req,res,next)=>{
 app.get('/',(req,res)=>{
     res.json({message:"deploy api"});
 });
+
+// serve static folder (admin-panel)
+app.use(express.static("dist/FibiAppAdmin"));
+
+// show admin panel (built react app)
+app.get("/admin*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "dist", "FibiAppAdmin", "index.html"));
+});
+
 app.use('/api',ownerRoutes);
 app.use('/api',saloonRoutes);
 app.use('/api',servicesRoutes);
