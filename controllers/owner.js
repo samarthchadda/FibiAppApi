@@ -357,7 +357,7 @@ exports.createSubscription=(req,res,next)=>{
                                     console.log(cust.id)
                                     stripe.subscriptions.create({customer: customerId,
                                     items: [
-                                      {price: priceId},
+                                      {price: priceId,tax_rates:'txr_1IEuIGEEiYQYyt5L2KmMDezA'},
                                     ]},function(err,subscription){
                                         if(err){
                                           //   console.log("Error Occured : ",err);
