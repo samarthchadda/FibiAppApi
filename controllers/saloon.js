@@ -352,7 +352,9 @@ exports.saloonRegister = (req,res,next)=>{
                                     param.description = req.body.address;
                                     param.name = req.body.saloonName;
                                     // param.email = saloonID+"@gmail.com"
-                                    param.email = ownerEmail;
+                                    param.email = saloonName;
+                                    param.email = param.email.replace(/ /g, "");
+                                    param.email = param.email +saloonID+"@gmail.com";
                                                                         
                                     stripe.customers.create(param,function(err,customer){
                                         if(err){
