@@ -661,7 +661,7 @@ exports.getMonthGraphPerSaloon=(req,res,next)=>{
         {     
           
              revenues.sort((a, b) => {
-                return b.key - a.key;
+                return a.key - b.key;
             });
             res.json({ message:'All data returned',revenues:revenues});
             console.log("month");  
