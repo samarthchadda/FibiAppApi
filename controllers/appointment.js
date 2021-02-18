@@ -740,7 +740,7 @@ exports.getMonthGraphPerEmp=(req,res,next)=>{
         if(dates.length == revenues.length)
         {            
             revenues.sort((a, b) => {
-                return a.key - ab.key;
+                return a.key - b.key;
             });
             res.json({ message:'All data returned',revenues:revenues});
             revenues = [];
