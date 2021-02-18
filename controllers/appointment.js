@@ -632,7 +632,7 @@ exports.getMonthGraphPerSaloon=(req,res,next)=>{
 
         Appointment.saloonWeekRevenue(saloonId,startDate,endDate)
         .then(appoints=>{         
-            var revenueObj = {totalApp:0,totalAmt:0,totalServices:0,avgRevenue:0,avgAppointments:0,month:+d.month,srtDate:d.srtDate,endDate:d.endDate};
+            var revenueObj = {totalApp:0,totalAmt:0,totalServices:0,avgRevenue:0,avgAppointments:0,month:+d.month,srtDate:d.srtDate,endDate:d.endDate,key:d.key};
             console.log(appoints.length);
             if(appoints.length==0)
             {               
