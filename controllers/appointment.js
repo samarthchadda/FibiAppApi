@@ -912,7 +912,7 @@ exports.currentAppoints = (req,res,next)=>{
 
     //current Date
     var currDate = new Date();
-    var currDate1 = new Date('2021-02-08').getTime();
+    var currDate1 = new Date('2021-02-18').getTime();
     console.log(currDate1);
 
     var currMinutes = (''+currDate.getUTCHours()+':'+currDate.getUTCMinutes()).toString();
