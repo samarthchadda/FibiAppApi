@@ -44,16 +44,17 @@ app.use((req,res,next)=>{
     next();  //so that request continues to next middleware
 });
 
-app.get('/',(req,res)=>{
-    res.json({message:"deploy api"});
-});
-
 // serve static folder (admin-panel)
 app.use(express.static("dist/FibiAppAdmin"));
 
 // show admin panel (built react app)
 app.get("/admin*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "dist", "FibiAppAdmin", "index.html"));
+});
+
+
+app.get('/',(req,res)=>{
+    res.json({message:"deploy api"});
 });
 
 app.use('/api',ownerRoutes);
