@@ -96,7 +96,7 @@ router.get('/get-all-policies',(req,res,next)=>{
             {
                 var filepath = path.join(__dirname,'../newFileUploads') +'/'+ legalData[0].infoClientOwnerEng.filename;
                 var stream = fs.readFileSync(filepath,'utf8');
-                stream = stream.replace(/\r\n/g, "")
+                stream = stream.replace(/>\n/g, "")
                 stream = stream.replace(/\"/g, "'")
                 legalData[0].infoClientOwnerEng = {...legalData[0].infoClientOwnerEng,content:stream};
                 // console.log(legalData)
