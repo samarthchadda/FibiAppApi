@@ -356,7 +356,7 @@ exports.saloonRegister = (req,res,next)=>{
                                     param.email = param.email.replace(/ /g, "");
                                     param.email = param.email +saloonID+"@gmail.com";
 
-                                    param.address = address;
+                                    param.address.city = address;
                                     param.phone = phone;
                                                                         
                                     stripe.customers.create(param,function(err,customer){
