@@ -33,8 +33,12 @@ exports.postAppointment = (req,res,next)=>{
 
     Appointment.findCurrentAppointBySaloonIdAndClientPhone(saloonId,clientId,bookingDate)
     .then(appointData=>{
-        if(appointData.length!=0){                        
-            return res.json({status:false, message:'Appointment Already Exists for this saloon'});
+        if(appointData.length!=0){                 
+            if(appointData[0].bookingDate >= bookingDate)
+            {
+                return res.json({status:false, message:'Appointment Already Exists for this saloon'});
+            }       
+           
         }
 
         let newVal;
