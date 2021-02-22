@@ -31,9 +31,23 @@ exports.postAppointment = (req,res,next)=>{
         }
         else{
 
-             var currDate = new Date();
-             console.log(currDate.getTime());
-    Appointment.findCurrentAppointBySaloonIdAndClientPhone(saloonId,clientId,)
+            var currDate = new Date();
+            var date = currDate.getUTCDate();
+            var month = currDate.getUTCMonth();
+            var year = currDate.getUTCFullYear();
+            var m = month;
+            var d = date;
+            if(month.toString().length == 1)
+            {
+                m = '0'+m;
+            }
+               if(date.toString().length == 1)
+            {
+                d = '0'+d;
+            }
+            console.log(year,m,d)           
+            var currMinutes = new Date(year+'-'+m+'-'+d).getTime();
+    Appointment.findCurrentAppointBySaloonIdAndClientPhone(saloonId,clientId,currMinutes)
     .then(appointData=>{
         if(appointData.length!=0){                        
             return res.json({status:false, message:'Appointment Already Exists for this saloon'});
