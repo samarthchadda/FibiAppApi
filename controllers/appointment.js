@@ -1,7 +1,6 @@
 const Appointment = require('../models/appointment');
 const getDb = require('../util/database').getDB; 
 
-
 exports.postAppointment = (req,res,next)=>{  
 
     let appointId;
@@ -34,6 +33,7 @@ exports.postAppointment = (req,res,next)=>{
             var currDate = new Date();
             var date = currDate.getUTCDate();
             var month = currDate.getUTCMonth();
+            month = month + 1;
             var year = currDate.getUTCFullYear();
             var m = month;
             var d = date;
@@ -45,12 +45,36 @@ exports.postAppointment = (req,res,next)=>{
             {
                 d = '0'+d;
             }
-            console.log(year,m,d)           
-            var currMinutes = new Date(year+'-'+m+'-'+d).getTime();
-    Appointment.findCurrentAppointBySaloonIdAndClientPhone(saloonId,clientId,currMinutes)
+            console.log(year+'-'+m+'-'+d);           
+            var currentDate = new Date(year+'-'+m+'-'+d).getTime();
+            console.log("Current Date : ",currentDate);
+            var currMinutes = (''+currDate.getUTCHours()+':'+currDate.getUTCMinutes()).toString();
+            currMinutes = currMinutes.split(":");
+            currMinutes = Number(currMinutes[0]) * 60 + Number(currMinutes[1]);
+            console.log("Curr MInutes : "+currMinutes);
+
+    Appointment.findCurrentAppointBySaloonIdAndClientPhone(saloonId,clientId,currentDate)
     .then(appointData=>{
-        if(appointData.length!=0){                        
-            // return res.json({status:false, message:'Appointment Already Exists for this saloon'});
+        if(appointData.length!=0){                  
+            console.log(appointData[0].appointmentId);
+            var bookingTImeMin =  appointData[0].bookingTime.srtTime.split(":");
+            bookingTImeMin = Number(bookingTImeMin[0]) * 60 + Number(bookingTImeMin[1]);
+            console.log("Booking Time:",bookingTImeMin);
+            console.log("currentDate:",currentDate," Booking Date : ",appointData[0].bookingDate)
+            if(appointData[0].bookingDate == currentDate)
+            {
+                console.log("Same Date")
+                if(bookingTImeMin >= currMinutes)
+                {
+                    console.log("Same Date , Greater Booking Time")
+                    return res.json({status:false, message:'Appointment Already Exists for this saloon'});
+                }
+            }
+            else{
+                console.log("Different Date")
+                return res.json({status:false, message:'Appointment Already Exists for this saloon'});
+            }
+           
         }
 
         let newVal;
@@ -92,6 +116,7 @@ exports.postAppointment = (req,res,next)=>{
         }
 })
 }
+
 
 
 exports.getAllAppointments=(req,res,next)=>{
