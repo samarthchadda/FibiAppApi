@@ -29,6 +29,7 @@ exports.postAppointment = (req,res,next)=>{
         if(appointDoc.length!=0){                        
             return res.json({status:false, message:'Appointment Already Exists'});
         }
+        else{
 
     Appointment.findCurrentAppointBySaloonIdAndClientPhone(saloonId,clientId,bookingDate)
     .then(appointData=>{
@@ -72,7 +73,7 @@ exports.postAppointment = (req,res,next)=>{
       
     })
     .catch(err=>console.log(err));       
-
+        }
 })
 }
 
