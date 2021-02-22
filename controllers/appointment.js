@@ -31,14 +31,12 @@ exports.postAppointment = (req,res,next)=>{
         }
         else{
 
-    Appointment.findCurrentAppointBySaloonIdAndClientPhone(saloonId,clientId,bookingDate)
+             var currDate = new Date();
+             console.log(currDate.getTime());
+    Appointment.findCurrentAppointBySaloonIdAndClientPhone(saloonId,clientId,)
     .then(appointData=>{
-        if(appointData.length!=0){                 
-            if(appointData[0].bookingDate >= bookingDate)
-            {
-                return res.json({status:false, message:'Appointment Already Exists for this saloon'});
-            }       
-           
+        if(appointData.length!=0){                        
+            return res.json({status:false, message:'Appointment Already Exists for this saloon'});
         }
 
         let newVal;
