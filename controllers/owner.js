@@ -983,8 +983,15 @@ exports.editOwner=(req,res,next)=>{
                  }
                 
                  if(email!=null)
-                 {                   
-                    ownerDoc.email = email;
+                 {                 
+                    Owner.findOwnerByEmail(email)
+                    .then(userDoc=>{
+                        if(userDoc){                        
+                            return res.json({status:false, message:'Email Already Exists',owner:userDoc});
+                        }  
+                        ownerDoc.email = email;
+                    })  
+                  
                    
                  }
                  else if(ownerName!=null)
@@ -993,7 +1000,13 @@ exports.editOwner=(req,res,next)=>{
                  }
                  else if(phone!=null)
                  {
+                    Owner.findOwnerByPhone(phone)
+                    .then(userDoc=>{
+                        if(userDoc){                        
+                            return res.json({status:false, message:'Phone Already Exists',owner:userDoc});
+                        }  
                     ownerDoc.phone = phone;
+                    })
                  }
 
                  const db = getDb();
