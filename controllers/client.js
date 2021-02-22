@@ -436,6 +436,12 @@ exports.editClientDetails=(req,res,next)=>{
                                 return res.json({status:false, message:'Phone Already Exists'});
                             }
 
+                            Client.findClientByEmail(email)
+                            .then(client=>{
+                                if(client){                        
+                                    return res.json({status:false, message:'Email Already Exists'});
+                                }
+
                             clientDoc.clientName = clientName;
                             clientDoc.email = email;
                             clientDoc.phone = phone;
@@ -448,6 +454,10 @@ exports.editClientDetails=(req,res,next)=>{
                                         })
                                         .catch(err=>console.log(err));
                         })
+
+                            })
+
+                            
                 
              })
 }
@@ -468,12 +478,12 @@ exports.editClientEmail=(req,res,next)=>{
                      return res.json({ message:'Client does not exist',status:false});
                  }              
 
-                //  Client.findClientByEmail(email)
-                //  .then(client=>{
-                //      if(client)
-                //      {
-                //          return res.json({ message:'Email already exists',status:false});
-                //      }
+                 Client.findClientByEmail(email)
+                 .then(client=>{
+                     if(client)
+                     {
+                         return res.json({ message:'Email already exists',status:false});
+                     }
                      
                      clientDoc.email = email;
                  
@@ -484,7 +494,7 @@ exports.editClientEmail=(req,res,next)=>{
                                      res.json({message:'Details Updated',status:true,client:clientDoc});
                                  })
                                  .catch(err=>console.log(err));
-                    // })                
+                    })                
              })
 }
 
