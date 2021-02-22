@@ -98,11 +98,11 @@ class Appointment
                                             .catch(err=>console.log(err));
     }
 
-    static findCurrentAppointBySaloonIdAndClientPhone(sid,cid,cDate)
+    static findCurrentAppointBySaloonIdAndClientPhone(sid,cid,cDate,srtTime,endTime)
     {
         const db = getDb();
                             
-        return db.collection('appointments').find({ saloonId:sid,clientId:cid,bookingDate:{$gte:cDate} }).toArray()
+        return db.collection('appointments').find({ saloonId:sid,clientId:cid,bookingDate:{$gte:cDate},'bookingTime.srtTime':srtTime,'bookingTime.endTime':endTime }).toArray()
                                             .then(appointDetail=>{
                                                                                                 
                                                 return appointDetail;  

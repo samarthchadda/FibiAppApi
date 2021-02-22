@@ -47,7 +47,7 @@ exports.postAppointment = (req,res,next)=>{
             }
             console.log(year,m,d)           
             var currMinutes = new Date(year+'-'+m+'-'+d).getTime();
-    Appointment.findCurrentAppointBySaloonIdAndClientPhone(saloonId,clientId,currMinutes)
+    Appointment.findCurrentAppointBySaloonIdAndClientPhone(saloonId,clientId,currMinutes,bookingTime.srtTime,bookingTime.endTime)
     .then(appointData=>{
         if(appointData.length!=0){                        
             return res.json({status:false, message:'Appointment Already Exists for this saloon'});
