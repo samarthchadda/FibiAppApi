@@ -98,6 +98,18 @@ class Appointment
                                             .catch(err=>console.log(err));
     }
 
+    static findCurrentAppointBySaloonIdAndClientPhone(sid,cid,cDate)
+    {
+        const db = getDb();
+                            
+        return db.collection('appointments').find({ saloonId:sid,clientId:cid,bookingDate:{$gte:cDate} }).toArray()
+                                            .then(appointDetail=>{
+                                                                                                
+                                                return appointDetail;  
+                                            })
+                                            .catch(err=>console.log(err));
+    }
+
     static findAppointsByClientPhone(phone)
     {
         const db = getDb();

@@ -30,6 +30,12 @@ exports.postAppointment = (req,res,next)=>{
             return res.json({status:false, message:'Appointment Already Exists'});
         }
 
+    Appointment.findCurrentAppointBySaloonIdAndClientPhone(saloonId,clientId,bookingDate)
+    .then(appointDoc=>{
+        if(appointDoc.length!=0){                        
+            return res.json({status:false, message:'Appointment Already Exists for this saloon'});
+        }
+
         let newVal;
         const db = getDb();     
         db.collection('appCounter').find().toArray().then(data=>{
@@ -66,6 +72,8 @@ exports.postAppointment = (req,res,next)=>{
       
     })
     .catch(err=>console.log(err));       
+
+})
 }
 
 
