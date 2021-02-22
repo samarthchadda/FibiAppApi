@@ -652,11 +652,11 @@ exports.editSaloon=(req,res,next)=>{
                      return res.json({ message:'Saloon does not exist',status:false});
                  }
 
-                 Saloon.findSaloonByPhone(phone)
-                 .then(saloonDoc=>{
-                     if(saloonDoc){                        
-                         return res.json({status:false, message:'Phone Already Exists',saloon:saloonDoc});
-                     }
+                //  Saloon.findSaloonByPhone(phone)
+                //  .then(saloonDoc=>{
+                //      if(saloonDoc){                        
+                //          return res.json({status:false, message:'Phone Already Exists',saloon:saloonDoc});
+                //      }
                      
                  saloonDoc.saloonName = saloonName;
                  saloonDoc.address = address;
@@ -673,7 +673,7 @@ exports.editSaloon=(req,res,next)=>{
                              .catch(err=>console.log(err));
              })
 
-                    })
+                    // })
                 
 
 }
