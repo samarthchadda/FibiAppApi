@@ -502,7 +502,7 @@ exports.getDiffSaloon=(req,res,next)=>{
     
     var date1  = monday.getUTCFullYear()+"-"+m1+"-"+onlyDate1;
     var date2 = sunday.getUTCFullYear()+"-"+m2+"-"+onlyDate2;
-    console.log(date1,date2)
+    console.log("Date :",date1,date2)
     var date1 = new Date(date1).getTime();
     var date2 = new Date(date2).getTime();
     // console.log(new Date(date1).getTime(),new Date(date2).getTime())
