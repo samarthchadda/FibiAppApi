@@ -427,7 +427,7 @@ exports.getMonthRevenuePerSaloon=(req,res,next)=>{
     endDate = new Date(endDate).getTime();
     console.log(endDate);   
     
-    Appointment.findAppointBySaloonIdAndDate(saloonId,startDate)
+    Appointment.saloonWeekRevenue(saloonId,startDate,endDate)
                 .then(appoints=>{
                     var revenueObj = {totalApp:0,totalAmt:0,totalServices:0,avgRevenue:0,avgAppointments:0};   
 
@@ -442,10 +442,25 @@ exports.getMonthRevenuePerSaloon=(req,res,next)=>{
                         revenueObj.totalServices = revenueObj.totalServices + app.serviceId.length;
                     })
 
-                    revenueObj.avgRevenue = revenueObj.totalAmt / revenueObj.totalApp;
-                    revenueObj.avgAppointments = revenueObj.totalServices / revenueObj.totalApp;
-                    
-                    res.json({ message:'Appointment Exists',revenue:revenueObj});
+                    Appointment.findAppointBySaloonIdAndDate(saloonId,endDate)
+                    .then(avgData=>{
+                        if(avgData.length==0)
+                        {
+                            return res.json({ message:'Appointment not exist',revenue:revenueObj});
+                        } 
+                        var revenueObj1 = {totalApp:0,totalAmt:0,totalServices:0};  
+                        apps.forEach(app=>{
+                            revenueObj1.totalApp = revenueObj1.totalApp + 1;
+                            revenueObj1.totalAmt = revenueObj1.totalAmt + app.totalCost;
+                            revenueObj1.totalServices = revenueObj1.totalServices + app.serviceId.length;
+                        })
+                        revenueObj.avgRevenue = revenueObj1.totalAmt / revenueObj1.totalApp;
+                        revenueObj.avgAppointments = revenueObj1.totalServices / revenueObj1.totalApp;
+                        
+                        res.json({ message:'Appointment Exists',revenue:revenueObj});
+                    })
+
+                  
                 })
 }
 
