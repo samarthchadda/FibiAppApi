@@ -427,7 +427,7 @@ exports.getMonthRevenuePerSaloon=(req,res,next)=>{
     endDate = new Date(endDate).getTime();
     console.log(endDate);   
     
-    Appointment.saloonWeekRevenue(saloonId,startDate,endDate)
+    Appointment.findAppointBySaloonIdAndDate(saloonId,startDate)
                 .then(appoints=>{
                     var revenueObj = {totalApp:0,totalAmt:0,totalServices:0,avgRevenue:0,avgAppointments:0};   
 
