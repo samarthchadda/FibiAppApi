@@ -456,8 +456,10 @@ exports.getMonthRevenuePerSaloon=(req,res,next)=>{
                         })
                         revenueObj.avgRevenue = revenueObj1.totalAmt / revenueObj1.totalApp;
                         revenueObj.avgAppointments = revenueObj1.totalServices / revenueObj1.totalApp;
-                        
-                        res.json({ message:'Appointment Exists',revenue:revenueObj});
+                        setTimeout(()=>{
+                            res.json({ message:'Appointment Exists',revenue:revenueObj});
+                        },1500);
+                      
                     })
 
                   
