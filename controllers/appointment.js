@@ -450,7 +450,7 @@ exports.getMonthRevenuePerSaloon=(req,res,next)=>{
                     setTimeout(()=>{
                     if(appoints.length==0)
                     {
-                        console.log(revenue);
+                        console.log(revenueObj);
                         return res.json({ message:'Appointment not exist',revenue:revenueObj});
                     }                                               
 
