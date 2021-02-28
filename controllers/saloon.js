@@ -464,11 +464,7 @@ exports.getDiffSaloon=(req,res,next)=>{
     var sunday = new Date(current.setDate(weekend));
     // console.log(new Date(monday).getTime(),new Date(sunday).getTime())
 
-    var today1 = new Date();
-var startDay1 = 0; 
-var weekStart1 = new Date(today1.getDate() - (7 + today1.getDay() - startDay1) % 7);
-var weekEnd1 = new Date(today1.getDate() + (7 - today1.getDay() - startDay1) % 7);
-console.log(weekStart1,weekEnd1)
+
     if(monday.getUTCMonth().toString().length==1 && monday.getUTCMonth()!=9)
     {
         var m1 = "0"+(monday.getUTCMonth()+1);
