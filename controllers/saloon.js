@@ -459,13 +459,13 @@ exports.getDiffSaloon=(req,res,next)=>{
     var weekstart = current.getUTCDate() - current.getUTCDay() +1;    
     console.log(weekstart)
     var weekend = weekstart + 6;       // end day is the first day + 6 
+    console.log(weekstart,weekend);
     var monday = new Date(current.setDate(weekstart));  
     // console.log("Monday:",monday)
     var sunday = new Date(current.setDate(weekend));
     // console.log(new Date(monday).getTime(),new Date(sunday).getTime())
     console.log(monday.getUTCFullYear()+"-"+monday.getUTCMonth()+"-"+monday.getDate())
     console.log(sunday.getUTCFullYear()+"-"+sunday.getUTCMonth()+"-"+sunday.getDate())
-    console.log(date1,date2)
     if(monday.getUTCMonth().toString().length==1 && monday.getUTCMonth()!=9)
     {
         var m1 = "0"+(monday.getUTCMonth()+1);
