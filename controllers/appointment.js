@@ -11,7 +11,7 @@ exports.postAppointment = (req,res,next)=>{
     const clientId = +req.body.clientId;
     const serviceName = req.body.serviceName;
     const clientName = req.body.clientName;
-    const clientPhone = req.body.clientPhone;
+    const clientPhone = +req.body.clientPhone;
     const empName = req.body.empName;
     const bookingTime = req.body.bookingTime;
     // console.log("Start Time : ", bookingTime.srtTime,"End Time : ",bookingTime.endTime);
@@ -53,7 +53,7 @@ exports.postAppointment = (req,res,next)=>{
             currMinutes = Number(currMinutes[0]) * 60 + Number(currMinutes[1]);
             console.log("Curr MInutes : "+currMinutes);
 
-    Appointment.findCurrentAppointBySaloonIdAndClientPhone(saloonId,clientId,currentDate)
+    Appointment.findCurrentAppointBySaloonIdAndClientPhone(saloonId,clientPhone,currentDate)
     .then(appointData=>{
         if(appointData.length!=0){                  
             console.log(appointData[0].appointmentId);
