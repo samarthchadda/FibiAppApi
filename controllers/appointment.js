@@ -462,7 +462,7 @@ exports.getMonthRevenuePerSaloon=(req,res,next)=>{
                     
                   
                             res.json({ message:'Appointment Exists',revenue:revenueObj});
-                        },1500);
+                        },1200);
                       
                 
 
