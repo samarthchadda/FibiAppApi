@@ -463,8 +463,9 @@ exports.getDiffSaloon=(req,res,next)=>{
     // console.log("Monday:",monday)
     var sunday = new Date(current.setDate(weekend));
     // console.log(new Date(monday).getTime(),new Date(sunday).getTime())
-    // console.log(monday.getFullYear()+"-"+monday.getMonth()+"-"+monday.getDate())
-    // console.log(sunday.getFullYear()+"-"+sunday.getMonth()+"-"+sunday.getDate())
+    console.log(monday.getUTCFullYear()+"-"+monday.getUTCMonth()+"-"+monday.getDate())
+    console.log(sunday.getUTCFullYear()+"-"+sunday.getUTCMonth()+"-"+sunday.getDate())
+    console.log(date1,date2)
     if(monday.getUTCMonth().toString().length==1 && monday.getUTCMonth()!=9)
     {
         var m1 = "0"+(monday.getUTCMonth()+1);
