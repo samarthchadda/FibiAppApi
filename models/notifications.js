@@ -12,6 +12,7 @@ class Notifications
         this.clientId = cid;
         this.message = message;
         this.date = date;             
+        this.notiDate = new Date();
     }
 
 
@@ -38,7 +39,7 @@ class Notifications
     {
         const db = getDb();
                             
-        return db.collection('notifications').find({ clientId:cid }).toArray()
+        return db.collection('notifications').find({ clientId:cid }).sort({notiDate:-1}).toArray()
                                             .then(avail=>{
                                                                                                                                                
                                                 return avail;  
@@ -51,7 +52,7 @@ class Notifications
     {
         const db = getDb();
                             
-        return db.collection('notifications').find({ saloonId:sid }).sort({date:-1}).toArray()
+        return db.collection('notifications').find({ saloonId:sid }).sort({notiDate:-1}).toArray()
                                             .then(avail=>{
                                                                                                                                                
                                                 return avail;  
@@ -78,7 +79,7 @@ class Notifications
     static fetchAllClientNotifications()
     {
         const db = getDb();
-        return db.collection('notifications').find({saloonId:null}).toArray()
+        return db.collection('notifications').find({saloonId:null}).sort({notiDate:-1}).toArray()
                             .then(avails=>{
                                
                                 return avails;
@@ -89,7 +90,7 @@ class Notifications
     static fetchAllSaloonNotifications()
     {
         const db = getDb();
-        return db.collection('notifications').find({clientId:null}).toArray()
+        return db.collection('notifications').find({clientId:null}).sort({notiDate:-1}).toArray()
                             .then(avails=>{
                                
                                 return avails;
