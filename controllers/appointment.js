@@ -442,7 +442,7 @@ exports.getMonthRevenuePerSaloon=(req,res,next)=>{
                         revenueObj.totalServices = revenueObj.totalServices + app.serviceId.length;
                     })
 
-                    Appointment.findAppointBySaloonIdAndDate(saloonId,endDate)
+                    Appointment.findAppointsBySaloonId(saloonId)
                     .then(avgData=>{
                         if(avgData.length==0)
                         {
