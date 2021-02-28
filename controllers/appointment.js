@@ -435,7 +435,7 @@ exports.getMonthRevenuePerSaloon=(req,res,next)=>{
                     .then(avgData=>{
                         if(avgData.length==0)
                         {
-                            return res.json({ message:'Appointmentss not exist',revenue:revenueObj});
+                            return res.json({ message:'Appointment not exist',revenue:revenueObj});
                         } 
                         var revenueObj1 = {totalApp:0,totalAmt:0,totalServices:0};  
                         apps.forEach(app=>{
@@ -445,10 +445,12 @@ exports.getMonthRevenuePerSaloon=(req,res,next)=>{
                         })
                         revenueObj.avgRevenue = revenueObj1.totalAmt / revenueObj1.totalApp;
                         revenueObj.avgAppointments = revenueObj1.totalServices / revenueObj1.totalApp;
+                        console.log(revenueObj);
                     })
                     setTimeout(()=>{
                     if(appoints.length==0)
                     {
+                        console.log(revenue);
                         return res.json({ message:'Appointment not exist',revenue:revenueObj});
                     }                                               
 
