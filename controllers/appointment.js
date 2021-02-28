@@ -433,7 +433,7 @@ exports.getMonthRevenuePerSaloon=(req,res,next)=>{
 
                     if(appoints.length==0)
                     {
-                        return res.json({ message:'Appointment not exist',revenue:revenueObj});
+                        return res.json({ message:'Appointmentddd not exist',revenue:revenueObj});
                     }                                               
 
                     appoints.forEach(app=>{
