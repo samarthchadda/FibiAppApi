@@ -431,18 +431,7 @@ exports.getMonthRevenuePerSaloon=(req,res,next)=>{
                 .then(appoints=>{
                     var revenueObj = {totalApp:0,totalAmt:0,totalServices:0,avgRevenue:0,avgAppointments:0};   
 
-                    if(appoints.length==0)
-                    {
-                        return res.json({ message:'Appointmentddd not exist',revenue:revenueObj});
-                    }                                               
-
-                    appoints.forEach(app=>{
-                        revenueObj.totalApp = revenueObj.totalApp + 1;
-                        revenueObj.totalAmt = revenueObj.totalAmt + app.totalCost;
-                        revenueObj.totalServices = revenueObj.totalServices + app.serviceId.length;
-                    })
-
-                    Appointment.findAppointsBySaloonId(saloonId)
+                    Appointment.findAppointsBySaloonId(saloonId,endDate)
                     .then(avgData=>{
                         if(avgData.length==0)
                         {
@@ -456,11 +445,25 @@ exports.getMonthRevenuePerSaloon=(req,res,next)=>{
                         })
                         revenueObj.avgRevenue = revenueObj1.totalAmt / revenueObj1.totalApp;
                         revenueObj.avgAppointments = revenueObj1.totalServices / revenueObj1.totalApp;
-                        setTimeout(()=>{
+                    })
+                    setTimeout(()=>{
+                    if(appoints.length==0)
+                    {
+                        return res.json({ message:'Appointment not exist',revenue:revenueObj});
+                    }                                               
+
+                    appoints.forEach(app=>{
+                        revenueObj.totalApp = revenueObj.totalApp + 1;
+                        revenueObj.totalAmt = revenueObj.totalAmt + app.totalCost;
+                        revenueObj.totalServices = revenueObj.totalServices + app.serviceId.length;
+                    })
+
+                    
+                  
                             res.json({ message:'Appointment Exists',revenue:revenueObj});
                         },1500);
                       
-                    })
+                
 
                   
                 })
