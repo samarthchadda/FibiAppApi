@@ -307,6 +307,8 @@ exports.saloonRegister = (req,res,next)=>{
     let landline = +req.body.landline;
     landline = landline.toString();
     const address = req.body.address;
+    const fullAddressData = req.body.fullAddressData;
+    console.log(fullAddressData);
     const latitude = req.body.latitude;
     const longitude = req.body.longitude;
     const deviceToken = req.body.deviceToken;
@@ -355,7 +357,7 @@ exports.saloonRegister = (req,res,next)=>{
                                     param.email = saloonName;
                                     param.email = param.email.replace(/ /g, "");
                                     param.email = param.email +saloonID+"@gmail.com";
-                                    param.address = {'city':req.body.address,'line1':req.body.address,'state':'Rajasthan','postal_code':'302019','country':'Spain'};
+                                    param.address = {'city':fullAddressData.locality,'line1':req.body.address,'state':fullAddressData.adminArea,'postal_code':fullAddressData.postalCode,'country':'Spain'};
                                     param.phone = phone;
                                                                         
                                     stripe.customers.create(param,function(err,customer){
