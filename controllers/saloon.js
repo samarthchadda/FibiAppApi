@@ -349,7 +349,7 @@ exports.saloonRegister = (req,res,next)=>{
                         db.collection('saloonCounter').insertOne({count:newVal})
                                 .then(result=>{
                                               
-                                    // param.description = req.body.address;
+                                    param.description = req.body.address;
                                     param.name = req.body.saloonName;
                                     // param.email = saloonID+"@gmail.com"
                                     param.email = saloonName;
