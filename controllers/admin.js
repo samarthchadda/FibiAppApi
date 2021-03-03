@@ -261,7 +261,7 @@ exports.editAdminDetails = (req,res,next)=>{
                             Admin.findAdminByEmail(email)
                             .then(admin1=>{
                                 console.log("admin:",admin1,adminDoc);
-                                if(admin1)
+                                if(admin1!=null)
                                 {
                                     if(adminDoc.email == admin1.email)
                                     {
@@ -281,11 +281,9 @@ exports.editAdminDetails = (req,res,next)=>{
                                     else{
                                         console.log("Email else")
                                         return res.json({status:false, message:'Email Already Exists'});
-                                    }
-                                 
+                                    }                                
                                    
-                                }
-                                    
+                                }                                    
                                 else{
 
                                     adminDoc.firstName = firstName;
@@ -298,7 +296,7 @@ exports.editAdminDetails = (req,res,next)=>{
                             db.collection('admins').updateOne({adminId:adminId},{$set:adminDoc})
                                         .then(resultData=>{
                                             
-                                            res.json({message:'Details Updated',status:true});
+                                           return res.json({message:'Details Updated',status:true});
                                         })
                                         .catch(err=>console.log(err));
                                     }
