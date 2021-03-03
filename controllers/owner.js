@@ -1028,27 +1028,98 @@ exports.editAdminOwner=(req,res,next)=>{
     const ownerName = req.body.ownerName;
     const email = req.body.email;
     const phone = +req.body.phone;    
-
-    Owner.findOwnerById(+ownerId)
+   
+             Owner.findOwnerById(+ownerId)
              .then(ownerDoc=>{
                  if(!ownerDoc)
                  {
                      return res.json({ message:'Owner does not exist',status:false});
                  }
-          
-                    ownerDoc.email = email;
-                
-                    ownerDoc.ownerName = ownerName;
+                 Owner.findOwnerByPhone(phone)
+                        .then(owner=>{
+                            if(owner!=null)
+                            {
+                            if(ownerDoc.phone == owner.phone)
+                            {
+                                if(ownerDoc.email==owner.email)
+                                {
+                                    ownerDoc.ownerName = ownerName;
+                                    
+                                    const db = getDb();
+                                    db.collection('owners').updateOne({ownerId:ownerId},{$set:ownerDoc})
+                                                .then(resultData=>{
+                                                    
+                                                   return res.json({message:'Details Updated',status:true});
+                                                })
+                                                .catch(err=>console.log(err));
+                                }
+                                else{
+                                    ownerDoc.email = email;
+                                    const db = getDb();
+                                    db.collection('owners').updateOne({ownerId:ownerId},{$set:ownerDoc})
+                                            .then(resultData=>{
+                                                
+                                             return res.json({message:'Details Updated',status:true});
+                                            })
+                                            .catch(err=>console.log(err));
+                                    }
+                            }
+                            else if(ownerDoc.email == owner.email)
+                            {
+                                ownerDoc.ownerName = ownerName;
+                                    
+                                const db = getDb();
+                                db.collection('owners').updateOne({ownerId:ownerId},{$set:ownerDoc})
+                                            .then(resultData=>{
+                                                
+                                               return res.json({message:'Details Updated',status:true});
+                                            })
+                                            .catch(err=>console.log(err));
+                            }
+                            else{                        
+                                return res.json({status:false, message:'Phone Already Exists'});
+                            }
+                        }
+
+                            Owner.findOwnerByEmail(email)
+                            .then(owner=>{
+                                if(ownerDoc.email == owner.email)
+                                {
+                                     ownerDoc.ownerName = ownerName;
               
-                    ownerDoc.phone = phone;
-               
-                 const db = getDb();
-                 db.collection('owners').updateOne({ownerId:ownerId},{$set:ownerDoc})
-                             .then(resultData=>{
-                                 
-                                 res.json({message:'All Details Updated',status:true,owner:ownerDoc});
-                             })
-                             .catch(err=>console.log(err));
+                                     ownerDoc.phone = phone;
+                                        
+                                        const db = getDb();
+                                        db.collection('owners').updateOne({ownerId:ownerId},{$set:ownerDoc})
+                                                    .then(resultData=>{
+                                                        
+                                                       return res.json({message:'Details Updated',status:true});
+                                                    })
+                                                    .catch(err=>console.log(err));                                  
+                                }                            
+                                else if(owner){                        
+                                    return res.json({status:false, message:'Email Already Exists'});
+                                }
+                                else{
+
+                                    ownerDoc.email = email;
+                
+                                    ownerDoc.ownerName = ownerName;
+                              
+                                    ownerDoc.phone = phone;
+                               
+                            
+                            const db = getDb();
+                            db.collection('owners').updateOne({ownerId:ownerId},{$set:ownerDoc})
+                                        .then(resultData=>{
+                                            
+                                            res.json({message:'Details Updated',status:true});
+                                        })
+                                        .catch(err=>console.log(err));
+                                    }
+                        })
+                            })                           
+                
              })
 }
 
