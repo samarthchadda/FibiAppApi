@@ -22,6 +22,7 @@ exports.adminRegister = (req,res,next)=>{
     const password = req.body.password;
     const token = null;
 
+    let adminID;
     Admin.findAdminByEmail(email)
                 .then(userDoc=>{
                     if(userDoc){                        
@@ -35,6 +36,17 @@ exports.adminRegister = (req,res,next)=>{
                         }
 
                     const db = getDb();     
+                    db.collection('adminCounter').find().toArray().then(data=>{
+        
+                        newVal = data[data.length-1].count;
+                       
+                        newVal = newVal + 1;
+                        console.log(newVal);
+                       
+                        adminID = newVal;
+                        
+                        db.collection('adminCounter').insertOne({count:newVal})
+                                .then(result=>{
                                                             
                         const admin = new Admin(firstName,lastName,email,password,phone,token);
                         //saving in database
@@ -45,14 +57,22 @@ exports.adminRegister = (req,res,next)=>{
                             res.json({status:true,message:"Admin Registered",owner:resultData["ops"][0]});
                             
                         })
-                        .catch(err=>console.log(err));                                                    
-                                                                                  
-                    })
-                })
-                .then(resultInfo=>{                   
-                  
-                })
-                .catch(err=>console.log(err));      
+                        .catch(err=>console.log(err));         
+                    })                                           
+                        .then(resultData=>{
+                                   
+                        })
+                        .catch(err=>{
+                            res.json({status:false,error:err})
+                        })             
+             })   
+             
+            })
+        })
+        .then(resultInfo=>{                   
+          
+        })
+        .catch(err=>console.log(err)); ;      
 }
 
 
@@ -173,5 +193,21 @@ exports.adminForgotPassword = (req,res,next)=>{
 
 }
 
+exports.editAdminDetails = (req,res,next)=>{
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+    const email = req.body.email;
+    const password = req.body.password;
+    const phone = req.body.phone;
+
+    Admin.findAdminByEmail(email)
+    .then(adminData=>{
+        if(!adminData)
+        {
+            return res.json({status:false,message:"Admin Does Not Exist"});
+        }
+    })
+
+}
 
 

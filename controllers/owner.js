@@ -734,10 +734,7 @@ exports.ownerRegister = (req,res,next)=>{
                                 //     // res.json({status:false,message:"Error Occured"})
                                 // }
                             // })
-      
-
-
-                                                                           
+                                                                                
                                   
                                 })
                                 .then(resultData=>{
