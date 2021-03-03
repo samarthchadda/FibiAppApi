@@ -1057,7 +1057,7 @@ exports.editAdminOwner=(req,res,next)=>{
 exports.delOwnerPhoto=(req,res,next)=>{
     //parsing data from incoming request
     const ownerId = +req.params.ownerId;
-
+    console.log(ownerId);
     Owner.findOwnerById(+ownerId)
              .then(ownerDoc=>{
                  if(!ownerDoc)

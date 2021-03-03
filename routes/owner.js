@@ -62,7 +62,9 @@ router.post('/send-token',ownerController.sendToken);
 
 router.post('/edit-owner',ownerController.editOwner);
 
-router.get('/del-owner-pic/:ownerId',ownerController.delOwnerPhoto);
+// router.get('/del-owner-pic/:ownerId',ownerController.delOwnerPhoto);
+
+router.get('/del-photo-owner/:ownerId',ownerController.delOwnerPhoto);
 
 router.post('/edit-admin-owner',ownerController.editAdminOwner);
 
