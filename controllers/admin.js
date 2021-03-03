@@ -284,7 +284,8 @@ exports.editAdminDetails = (req,res,next)=>{
                                     }                                
                                    
                                 }                                    
-                   
+                       
+                        })
                             })                           
                 
              })
