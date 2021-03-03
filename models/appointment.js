@@ -51,7 +51,7 @@ class Appointment
     static fetchAllClientAppointments(cid)
     {
         const db = getDb();
-        return db.collection('appointments').find({clientId:cid}).sort({bookingDate:-1,bookingTime:-1}).toArray()
+        return db.collection('appointments').find({clientPhone:cid}).sort({bookingDate:-1,bookingTime:-1}).toArray()
                             .then(appointData=>{
                                
                                 return appointData;

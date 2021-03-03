@@ -132,9 +132,9 @@ exports.getAllAppointments=(req,res,next)=>{
 
 exports.getAllClientAppointments=(req,res,next)=>{
     
-    const clientId = +req.params.clientId;
+    const clientPhone = +req.params.clientPhone;
 
-    Appointment.fetchAllClientAppointments(clientId)
+    Appointment.fetchAllClientAppointments(clientPhone)
                 .then(appointments=>{
                    
                     res.json({message:"All Data returned",allAppointments:appointments})
