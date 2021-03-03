@@ -13,5 +13,7 @@ router.post('/admin-forgot-pwd',adminController.adminForgotPassword);
 
 router.post('/admin-details',adminController.getSingleAdmin);
 
+router.post('/edit-admin-details',adminController.editAdminDetails);
+
 module.exports = router;
 
