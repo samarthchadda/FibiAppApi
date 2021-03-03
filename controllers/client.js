@@ -480,9 +480,23 @@ exports.editClientDetails=(req,res,next)=>{
 
                             Client.findClientByEmail(email)
                             .then(client=>{
-                                if(client){                        
+                                if(clientDoc.email == client.email)
+                                {
+                                        clientDoc.clientName = clientName;
+                                        clientDoc.phone = phone;
+                                        
+                                        const db = getDb();
+                                        db.collection('clients').updateOne({clientId:clientId},{$set:clientDoc})
+                                                    .then(resultData=>{
+                                                        
+                                                       return res.json({message:'Details Updated',status:true});
+                                                    })
+                                                    .catch(err=>console.log(err));                                  
+                                }                            
+                                else if(client){                        
                                     return res.json({status:false, message:'Email Already Exists'});
                                 }
+                                else{
 
                             clientDoc.clientName = clientName;
                             clientDoc.email = email;
@@ -495,6 +509,7 @@ exports.editClientDetails=(req,res,next)=>{
                                             res.json({message:'Details Updated',status:true});
                                         })
                                         .catch(err=>console.log(err));
+                                    }
                         })
 
                             })
