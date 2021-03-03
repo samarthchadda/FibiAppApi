@@ -432,6 +432,8 @@ exports.editClientDetails=(req,res,next)=>{
                  }
                  Client.findClientByPhone(phone)
                         .then(client=>{
+                            console.log("ClientDoc:",clientDoc);
+                            console.log("Client : ",client);
                             if(clientDoc.phone == client.phone)
                             {
                                 if(clientDoc.email==client.email)
