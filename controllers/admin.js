@@ -284,7 +284,22 @@ exports.editAdminDetails = (req,res,next)=>{
                                     }                                
                                    
                                 }                                    
-                       
+                                else{
+
+                                    adminDoc.firstName = firstName;
+                                    adminDoc.lastName = lastName;
+                                    adminDoc.password = password;
+                                    adminDoc.phone = phone;
+                                    adminDoc.email = email;
+                            
+                            const db = getDb();
+                            db.collection('admins').updateOne({adminId:adminId},{$set:adminDoc})
+                                        .then(resultData=>{
+                                            
+                                           return res.json({message:'Details Updated',status:true});
+                                        })
+                                        .catch(err=>console.log(err));
+                                    }
                         })
                             })                           
                 
