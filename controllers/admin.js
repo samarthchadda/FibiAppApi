@@ -80,6 +80,20 @@ exports.adminLogin=(req,res,next)=>{
 }
 
 
+exports.getSingleAdmin=(req,res,next)=>{
+    const email = req.body.email;
+    
+    Admin.findAdminByEmail(email)
+                .then(user=>{
+                    if(!user)
+                    {
+                        return res.json({ message:'Admin does not exist',status:false});
+                    }
+
+                    return res.json({status:true,message:"Admin Exists",admin:user});
+                })
+}
+
 exports.sendToken = (req,res,next)=>{
 
     const email = req.body.email;
