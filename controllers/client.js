@@ -432,6 +432,44 @@ exports.editClientDetails=(req,res,next)=>{
                  }
                  Client.findClientByPhone(phone)
                         .then(client=>{
+                            if(clientDoc.phone == client.phone)
+                            {
+                                if(clientDoc.email==client.email)
+                                {
+                                    clientDoc.clientName = clientName;
+                                    
+                                    const db = getDb();
+                                    db.collection('clients').updateOne({clientId:clientId},{$set:clientDoc})
+                                                .then(resultData=>{
+                                                    
+                                                   return res.json({message:'Details Updated',status:true});
+                                                })
+                                                .catch(err=>console.log(err));
+                                }
+                                else{
+                                    clientDoc.email = email;
+                                    const db = getDb();
+                                db.collection('clients').updateOne({clientId:clientId},{$set:clientDoc})
+                                            .then(resultData=>{
+                                                
+                                             return res.json({message:'Details Updated',status:true});
+                                            })
+                                            .catch(err=>console.log(err));
+                                    }
+                            }
+                            if(clientDoc.email == client.email)
+                            {
+                                clientDoc.clientName = clientName;
+                                    
+                                const db = getDb();
+                                db.collection('clients').updateOne({clientId:clientId},{$set:clientDoc})
+                                            .then(resultData=>{
+                                                
+                                               return res.json({message:'Details Updated',status:true});
+                                            })
+                                            .catch(err=>console.log(err));
+                            }
+
                             if(client){                        
                                 return res.json({status:false, message:'Phone Already Exists'});
                             }
