@@ -482,11 +482,6 @@ exports.editClientDetails=(req,res,next)=>{
                             .then(client=>{
                                 if(client)
                                 {
-                                    return res.json({status:false, message:'Email Already Exists'});
-                                   
-                                }
-                                                      
-                                else if(client){                        
                                     if(clientDoc.email == client.email)
                                     {
                                             clientDoc.clientName = clientName;
@@ -500,7 +495,13 @@ exports.editClientDetails=(req,res,next)=>{
                                                         })
                                                         .catch(err=>console.log(err));                                  
                                     }     
+                                    else{
+                                        return res.json({status:false, message:'Email Already Exists'});
+                                    }
+                                 
+                                   
                                 }
+                                    
                                 else{
 
                             clientDoc.clientName = clientName;
