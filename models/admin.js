@@ -5,8 +5,9 @@ const ObjectId = mongodb.ObjectId;
 
 class Admin
 {
-    constructor(fname,lname,email,password,phone,token)
+    constructor(id,fname,lname,email,password,phone,token)
     {
+        this.adminId = id;
         this.firstName = fname;
         this.lastName = lname;
         this.email = email;        

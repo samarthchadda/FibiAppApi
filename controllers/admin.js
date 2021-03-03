@@ -48,7 +48,7 @@ exports.adminRegister = (req,res,next)=>{
                         db.collection('adminCounter').insertOne({count:newVal})
                                 .then(result=>{
                                                             
-                        const admin = new Admin(firstName,lastName,email,password,phone,token);
+                        const admin = new Admin(adminID,firstName,lastName,email,password,phone,token);
                         //saving in database
                     
                         return admin.save()
