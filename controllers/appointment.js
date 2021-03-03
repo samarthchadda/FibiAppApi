@@ -133,7 +133,7 @@ exports.getAllAppointments=(req,res,next)=>{
 exports.getAllClientAppointments=(req,res,next)=>{
     
     const clientPhone = +req.params.clientPhone;
-
+    console.log(clientPhone);
     Appointment.fetchAllClientAppointments(clientPhone)
                 .then(appointments=>{
                    
