@@ -5,6 +5,8 @@ const appointController = require('../controllers/appointment');
 
 router.get('/all-appointments',appointController.getAllAppointments);
 
+router.get('/all-client-appointments/:clientId',appointController.getAllClientAppointments);
+
 router.get('/all-appointments-month',appointController.getAllAppointmentsMonth);
 
 

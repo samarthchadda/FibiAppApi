@@ -48,6 +48,17 @@ class Appointment
                             .catch(err=>console.log(err));
     }
 
+    static fetchAllClientAppointments(cid)
+    {
+        const db = getDb();
+        return db.collection('appointments').find({clientId:cid}).sort({bookingDate:-1,bookingTime:-1}).toArray()
+                            .then(appointData=>{
+                               
+                                return appointData;
+                            })
+                            .catch(err=>console.log(err));
+    }
+
     static findAppointByID(appointId)
     {
         const db = getDb();

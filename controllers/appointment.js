@@ -130,6 +130,19 @@ exports.getAllAppointments=(req,res,next)=>{
                 .catch(err=>console.log(err));
 }
 
+exports.getAllClientAppointments=(req,res,next)=>{
+    
+    const clientId = +req.params.clientId;
+
+    Appointment.fetchAllClientAppointments(clientId)
+                .then(appointments=>{
+                   
+                    res.json({message:"All Data returned",allAppointments:appointments})
+
+                })
+                .catch(err=>console.log(err));
+}
+
 exports.getAllAppointmentsMonth=(req,res,next)=>{
     var monthNames = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
 
