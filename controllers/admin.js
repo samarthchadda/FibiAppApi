@@ -259,11 +259,11 @@ exports.editAdminDetails = (req,res,next)=>{
                         }
 
                             Admin.findAdminByEmail(email)
-                            .then(admin=>{
-                                console.log("admin:",admin);
-                                if(admin)
+                            .then(admin1=>{
+                                console.log("admin:",admin1);
+                                if(admin1)
                                 {
-                                    if(adminDoc.email == admin.email)
+                                    if(adminDoc.email == admin1.email)
                                     {
                                         adminDoc.firstName = firstName;
                                         adminDoc.lastName = lastName;
