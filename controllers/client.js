@@ -434,6 +434,8 @@ exports.editClientDetails=(req,res,next)=>{
                         .then(client=>{
                             console.log("ClientDoc:",clientDoc);
                             console.log("Client : ",client);
+                            if(client!=null)
+                            {
                             if(clientDoc.phone == client.phone)
                             {
                                 if(clientDoc.email==client.email)
@@ -474,6 +476,7 @@ exports.editClientDetails=(req,res,next)=>{
                             else{                        
                                 return res.json({status:false, message:'Phone Already Exists'});
                             }
+                        }
 
                             Client.findClientByEmail(email)
                             .then(client=>{
