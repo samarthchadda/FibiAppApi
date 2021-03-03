@@ -628,7 +628,7 @@ exports.editClientToken=(req,res,next)=>{
 exports.delClientPhoto=(req,res,next)=>{
     //parsing data from incoming request
     const clientId = +req.params.clientId;
-   
+   console.log(clientId);
     Client.findClientByClientId(JSON.parse(+clientId))
              .then(clientDoc=>{
                  if(!clientDoc)
