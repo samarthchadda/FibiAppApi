@@ -459,7 +459,7 @@ exports.editClientDetails=(req,res,next)=>{
                                             .catch(err=>console.log(err));
                                     }
                             }
-                            if(clientDoc.email == client.email)
+                            else if(clientDoc.email == client.email)
                             {
                                 clientDoc.clientName = clientName;
                                     
@@ -471,8 +471,7 @@ exports.editClientDetails=(req,res,next)=>{
                                             })
                                             .catch(err=>console.log(err));
                             }
-
-                            if(client){                        
+                            else{                        
                                 return res.json({status:false, message:'Phone Already Exists'});
                             }
 
