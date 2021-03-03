@@ -1028,7 +1028,7 @@ exports.editAdminOwner=(req,res,next)=>{
     const ownerName = req.body.ownerName;
     const email = req.body.email;
     const phone = +req.body.phone;    
-   
+   console.log("Owner Email : ",email)
              Owner.findOwnerById(+ownerId)
              .then(ownerDoc=>{
                  if(!ownerDoc)
@@ -1054,6 +1054,7 @@ exports.editAdminOwner=(req,res,next)=>{
                                                 .catch(err=>console.log(err));
                                 }
                                 else{
+                                    console.log("Else")
                                     ownerDoc.email = email;
                                     const db = getDb();
                                     db.collection('owners').updateOne({ownerId:ownerId},{$set:ownerDoc})
