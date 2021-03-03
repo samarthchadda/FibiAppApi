@@ -5,7 +5,7 @@ const ObjectId = mongodb.ObjectId;
 
 class Report
 {
-    constructor(name,email,phone,description,screenShot,date)
+    constructor(name,email,phone,description,screenShot,date,reporterType)
     {        
         this.name = name;
         this.email = email;
@@ -13,6 +13,7 @@ class Report
         this.description = description;  
         this.screenShot = screenShot;
         this.reportDate = date;
+        this.reporterType = reporterType;
       
     }
 

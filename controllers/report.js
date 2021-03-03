@@ -19,12 +19,13 @@ exports.postReportData = (req,res,next)=>{
     let email = req.body.email; 
     let phone = +req.body.phone;
     let description = req.body.description;    
-    let screenShot = req.body.screenShot;    
+    let screenShot = req.body.screenShot;
+    let reporterType = req.body.reporterType;    
     const reportDate = new Date().getTime();
 
     const db = getDb();     
     
-    const report = new Report(name,email,phone,description,screenShot,reportDate);
+    const report = new Report(name,email,phone,description,screenShot,reportDate,reporterType);
     //saving in database
     
     report.save()
