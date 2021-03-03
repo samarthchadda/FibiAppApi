@@ -81,7 +81,9 @@ router.post('/edit-client-name',clientController.editClientName);
 
 router.post('/edit-client-phone',clientController.editClientPhone);
 
-router.post('/del-client-photo',clientController.delClientPhoto);
+// router.post('/del-client-photo',clientController.delClientPhoto);
+
+router.get('/del-photo-client/:clientId',clientController.delClientPhoto);
 
 router.post('/edit-client-token',clientController.editClientToken);
 
