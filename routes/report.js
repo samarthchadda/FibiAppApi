@@ -45,6 +45,7 @@ router.post('/post-report',(req,res,next)=>{
         let email = req.body.email; 
         let phone = +req.body.phone;
         let description = req.body.description;  
+        let reporterType = req.body.reporterType;    
         const reportDate = new Date().getTime();
        
         // var imagekit = new ImageKit({
@@ -67,7 +68,7 @@ router.post('/post-report',(req,res,next)=>{
             //         console.log(result.url);
                     const db = getDb();     
         
-                    const report = new Report(name,email,phone,description,"http://160.153.254.97:8000/api/download/"+req.file.filename,reportDate);
+                    const report = new Report(name,email,phone,description,"http://160.153.254.97:8000/api/download/"+req.file.filename,reportDate,reporterType);
                     //saving in database
                     
                     report.save()
