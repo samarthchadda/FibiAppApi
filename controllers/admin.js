@@ -279,6 +279,7 @@ exports.editAdminDetails = (req,res,next)=>{
                                                         .catch(err=>console.log(err));                                  
                                     }     
                                     else{
+                                        console.log("Email else")
                                         return res.json({status:false, message:'Email Already Exists'});
                                     }
                                  
