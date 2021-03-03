@@ -480,8 +480,13 @@ exports.editClientDetails=(req,res,next)=>{
 
                             Client.findClientByEmail(email)
                             .then(client=>{
-                                if(client!=null)
+                                if(client)
                                 {
+                                    return res.json({status:false, message:'Email Already Exists'});
+                                   
+                                }
+                                                      
+                                else if(client){                        
                                     if(clientDoc.email == client.email)
                                     {
                                             clientDoc.clientName = clientName;
@@ -495,10 +500,6 @@ exports.editClientDetails=(req,res,next)=>{
                                                         })
                                                         .catch(err=>console.log(err));                                  
                                     }     
-                                }
-                                                      
-                                else if(client){                        
-                                    return res.json({status:false, message:'Email Already Exists'});
                                 }
                                 else{
 
