@@ -101,9 +101,9 @@ exports.adminLogin=(req,res,next)=>{
 
 
 exports.getSingleAdmin=(req,res,next)=>{
-    const email = req.body.email;
+    const adminId = +req.body.adminId;
     
-    Admin.findAdminByEmail(email)
+    Admin.findAdminById(adminId)
                 .then(user=>{
                     if(!user)
                     {
