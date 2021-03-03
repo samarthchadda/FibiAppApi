@@ -260,7 +260,7 @@ exports.editAdminDetails = (req,res,next)=>{
 
                             Admin.findAdminByEmail(email)
                             .then(admin1=>{
-                                console.log("admin:",admin1);
+                                console.log("admin:",admin1,adminDoc);
                                 if(admin1)
                                 {
                                     if(adminDoc.email == admin1.email)
