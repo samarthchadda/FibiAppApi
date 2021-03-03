@@ -194,19 +194,116 @@ exports.adminForgotPassword = (req,res,next)=>{
 }
 
 exports.editAdminDetails = (req,res,next)=>{
+    const adminId = +req.body.adminId;
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
     const email = req.body.email;
     const password = req.body.password;
-    const phone = req.body.phone;
+    const phone = +req.body.phone;
 
-    Admin.findAdminByEmail(email)
-    .then(adminData=>{
-        if(!adminData)
-        {
-            return res.json({status:false,message:"Admin Does Not Exist"});
-        }
-    })
+    Admin.findAdminById(+adminId)
+             .then(adminDoc=>{
+                 if(!adminDoc)
+                 {
+                     return res.json({ message:'Admin does not exist',status:false});
+                 }
+                 Admin.findAdminByPhone(+phone)
+                        .then(admin=>{
+                            if(admin!=null)
+                            {
+                            if(adminDoc.phone == admin.phone)
+                            {
+                                if(adminDoc.email==admin.email)
+                                {
+                                    adminDoc.firstName = firstName;
+                                    adminDoc.lastName = lastName;
+                                    adminDoc.password = password;
+                                                                        
+                                    const db = getDb();
+                                    db.collection('admins').updateOne({adminId:adminId},{$set:adminDoc})
+                                                .then(resultData=>{
+                                                    
+                                                   return res.json({message:'Details Updated',status:true});
+                                                })
+                                                .catch(err=>console.log(err));
+                                }
+                                else{
+                                    console.log("Else")
+                                    adminDoc.email = email;
+                                    const db = getDb();
+                                    db.collection('admins').updateOne({adminId:adminId},{$set:adminDoc})
+                                            .then(resultData=>{
+                                                
+                                             return res.json({message:'Details Updated',status:true});
+                                            })
+                                            .catch(err=>console.log(err));
+                                    }
+                            }
+                            else if(adminDoc.email == admin.email)
+                            {
+                                adminDoc.firstName = firstName;
+                                adminDoc.lastName = lastName;
+                                adminDoc.password = password;
+                                    
+                                const db = getDb();
+                                db.collection('admins').updateOne({adminId:adminId},{$set:adminDoc})
+                                            .then(resultData=>{
+                                                
+                                               return res.json({message:'Details Updated',status:true});
+                                            })
+                                            .catch(err=>console.log(err));
+                            }
+                            else{                        
+                                return res.json({status:false, message:'Phone Already Exists'});
+                            }
+                        }
+
+                            Admin.findAdminByEmail(email)
+                            .then(admin=>{
+                                if(admin)
+                                {
+                                    if(adminDoc.email == admin.email)
+                                    {
+                                        adminDoc.firstName = firstName;
+                                        adminDoc.lastName = lastName;
+                                        adminDoc.password = password;
+                                        adminDoc.phone = phone;
+                                            
+                                            const db = getDb();
+                                            db.collection('admins').updateOne({adminId:adminId},{$set:adminDoc})
+                                                        .then(resultData=>{
+                                                            
+                                                           return res.json({message:'Details Updated',status:true});
+                                                        })
+                                                        .catch(err=>console.log(err));                                  
+                                    }     
+                                    else{
+                                        return res.json({status:false, message:'Email Already Exists'});
+                                    }
+                                 
+                                   
+                                }
+                                    
+                                else{
+
+                                    adminDoc.firstName = firstName;
+                                    adminDoc.lastName = lastName;
+                                    adminDoc.password = password;
+                                    adminDoc.phone = phone;
+                                    adminDoc.email = email;
+                            
+                            const db = getDb();
+                            db.collection('admins').updateOne({adminId:adminId},{$set:adminDoc})
+                                        .then(resultData=>{
+                                            
+                                            res.json({message:'Details Updated',status:true});
+                                        })
+                                        .catch(err=>console.log(err));
+                                    }
+                        })
+                            })                           
+                
+             })
 
 }
 

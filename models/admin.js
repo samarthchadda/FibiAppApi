@@ -38,6 +38,19 @@ class Admin
 
     }
 
+    static findAdminById(adminId)
+    {
+        const db = getDb();
+                            
+        return db.collection('admins').findOne({ adminId:adminId })
+                                            .then(client=>{                                                
+                                                
+                                                return client;  
+                                            })
+                                            .catch(err=>console.log(err));
+
+    }
+
     static findAdminByPhone(phone)
     {
         const db = getDb();
