@@ -11,7 +11,7 @@ router.post('/admin-send-token',adminController.sendToken);
 
 router.post('/admin-forgot-pwd',adminController.adminForgotPassword);
 
-router.get('/admin-details',adminController.getSingleAdmin)
+router.post('/admin-details',adminController.getSingleAdmin);
 
 module.exports = router;
 
