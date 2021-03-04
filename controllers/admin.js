@@ -201,6 +201,7 @@ exports.editAdminDetails = (req,res,next)=>{
     const password = req.body.password;
     const phone = +req.body.phone;
 
+    
     Admin.findAdminById(+adminId)
              .then(adminDoc=>{
                  if(!adminDoc)
@@ -208,102 +209,198 @@ exports.editAdminDetails = (req,res,next)=>{
                      return res.json({ message:'Admin does not exist',status:false});
                  }
                  Admin.findAdminByPhone(+phone)
-                        .then(admin=>{
-                            if(admin!=null)
-                            {
-                            if(adminDoc.phone == admin.phone)
-                            {
-                                if(adminDoc.email==admin.email)
-                                {
-                                    adminDoc.firstName = firstName;
-                                    adminDoc.lastName = lastName;
-                                    adminDoc.password = password;
-                                                                        
+                 .then(admin=>{
+                     if(!admin)
+                     {
+                         Admin.findAdminByEmail(email)
+                         .then(adminNew=>{
+                             if(!adminNew)
+                             {
+                                adminDoc.firstName = firstName;
+                                adminDoc.lastName = lastName;
+                                adminDoc.password = password;
+                                adminDoc.phone = phone;
+                                adminDoc.email = email;
+                                    
                                     const db = getDb();
                                     db.collection('admins').updateOne({adminId:adminId},{$set:adminDoc})
                                                 .then(resultData=>{
                                                     
                                                    return res.json({message:'Details Updated',status:true});
                                                 })
-                                                .catch(err=>console.log(err));
-                                }
-                                else{
-                                    console.log("Else")
-                                    adminDoc.email = email;
-                                    const db = getDb();
-                                    db.collection('admins').updateOne({adminId:adminId},{$set:adminDoc})
-                                            .then(resultData=>{
-                                                
-                                             return res.json({message:'Details Updated',status:true});
-                                            })
-                                            .catch(err=>console.log(err));
-                                    }
-                            }
-                            else if(adminDoc.email == admin.email)
-                            {
+                                                .catch(err=>console.log(err));   
+                             }
+                             else if(adminNew.email == adminDoc.email)
+                             {
                                 adminDoc.firstName = firstName;
                                 adminDoc.lastName = lastName;
                                 adminDoc.password = password;
+                                adminDoc.phone = phone;
                                     
-                                const db = getDb();
-                                db.collection('admins').updateOne({adminId:adminId},{$set:adminDoc})
-                                            .then(resultData=>{
-                                                
-                                               return res.json({message:'Details Updated',status:true});
-                                            })
-                                            .catch(err=>console.log(err));
-                            }
-                            else{                        
-                                return res.json({status:false, message:'Phone Already Exists'});
-                            }
-                        }
-
-                            Admin.findAdminByEmail(email)
-                            .then(admin1=>{
-                                console.log("admin:",admin1,adminDoc);
-                                if(admin1!=null)
-                                {
-                                    if(adminDoc.email == admin1.email)
-                                    {
-                                        adminDoc.firstName = firstName;
-                                        adminDoc.lastName = lastName;
-                                        adminDoc.password = password;
-                                        adminDoc.phone = phone;
-                                            
-                                            const db = getDb();
-                                            db.collection('admins').updateOne({adminId:adminId},{$set:adminDoc})
-                                                        .then(resultData=>{
-                                                            
-                                                           return res.json({message:'Details Updated',status:true});
-                                                        })
-                                                        .catch(err=>console.log(err));                                  
-                                    }     
-                                    else{
-                                        console.log("Email else")
-                                        return res.json({status:false, message:'Email Already Exists'});
-                                    }                                
+                                    const db = getDb();
+                                    db.collection('admins').updateOne({adminId:adminId},{$set:adminDoc})
+                                                .then(resultData=>{
+                                                    
+                                                   return res.json({message:'Details Updated',status:true});
+                                                })
+                                                .catch(err=>console.log(err));   
+                             }
+                             else if(adminNew.email != adminDoc.email)
+                             {
+                                 return res.json({status:false, message:"Email Already Exists"});
+                             }
+                         })
+                     }
+                     else if(admin.phone == adminDoc.phone)
+                     {
+                        Admin.findAdminByEmail(email)
+                        .then(adminNew1=>{
+                            if(!adminNew1)
+                            {
+                               adminDoc.firstName = firstName;
+                               adminDoc.lastName = lastName;
+                               adminDoc.password = password;
+                               adminDoc.email = email;
                                    
-                                }                                    
-                                else{
-
-                                    adminDoc.firstName = firstName;
-                                    adminDoc.lastName = lastName;
-                                    adminDoc.password = password;
-                                    adminDoc.phone = phone;
-                                    adminDoc.email = email;
-                            
-                            const db = getDb();
-                            db.collection('admins').updateOne({adminId:adminId},{$set:adminDoc})
-                                        .then(resultData=>{
-                                            
-                                           return res.json({message:'Details Updated',status:true});
-                                        })
-                                        .catch(err=>console.log(err));
-                                    }
+                                   const db = getDb();
+                                   db.collection('admins').updateOne({adminId:adminId},{$set:adminDoc})
+                                               .then(resultData=>{
+                                                   
+                                                  return res.json({message:'Details Updated',status:true});
+                                               })
+                                               .catch(err=>console.log(err));   
+                            }
+                            else if(adminNew1.email == adminDoc.email)
+                            {
+                               adminDoc.firstName = firstName;
+                               adminDoc.lastName = lastName;
+                               adminDoc.password = password;
+                                   
+                                   const db = getDb();
+                                   db.collection('admins').updateOne({adminId:adminId},{$set:adminDoc})
+                                               .then(resultData=>{
+                                                   
+                                                  return res.json({message:'Details Updated',status:true});
+                                               })
+                                               .catch(err=>console.log(err));   
+                            }
+                            else if(adminNew.email != adminDoc.email)
+                            {
+                                return res.json({status:false, message:"Email Already Exists"});
+                            }
                         })
-                            })                           
+                     }
+                     else if(admin.phone != adminDoc.phone)
+                     {
+                        return res.json({status:false, message:"Phone Already Exists"});
+                     }
+                 })
+
+                })
+
+    // Admin.findAdminById(+adminId)
+    //          .then(adminDoc=>{
+    //              if(!adminDoc)
+    //              {
+    //                  return res.json({ message:'Admin does not exist',status:false});
+    //              }
+    //              Admin.findAdminByPhone(+phone)
+    //                     .then(admin=>{
+    //                         if(admin!=null)
+    //                         {
+    //                         if(adminDoc.phone == admin.phone)
+    //                         {
+    //                             if(adminDoc.email==admin.email)
+    //                             {
+    //                                 adminDoc.firstName = firstName;
+    //                                 adminDoc.lastName = lastName;
+    //                                 adminDoc.password = password;
+                                                                        
+    //                                 const db = getDb();
+    //                                 db.collection('admins').updateOne({adminId:adminId},{$set:adminDoc})
+    //                                             .then(resultData=>{
+                                                    
+    //                                                return res.json({message:'Details Updated',status:true});
+    //                                             })
+    //                                             .catch(err=>console.log(err));
+    //                             }
+    //                             else{
+    //                                 console.log("Else")
+    //                                 adminDoc.email = email;
+    //                                 const db = getDb();
+    //                                 db.collection('admins').updateOne({adminId:adminId},{$set:adminDoc})
+    //                                         .then(resultData=>{
+                                                
+    //                                          return res.json({message:'Details Updated',status:true});
+    //                                         })
+    //                                         .catch(err=>console.log(err));
+    //                                 }
+    //                         }
+    //                         else if(adminDoc.email == admin.email)
+    //                         {
+    //                             adminDoc.firstName = firstName;
+    //                             adminDoc.lastName = lastName;
+    //                             adminDoc.password = password;
+                                    
+    //                             const db = getDb();
+    //                             db.collection('admins').updateOne({adminId:adminId},{$set:adminDoc})
+    //                                         .then(resultData=>{
+                                                
+    //                                            return res.json({message:'Details Updated',status:true});
+    //                                         })
+    //                                         .catch(err=>console.log(err));
+    //                         }
+    //                         else{                        
+    //                             return res.json({status:false, message:'Phone Already Exists'});
+    //                         }
+    //                     }
+
+    //                         Admin.findAdminByEmail(email)
+    //                         .then(admin1=>{
+    //                             console.log("admin:",admin1,adminDoc);
+    //                             if(admin1!=null)
+    //                             {
+    //                                 if(adminDoc.email == admin1.email)
+    //                                 {
+    //                                     adminDoc.firstName = firstName;
+    //                                     adminDoc.lastName = lastName;
+    //                                     adminDoc.password = password;
+    //                                     adminDoc.phone = phone;
+                                            
+    //                                         const db = getDb();
+    //                                         db.collection('admins').updateOne({adminId:adminId},{$set:adminDoc})
+    //                                                     .then(resultData=>{
+                                                            
+    //                                                        return res.json({message:'Details Updated',status:true});
+    //                                                     })
+    //                                                     .catch(err=>console.log(err));                                  
+    //                                 }     
+    //                                 else{
+    //                                     console.log("Email else")
+    //                                     return res.json({status:false, message:'Email Already Exists'});
+    //                                 }                                
+                                   
+    //                             }                                    
+    //                             else{
+
+    //                                 adminDoc.firstName = firstName;
+    //                                 adminDoc.lastName = lastName;
+    //                                 adminDoc.password = password;
+    //                                 adminDoc.phone = phone;
+    //                                 adminDoc.email = email;
+                            
+    //                         const db = getDb();
+    //                         db.collection('admins').updateOne({adminId:adminId},{$set:adminDoc})
+    //                                     .then(resultData=>{
+                                            
+    //                                        return res.json({message:'Details Updated',status:true});
+    //                                     })
+    //                                     .catch(err=>console.log(err));
+    //                                 }
+    //                     })
+    //                         })                           
                 
-             })
+    //          })
 
 }
 
