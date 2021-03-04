@@ -344,6 +344,26 @@ exports.getAppointBySaloonAndBdate=(req,res,next)=>{
 }
 
 
+exports.getAppointsBySaloonId=(req,res,next)=>{
+    
+    const saloonId = +req.params.saloonId;   
+  
+   
+    Appointment.findAppointsBySaloonId(saloonId)
+                .then(appoint=>{
+                    if(appoint.length==0)
+                    {
+                        return res.json({ message:'Appointment not exist',data:appoint});
+                    }               
+
+                    res.json({ message:'Appointment Exists',data:appoint});
+
+                })
+
+}
+
+
+
 
 exports.getDayRevenuePerSaloon=(req,res,next)=>{
     
