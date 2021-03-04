@@ -284,7 +284,7 @@ exports.editAdminDetails = (req,res,next)=>{
                                                })
                                                .catch(err=>console.log(err));   
                             }
-                            else if(adminNew.email != adminDoc.email)
+                            else if(adminNew1.email != adminDoc.email)
                             {
                                 return res.json({status:false, message:"Email Already Exists"});
                             }
