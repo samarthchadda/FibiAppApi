@@ -686,7 +686,7 @@ exports.delAppointment=(req,res,next)=>{
                         db.collection('appointments').deleteOne({appointmentId:appointId})
                                     .then(resultData=>{
                                         
-                                        res.json({message:'Appointment Deleted',status:true});
+                                        res.json({message:'Appointments Deleted',status:true});
                                     })
                                     .catch(err=>console.log(err));
                     })
