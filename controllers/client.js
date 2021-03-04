@@ -423,106 +423,194 @@ exports.editClientDetails=(req,res,next)=>{
     const clientName = req.body.clientName;
     const email = req.body.email;
     const phone = +req.body.phone;  
-   
-    Client.findClientByClientId(clientId)
-             .then(clientDoc=>{
-                 if(!clientDoc)
-                 {
-                     return res.json({ message:'Client does not exist',status:false});
-                 }
-                 Client.findClientByPhone(phone)
-                        .then(client=>{
-                            console.log("ClientDoc:",clientDoc);
-                            console.log("Client : ",client);
-                            if(client!=null)
-                            {
-                            if(clientDoc.phone == client.phone)
-                            {
-                                if(clientDoc.email==client.email)
-                                {
-                                    clientDoc.clientName = clientName;
-                                    
-                                    const db = getDb();
-                                    db.collection('clients').updateOne({clientId:clientId},{$set:clientDoc})
-                                                .then(resultData=>{
-                                                    
-                                                   return res.json({message:'Details Updated',status:true});
-                                                })
-                                                .catch(err=>console.log(err));
-                                }
-                                else{
-                                    clientDoc.email = email;
-                                    const db = getDb();
-                                db.collection('clients').updateOne({clientId:clientId},{$set:clientDoc})
-                                            .then(resultData=>{
-                                                
-                                             return res.json({message:'Details Updated',status:true});
-                                            })
-                                            .catch(err=>console.log(err));
-                                    }
-                            }
-                            else if(clientDoc.email == client.email)
-                            {
-                                clientDoc.clientName = clientName;
-                                    
-                                const db = getDb();
-                                db.collection('clients').updateOne({clientId:clientId},{$set:clientDoc})
-                                            .then(resultData=>{
-                                                
-                                               return res.json({message:'Details Updated',status:true});
-                                            })
-                                            .catch(err=>console.log(err));
-                            }
-                            else{                        
-                                return res.json({status:false, message:'Phone Already Exists'});
-                            }
-                        }
 
-                            Client.findClientByEmail(email)
-                            .then(client=>{
-                                if(client)
-                                {
-                                    if(clientDoc.email == client.email)
-                                    {
-                                            clientDoc.clientName = clientName;
-                                            clientDoc.phone = phone;
+    Client.findClientByClientId(+clientId)
+   .then(clientDoc=>{
+       if(!clientDoc)
+       {
+           return res.json({ message:'Client does not exist',status:false});
+       }
+       Client.findClientByPhone(+phone)
+       .then(client=>{
+           if(!client)
+           {
+               Client.findClientByEmail(email)
+               .then(clientNew=>{
+                   if(!clientNew)
+                   {
+                    clientDoc.clientName = clientName;
+                    clientDoc.phone = phone;
+                    clientDoc.email = email;
+                          
+                          const db = getDb();
+                          db.collection('clients').updateOne({clientId:clientId},{$set:clientDoc})
+                                      .then(resultData=>{
+                                          
+                                         return res.json({message:'Details Updated',status:true});
+                                      })
+                                      .catch(err=>console.log(err));   
+                   }
+                   else if(clientNew.email == clientDoc.email)
+                   {
+                    clientDoc.clientName = clientName;
+                    clientDoc.phone = phone;
+                          
+                          const db = getDb();
+                          db.collection('clients').updateOne({clientId:clientId},{$set:clientDoc})
+                                      .then(resultData=>{
+                                          
+                                         return res.json({message:'Details Updated',status:true});
+                                      })
+                                      .catch(err=>console.log(err));   
+                   }
+                   else if(clientNew.email != clientDoc.email)
+                   {
+                       return res.json({status:false, message:"Email Already Exists"});
+                   }
+               })
+           }
+           else if(client.phone == clientDoc.phone)
+           {
+              Client.findClientByEmail(email)
+              .then(clientNew1=>{
+                  if(!clientNew1)
+                  {
+                     clientDoc.clientName = clientName;
+                     clientDoc.email = email;
+                         
+                         const db = getDb();
+                         db.collection('clients').updateOne({clientId:clientId},{$set:clientDoc})
+                                     .then(resultData=>{
+                                         
+                                        return res.json({message:'Details Updated',status:true});
+                                     })
+                                     .catch(err=>console.log(err));   
+                  }
+                  else if(clientNew1.email == clientDoc.email)
+                  {
+                    clientDoc.clientName = clientName;
+                         
+                         const db = getDb();
+                         db.collection('clients').updateOne({clientId:clientId},{$set:clientDoc})
+                                     .then(resultData=>{
+                                         
+                                        return res.json({message:'Details Updated',status:true});
+                                     })
+                                     .catch(err=>console.log(err));   
+                  }
+                  else if(clientNew1.email != clientDoc.email)
+                  {
+                      return res.json({status:false, message:"Email Already Exists"});
+                  }
+              })
+           }
+           else if(client.phone != clientDoc.phone)
+           {
+              return res.json({status:false, message:"Phone Already Exists"});
+           }
+       })
+
+      })
+   
+    // Client.findClientByClientId(clientId)
+    //          .then(clientDoc=>{
+    //              if(!clientDoc)
+    //              {
+    //                  return res.json({ message:'Client does not exist',status:false});
+    //              }
+    //              Client.findClientByPhone(phone)
+    //                     .then(client=>{
+    //                         console.log("ClientDoc:",clientDoc);
+    //                         console.log("Client : ",client);
+    //                         if(client!=null)
+    //                         {
+    //                         if(clientDoc.phone == client.phone)
+    //                         {
+    //                             if(clientDoc.email==client.email)
+    //                             {
+    //                                 clientDoc.clientName = clientName;
+                                    
+    //                                 const db = getDb();
+    //                                 db.collection('clients').updateOne({clientId:clientId},{$set:clientDoc})
+    //                                             .then(resultData=>{
+                                                    
+    //                                                return res.json({message:'Details Updated',status:true});
+    //                                             })
+    //                                             .catch(err=>console.log(err));
+    //                             }
+    //                             else{
+    //                                 clientDoc.email = email;
+    //                                 const db = getDb();
+    //                             db.collection('clients').updateOne({clientId:clientId},{$set:clientDoc})
+    //                                         .then(resultData=>{
+                                                
+    //                                          return res.json({message:'Details Updated',status:true});
+    //                                         })
+    //                                         .catch(err=>console.log(err));
+    //                                 }
+    //                         }
+    //                         else if(clientDoc.email == client.email)
+    //                         {
+    //                             clientDoc.clientName = clientName;
+                                    
+    //                             const db = getDb();
+    //                             db.collection('clients').updateOne({clientId:clientId},{$set:clientDoc})
+    //                                         .then(resultData=>{
+                                                
+    //                                            return res.json({message:'Details Updated',status:true});
+    //                                         })
+    //                                         .catch(err=>console.log(err));
+    //                         }
+    //                         else{                        
+    //                             return res.json({status:false, message:'Phone Already Exists'});
+    //                         }
+    //                     }
+
+    //                         Client.findClientByEmail(email)
+    //                         .then(client=>{
+    //                             if(client)
+    //                             {
+    //                                 if(clientDoc.email == client.email)
+    //                                 {
+    //                                         clientDoc.clientName = clientName;
+    //                                         clientDoc.phone = phone;
                                             
-                                            const db = getDb();
-                                            db.collection('clients').updateOne({clientId:clientId},{$set:clientDoc})
-                                                        .then(resultData=>{
+    //                                         const db = getDb();
+    //                                         db.collection('clients').updateOne({clientId:clientId},{$set:clientDoc})
+    //                                                     .then(resultData=>{
                                                             
-                                                           return res.json({message:'Details Updated',status:true});
-                                                        })
-                                                        .catch(err=>console.log(err));                                  
-                                    }     
-                                    else{
-                                        return res.json({status:false, message:'Email Already Exists'});
-                                    }
+    //                                                        return res.json({message:'Details Updated',status:true});
+    //                                                     })
+    //                                                     .catch(err=>console.log(err));                                  
+    //                                 }     
+    //                                 else{
+    //                                     return res.json({status:false, message:'Email Already Exists'});
+    //                                 }
                                  
                                    
-                                }
+    //                             }
                                     
-                                else{
+    //                             else{
 
-                            clientDoc.clientName = clientName;
-                            clientDoc.email = email;
-                            clientDoc.phone = phone;
+    //                         clientDoc.clientName = clientName;
+    //                         clientDoc.email = email;
+    //                         clientDoc.phone = phone;
                             
-                            const db = getDb();
-                            db.collection('clients').updateOne({clientId:clientId},{$set:clientDoc})
-                                        .then(resultData=>{
+    //                         const db = getDb();
+    //                         db.collection('clients').updateOne({clientId:clientId},{$set:clientDoc})
+    //                                     .then(resultData=>{
                                             
-                                            res.json({message:'Details Updated',status:true});
-                                        })
-                                        .catch(err=>console.log(err));
-                                    }
-                        })
+    //                                         res.json({message:'Details Updated',status:true});
+    //                                     })
+    //                                     .catch(err=>console.log(err));
+    //                                 }
+    //                     })
 
-                            })
+    //                         })
 
                             
                 
-             })
+    //          })
 }
 
 
