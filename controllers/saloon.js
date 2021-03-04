@@ -512,13 +512,15 @@ console.log("Week : ",week);
     }
     
     
-    var date1  = monday.getUTCFullYear()+"-"+m1+"-"+onlyDate1;
-    var date2 = sunday.getUTCFullYear()+"-"+m2+"-"+onlyDate2;
-    console.log("Date :",date1,date2)
-    var date1 = new Date(date1).getTime();
-    var date2 = new Date(date2).getTime();
+    // var date1  = monday.getUTCFullYear()+"-"+m1+"-"+onlyDate1;
+    // var date2 = sunday.getUTCFullYear()+"-"+m2+"-"+onlyDate2;
+    // console.log("Date :",date1,date2)
+    // var date1 = new Date(date1).getTime();
+    // var date2 = new Date(date2).getTime();
     // console.log(new Date(date1).getTime(),new Date(date2).getTime())
     
+    var date1 = week[0];
+    var date2 = week[6];
     Saloon.fetchAllSaloons()
     .then(saloons=>{
         
@@ -527,7 +529,7 @@ console.log("Week : ",week);
         console.log(date1,date2);
             Availability.findAvailBySaloonIdAndDate(saloon.saloonId,date1,date2)
             .then(availData=>{
-                console.log(availData)
+                console.log(availData);
                 var point2 = new GeoPoint(saloon.latitude,saloon.longitude);
                 var distance = point1.distanceTo(point2, true)//output in kilometers
                 // console.log(distance);
