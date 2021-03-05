@@ -592,7 +592,7 @@ exports.changeSubscription=(req,res,next)=>{
                                         console.log("UNIX Time : ",new Date().getTime());
                                         console.log(cust.id)
                                         stripe.subscriptions.create({customer: customerId,
-                                            trial_end : new Date().getTime(),
+                                            trial_end : "now",
                                         items: [
                                           {price: priceId,tax_rates:['txr_1ILTM6EEiYQYyt5Loh63cstX']},
                                         ]},function(err,subscription){
