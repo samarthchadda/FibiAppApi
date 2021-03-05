@@ -359,6 +359,7 @@ exports.createSubscription=(req,res,next)=>{
                                         var today = new Date();
                                         var tomorrow = new Date(today.getTime() + (24 * 60 * 60 * 1000));
                                         tomorrow = tomorrow.getTime();
+                                        console.log("Tomorrow : ",tomorrow)
                                         console.log(cust.id)
                                         stripe.subscriptions.create({customer: customerId,
                                             trial_end: 1615035489,
