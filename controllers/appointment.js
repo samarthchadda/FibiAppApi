@@ -53,7 +53,7 @@ exports.postAppointment = (req,res,next)=>{
             currMinutes = Number(currMinutes[0]) * 60 + Number(currMinutes[1]);
             console.log("Curr MInutes : "+currMinutes);
 
-    if(clientPhone!=null)
+    if(clientPhone!=0)
     {
     Appointment.findCurrentAppointBySaloonIdAndClientPhone(saloonId,clientPhone,currentDate)
     .then(appointData=>{
