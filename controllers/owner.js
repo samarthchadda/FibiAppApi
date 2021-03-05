@@ -358,11 +358,11 @@ exports.createSubscription=(req,res,next)=>{
                                     {
                                         var today = new Date();
                                         var tomorrow = new Date(today.getTime() + (24 * 60 * 60 * 1000));
-                                        tomorrow = tomorrow.getTime();
+                                        tomorrow = (tomorrow.getTime()/1000).toFixed(0);
                                         console.log("Tomorrow : ",tomorrow)
                                         console.log(cust.id)
                                         stripe.subscriptions.create({customer: customerId,
-                                            trial_end: 1615035489,
+                                            trial_end: tomorrow,
                                         items: [
                                           {price: priceId,tax_rates:['txr_1ILTM6EEiYQYyt5Loh63cstX']},
                                         ]},function(err,subscription){
@@ -595,7 +595,7 @@ exports.changeSubscription=(req,res,next)=>{
                                     {
                                         var today = new Date();
                                         var tomorrow = new Date(today.getTime() + (24 * 60 * 60 * 1000));
-                                        tomorrow = tomorrow.getTime();
+                                        tomorrow = (tomorrow.getTime()/1000).toFixed(0);
                                         console.log(cust.id)
                                         stripe.subscriptions.create({customer: customerId,
                                             trial_end : tomorrow,
