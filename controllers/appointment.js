@@ -53,6 +53,8 @@ exports.postAppointment = (req,res,next)=>{
             currMinutes = Number(currMinutes[0]) * 60 + Number(currMinutes[1]);
             console.log("Curr MInutes : "+currMinutes);
 
+    if(clientPhone!=null)
+    {
     Appointment.findCurrentAppointBySaloonIdAndClientPhone(saloonId,clientPhone,currentDate)
     .then(appointData=>{
         if(appointData.length!=0){                  
@@ -112,7 +114,41 @@ exports.postAppointment = (req,res,next)=>{
     .then(resultInfo=>{                   
       
     })
-    .catch(err=>console.log(err));       
+    .catch(err=>console.log(err));     
+}
+else{
+    let newVal;
+    const db = getDb();     
+    db.collection('appCounter').find().toArray().then(data=>{
+        
+        newVal = data[data.length-1].count;
+       
+        newVal = newVal + 1;
+       
+        appointId = newVal;
+        
+        db.collection('appCounter').insertOne({count:newVal})
+                .then(result=>{
+                    
+                    const appointment = new Appointment(appointId,saloonId,saloonName,empId,serviceId,serviceName,clientName,clientPhone,empName,bookingTime,bookingDate,bookingDay,totalCost,note,clientId);
+                   
+                    //saving in database                    
+                    return appointment.save()
+                    .then(resultData=>{
+                        
+                        return res.json({status:true,message:"Appointment Created ",data:resultData["ops"][0]});
+                        
+                    })
+                    .catch(err=>console.log(err));
+                })
+                .then(resultData=>{
+                   
+                })
+                .catch(err=>{
+                    res.json({status:false,message:"Appointment Creation Failed ",error:err})
+                })                             
+    })  
+}  
         }
 })
 }
