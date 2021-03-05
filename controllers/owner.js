@@ -356,9 +356,11 @@ exports.createSubscription=(req,res,next)=>{
                                     }
                                     if(cust)
                                     {
+                                        var dt = new Date().getTime();
+                                        console.log("UNIX Time : ",dt);
                                         console.log(cust.id)
                                         stripe.subscriptions.create({customer: customerId,
-                                            trial_end: new Date().getTime(),
+                                            trial_end: dt,
                                         items: [
                                           {price: priceId,tax_rates:['txr_1ILTM6EEiYQYyt5Loh63cstX']},
                                         ]},function(err,subscription){
@@ -589,10 +591,11 @@ exports.changeSubscription=(req,res,next)=>{
                                     }
                                     if(cust)
                                     {
-                                        console.log("UNIX Time : ",new Date().getTime());
+                                        var dt = new Date().getTime();
+                                        console.log("UNIX Time : ",dt);
                                         console.log(cust.id)
                                         stripe.subscriptions.create({customer: customerId,
-                                            trial_end : "now",
+                                            trial_end : dt,
                                         items: [
                                           {price: priceId,tax_rates:['txr_1ILTM6EEiYQYyt5Loh63cstX']},
                                         ]},function(err,subscription){
