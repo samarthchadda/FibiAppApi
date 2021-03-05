@@ -358,7 +358,7 @@ exports.createSubscription=(req,res,next)=>{
                                     {
                                         console.log(cust.id)
                                         stripe.subscriptions.create({customer: customerId,
-                                            trial_end: new Date(),
+                                            trial_end: new Date().getTime(),
                                         items: [
                                           {price: priceId,tax_rates:['txr_1ILTM6EEiYQYyt5Loh63cstX']},
                                         ]},function(err,subscription){
@@ -591,7 +591,7 @@ exports.changeSubscription=(req,res,next)=>{
                                     {
                                         console.log(cust.id)
                                         stripe.subscriptions.create({customer: customerId,
-                                            trial_end : new Date(),
+                                            trial_end : new Date().getTime(),
                                         items: [
                                           {price: priceId,tax_rates:['txr_1ILTM6EEiYQYyt5Loh63cstX']},
                                         ]},function(err,subscription){
