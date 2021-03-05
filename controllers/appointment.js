@@ -123,7 +123,9 @@ exports.getAllAppointments=(req,res,next)=>{
     
     Appointment.fetchAllAppointments()
                 .then(appointments=>{
-                   
+                    appointments.sort((a, b) => {
+                        return b.appointmentId - a.appointmentId;
+                    });
                     res.json({message:"All Data returned",allAppointments:appointments})
 
                 })
