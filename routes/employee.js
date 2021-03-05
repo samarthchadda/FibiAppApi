@@ -14,6 +14,8 @@ router.get('/all-saloon-employees/:saloonId',employeeController.getSaloonEmploye
 
 router.get('/del-employee/:empId',employeeController.delEmployee);
 
+router.get('/del-employee-photo/:empId',employeeController.delEmpPhoto);
+
 router.post('/edit-emp-credentials',employeeController.empCredentials);
 
 const multer = require('multer');

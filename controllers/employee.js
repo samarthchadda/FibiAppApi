@@ -103,6 +103,30 @@ exports.getSaloonEmployees=(req,res,next)=>{
 }
 
 
+exports.delEmpPhoto=(req,res,next)=>{
+    //parsing data from incoming request
+    const empId = +req.params.empId;
+   console.log(empId);
+    Employee.findEmployeeByEmpID(empId)
+             .then(clientDoc=>{
+                 if(!clientDoc)
+                 {
+                     return res.json({ message:'Employee does not exist',status:false});
+                 }              
+
+                     clientDoc.empImg = null;
+                 
+                     const db = getDb();
+                     db.collection('employees').updateOne({empId:empId},{$set:clientDoc})
+                                 .then(resultData=>{
+                                     
+                                     res.json({message:'Details Updated',status:true,employee:clientDoc});
+                                 })
+                                 .catch(err=>console.log(err));
+                               
+             })
+}
+
 
 
 exports.delEmployee=(req,res,next)=>{
