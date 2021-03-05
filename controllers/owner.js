@@ -589,6 +589,7 @@ exports.changeSubscription=(req,res,next)=>{
                                     }
                                     if(cust)
                                     {
+                                        console.log("UNIX Time : ",new Date().getTime());
                                         console.log(cust.id)
                                         stripe.subscriptions.create({customer: customerId,
                                             trial_end : new Date().getTime(),
