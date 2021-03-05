@@ -361,7 +361,7 @@ exports.createSubscription=(req,res,next)=>{
                                         tomorrow = tomorrow.getTime();
                                         console.log(cust.id)
                                         stripe.subscriptions.create({customer: customerId,
-                                            trial_end: tomorrow,
+                                            trial_end: 1615035489,
                                         items: [
                                           {price: priceId,tax_rates:['txr_1ILTM6EEiYQYyt5Loh63cstX']},
                                         ]},function(err,subscription){
