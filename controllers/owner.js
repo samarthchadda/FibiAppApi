@@ -356,11 +356,12 @@ exports.createSubscription=(req,res,next)=>{
                                     }
                                     if(cust)
                                     {
-                                        var dt = new Date().getTime();
-                                        console.log("UNIX Time : ",dt);
+                                        var today = new Date();
+                                        var tomorrow = new Date(today.getTime() + (24 * 60 * 60 * 1000));
+                                        tomorrow = tomorrow.getTime();
                                         console.log(cust.id)
                                         stripe.subscriptions.create({customer: customerId,
-                                            trial_end: dt,
+                                            trial_end: tomorrow,
                                         items: [
                                           {price: priceId,tax_rates:['txr_1ILTM6EEiYQYyt5Loh63cstX']},
                                         ]},function(err,subscription){
@@ -591,11 +592,12 @@ exports.changeSubscription=(req,res,next)=>{
                                     }
                                     if(cust)
                                     {
-                                        var dt = new Date().getTime();
-                                        console.log("UNIX Time : ",dt);
+                                        var today = new Date();
+                                        var tomorrow = new Date(today.getTime() + (24 * 60 * 60 * 1000));
+                                        tomorrow = tomorrow.getTime();
                                         console.log(cust.id)
                                         stripe.subscriptions.create({customer: customerId,
-                                            trial_end : 1615118632,
+                                            trial_end : tomorrow,
                                         items: [
                                           {price: priceId,tax_rates:['txr_1ILTM6EEiYQYyt5Loh63cstX']},
                                         ]},function(err,subscription){
