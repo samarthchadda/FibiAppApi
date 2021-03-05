@@ -521,6 +521,9 @@ console.log("Week : ",week);
     
     var date1 = week[0];
     var date2 = week[6];
+    var date1 = new Date(date1).getTime();
+    var date2 = new Date(date2).getTime();
+    
     Saloon.fetchAllSaloons()
     .then(saloons=>{
         
