@@ -392,6 +392,9 @@ exports.getFavSaloons=(req,res,next)=>{
                     appoint.favourites.forEach(fav=>{
                         Saloon.findSaloonBySaloonID(+fav)
                         .then(saloonData=>{
+                            console.log(saloonData);
+                            if(saloonData.isVerified == 1)
+                            {
                             Availability.findAvailBySaloonIdAndDate(saloonData.saloonId,date1,date2)
                             .then(availData=>{
                                 // console.log("Avail Data : ",availData)
@@ -402,6 +405,7 @@ exports.getFavSaloons=(req,res,next)=>{
                                     res.json({status:true, message:'Client exists',favourites:appoint.favourites,favSaloons:saloonDataArr});
                                 }
                             })
+                        }
                            
                         })                      
 
