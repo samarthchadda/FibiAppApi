@@ -404,7 +404,7 @@ exports.getFavSaloons=(req,res,next)=>{
                                     saloonDataArr.push({...saloonData,availability:availData})
                                 }
                                 else{
-                                    saloonDataArr.push({...saloonData,availability:availData})
+                                    saloonDataArr.push({})
                                 }
                              
                                 // console.log(saloonDataArr)
