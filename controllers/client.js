@@ -398,7 +398,11 @@ exports.getFavSaloons=(req,res,next)=>{
                             Availability.findAvailBySaloonIdAndDate(saloonData.saloonId,date1,date2)
                             .then(availData=>{
                                 // console.log("Avail Data : ",availData)
-                                saloonDataArr.push({...saloonData,availability:availData})
+                                if(saloonData.isVerified == 1)
+                                {
+                                    saloonDataArr.push({...saloonData,availability:availData})
+                                }
+                             
                                 // console.log(saloonDataArr)
                                 if(saloonDataArr.length==appoint.favourites.length)
                                 {
