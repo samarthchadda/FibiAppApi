@@ -390,11 +390,11 @@ exports.getFavSaloons=(req,res,next)=>{
                     if( appoint.favourites.length>0)
                     {
                     appoint.favourites.forEach(fav=>{
-                        Saloon.findSaloonBySaloonIDAndFav(+fav)
+                        Saloon.findSaloonBySaloonID(+fav)
                         .then(saloonData=>{
                             console.log(saloonData);
-                            if(saloonData != null)
-                            {
+                            // if(saloonData != null)
+                            // {
                             Availability.findAvailBySaloonIdAndDate(saloonData.saloonId,date1,date2)
                             .then(availData=>{
                                 // console.log("Avail Data : ",availData)
@@ -405,7 +405,7 @@ exports.getFavSaloons=(req,res,next)=>{
                                     res.json({status:true, message:'Client exists',favourites:appoint.favourites,favSaloons:saloonDataArr});
                                 }
                             })
-                        }
+                        // }
                            
                         })                      
 
