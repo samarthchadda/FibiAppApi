@@ -449,10 +449,10 @@ exports.getSingleSaloon=(req,res,next)=>{
 exports.getDiffSaloon=(req,res,next)=>{
 
     let curr = new Date();
-    console.log("Current Date: ",curr,curr.getUTCDate(),curr.getDay())
+    console.log("Current Date: ",curr,curr.getUTCDate(),curr.getUTCDay())
 let week = []
 for (let i = 1; i <= 7; i++) {
-let first = curr.getDate() -( curr.getDay() || 7) + i 
+let first = curr.getUTCDate() -( curr.getUTCDay() || 7) + i 
 let day = new Date(curr.setDate(first)).toISOString().slice(0, 10)
 week.push(day)
 }
