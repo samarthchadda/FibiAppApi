@@ -532,7 +532,7 @@ console.log("Week : ",week);
         console.log(date1,date2);
             Availability.findAvailBySaloonIdAndDate(saloon.saloonId,date1,date2)
             .then(availData=>{
-                console.log(availData);
+                console.log("saloon Id :"+saloon.saloonId,availData);
                 var point2 = new GeoPoint(saloon.latitude,saloon.longitude);
                 var distance = point1.distanceTo(point2, true)//output in kilometers
                 // console.log(distance);
