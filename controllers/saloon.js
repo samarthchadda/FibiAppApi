@@ -455,7 +455,7 @@ for (let i = 1; i <= 7; i++) {
 let first = curr.getUTCDate() -( curr.getUTCDay() || 7) + i 
 console.log("First:",first);
 let day = new Date(curr.setDate(first)).toISOString().slice(0, 10);
-console.day(day)
+console.log(day)
 week.push(day)
 }
 console.log("Week : ",week);
