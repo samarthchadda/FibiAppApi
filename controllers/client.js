@@ -404,9 +404,9 @@ exports.getFavSaloons=(req,res,next)=>{
                                     saloonDataArr.push({...saloonData,availability:availData})
                                 }
                                 else{
-                                    saloonDataArr.push({})
+                                    appoint.favourites.length = appoint.favourites.length -1;
                                 }
-                             
+                               
                                 // console.log(saloonDataArr)
                                 if(saloonDataArr.length==appoint.favourites.length)
                                 {
