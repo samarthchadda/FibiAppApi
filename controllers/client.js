@@ -393,8 +393,8 @@ exports.getFavSaloons=(req,res,next)=>{
                         Saloon.findSaloonBySaloonIDAndFav(+fav)
                         .then(saloonData=>{
                             console.log(saloonData);
-                            // if(saloonData.isVerified == 1)
-                            // {
+                            if(saloonData != null)
+                            {
                             Availability.findAvailBySaloonIdAndDate(saloonData.saloonId,date1,date2)
                             .then(availData=>{
                                 // console.log("Avail Data : ",availData)
@@ -405,7 +405,7 @@ exports.getFavSaloons=(req,res,next)=>{
                                     res.json({status:true, message:'Client exists',favourites:appoint.favourites,favSaloons:saloonDataArr});
                                 }
                             })
-                        // }
+                        }
                            
                         })                      
 
