@@ -70,6 +70,19 @@ class Saloon
 
     }
 
+    static findSaloonBySaloonIDAndFav(id)
+    {
+        const db = getDb();
+                            
+        return db.collection('saloons').findOne({ saloonId:id, isVerified:1 })
+                                            .then(saloon=>{
+                                                                                                
+                                                return saloon;  
+                                            })
+                                            .catch(err=>console.log(err));
+
+    }
+
     static findSaloonByCustomerId(customerId)
     {
         const db = getDb();

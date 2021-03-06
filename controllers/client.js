@@ -390,7 +390,7 @@ exports.getFavSaloons=(req,res,next)=>{
                     if( appoint.favourites.length>0)
                     {
                     appoint.favourites.forEach(fav=>{
-                        Saloon.findSaloonBySaloonID(+fav)
+                        Saloon.findSaloonBySaloonIDAndFav(+fav)
                         .then(saloonData=>{
                             console.log(saloonData);
                             // if(saloonData.isVerified == 1)
