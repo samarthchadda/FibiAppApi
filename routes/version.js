@@ -8,7 +8,7 @@ router.get('/get-app-version',(req,res,next)=>{
     Version.fetchAppVersion()
     .then(versionData=>{
 
-        res.json({status:true,version:versionData});
+        res.json({status:true,version:versionData[0]});
 
     })
     .catch(err=>{
