@@ -21,7 +21,7 @@ class Version
     static fetchAppVersion()
     {
         const db = getDb();
-        return db.collection('version').find().toArray()
+        return db.collection('appVersion').find().toArray()
                             .then(ownerData=>{
                                
                                 return ownerData;
