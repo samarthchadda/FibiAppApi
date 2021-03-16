@@ -558,6 +558,11 @@ console.log("Week : ",week);
                          return a.distance - b.distance;
                      });
                      res.json({message:"All Data returned",allSaloons:newSaloons})
+                }  
+                if(saloons.length == 0)
+                {
+                    
+                     res.json({message:"All Data returned",allSaloons:[]})
                 }     
 
             })
