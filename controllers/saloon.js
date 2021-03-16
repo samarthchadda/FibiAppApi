@@ -559,6 +559,7 @@ console.log("Week : ",week);
                      });
                      res.json({message:"All Data returned",allSaloons:newSaloons})
                 }  
+                console.log(saloons.length,newSaloons.length);
                 if(saloons.length == 0)
                 {
                     
