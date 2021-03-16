@@ -529,6 +529,10 @@ console.log("Week : ",week);
     Saloon.fetchAllSaloons()
     .then(saloons=>{
         
+        if(saloons.length == 0)
+        {
+            return  res.json({message:"All Data returned",allSaloons:[]})
+        }
         saloons.forEach(saloon=>{
         //    console.log(saloon.saloonId)
         console.log(date1,date2);
@@ -559,12 +563,12 @@ console.log("Week : ",week);
                      });
                      res.json({message:"All Data returned",allSaloons:newSaloons})
                 }  
-                console.log(saloons.length,newSaloons.length);
-                if(saloons.length == 0)
-                {
+                // console.log(saloons.length,newSaloons.length);
+                // if(saloons.length == 0)
+                // {
                     
-                     res.json({message:"All Data returned",allSaloons:[]})
-                }     
+                //      res.json({message:"All Data returned",allSaloons:[]})
+                // }     
 
             })
 
