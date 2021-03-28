@@ -18,6 +18,7 @@ const reportRoutes = require('./routes/report');
 const legalRoutes = require('./routes/legalPolicies');
 const notificationRoutes = require('./routes/notifications');
 const versionRoutes = require('./routes/version');
+const paymentRoutes = require('./routes/payment');
 
 
 
@@ -71,6 +72,7 @@ app.use('/api',reportRoutes);
 app.use('/api',legalRoutes);
 app.use('/api',notificationRoutes);
 app.use('/api',versionRoutes);
+app.use('/api',paymentRoutes);
 
 
 let port = process.env.PORT || 8000;
