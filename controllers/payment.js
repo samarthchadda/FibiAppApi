@@ -31,7 +31,7 @@ exports.postPaymentStatus = (req,res,next)=>{
 exports.editPaymentStatus = (req,res,next)=>{
 
     let paymentId = req.body.paymentId; 
-    let status = req.body.status;   
+    let status = +req.body.status;   
    
     Payment.findPaymentByPaymentId(paymentId)
     .then(paymentData=>{
