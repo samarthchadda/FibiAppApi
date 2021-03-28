@@ -48,11 +48,18 @@ app.use((req,res,next)=>{
 
 // serve static folder (admin-panel)
 app.use(express.static("dist/FibiAppAdmin"));
+app.use(express.static("dist1/PaymentIntegration"));
+
 
 // show admin panel (built react app)
 app.get("/admin*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "dist", "FibiAppAdmin", "index.html"));
 });
+
+// show payment
+app.get("/web*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "dist1", "PaymentIntegration", "index.html"));
+  });
 
 
 app.get('/',(req,res)=>{
