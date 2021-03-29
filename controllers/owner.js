@@ -546,16 +546,7 @@ exports.changeSubscription=(req,res,next)=>{
     const empCount = +req.body.empCount;
     if(req.body.subscriptionId!=null)
     {
-        stripe.subscriptions.del(req.body.subscriptionId,function(err,subscription){
-            if(err){
-              //   console.log("Error Occured : ",err);
-              res.json({status:false,message:"Error Occured",error:err})
-            }
-            if(subscription)
-            {
-              //   console.log("Customer Created : ",customer)
-            //   res.json({status:true,message:"Subscription Deleted Successfully",subscription:subscription})
-            
+        
         stripe.paymentMethods.create({
             type: 'card',
             card: card,
@@ -567,6 +558,16 @@ exports.changeSubscription=(req,res,next)=>{
               }
               if(payment)
               {
+                stripe.subscriptions.del(req.body.subscriptionId,function(err,subscription){
+                    if(err){
+                      //   console.log("Error Occured : ",err);
+                      res.json({status:false,message:"Error Occured",error:err})
+                    }
+                    if(subscription)
+                    {
+                      //   console.log("Customer Created : ",customer)
+                    //   res.json({status:true,message:"Subscription Deleted Successfully",subscription:subscription})
+                    
                   console.log(payment.id);
                   stripe.paymentMethods.attach(
                     payment.id,
