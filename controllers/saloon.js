@@ -354,9 +354,9 @@ exports.saloonRegister = (req,res,next)=>{
                                     param.description = req.body.address;
                                     param.name = req.body.saloonName;
                                     // param.email = saloonID+"@gmail.com"
-                                    param.email = saloonName;
-                                    param.email = param.email.replace(/ /g, "");
-                                    param.email = param.email +saloonID+"@gmail.com";
+                                    // param.email = saloonName;
+                                    // param.email = param.email.replace(/ /g, "");
+                                    // param.email = param.email +saloonID+"@gmail.com";
                                     param.address = {'city':fullAddressData.locality,'line1':req.body.address,'state':fullAddressData.adminArea,'postal_code':fullAddressData.postalCode,'country':fullAddressData.countryName};
                                     param.phone = phone;
                                                                         
