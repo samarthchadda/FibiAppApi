@@ -15,10 +15,7 @@ var https = require('https');
 //   cert: fs.readFileSync('./server.crt', 'utf8')
 // };
 
-var privateKey  = fs.readFileSync('./sslcert/generated-private-key.txt');
-var certificate = fs.readFileSync('./sslcert/generated-csr.txt');
 
-var credentials = {key: privateKey, cert: certificate};
 
 require('dotenv').config({path: __dirname + '/.env'})
 const app = express();
@@ -100,16 +97,16 @@ app.use('/api',versionRoutes);
 app.use('/api',paymentRoutes);
 
 
-var httpsServer = https.createServer(credentials, app);
+// var httpsServer = https.createServer(credentials, app);
 
-let port = process.env.PORT || 443;
+let port = process.env.PORT || 8000;
 //establishing DB connection
 mongoConnect(()=>{
      
     //listening to incoming request on this port
    
-    // app.listen(port);
-    httpsServer.listen(port);
+    app.listen(port);
+    // httpsServer.listen(port);
 
 });
 // httpsServer.listen(PORT, logger.info(`Server listening on port: ${PORT}`));
