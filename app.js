@@ -5,10 +5,15 @@ const mongoConnect = require('./util/database').mongoConnect;
 
 const fs = require('fs');
 var https = require('https');
-var privateKey  = fs.readFileSync('./sslcert/c3b1fabb5b44ce7a.pem');
-var certificate = fs.readFileSync('./sslcert/c3b1fabb5b44ce7a.crt');
+// var privateKey  = fs.readFileSync('./sslcert/c3b1fabb5b44ce7a.pem');
+// var certificate = fs.readFileSync('./sslcert/c3b1fabb5b44ce7a.crt');
 
-var credentials = {key: privateKey, cert: certificate};
+// var credentials = {key: privateKey, cert: certificate};
+
+var options = {
+  key: fs.readFileSync('./key.pem', 'utf8'),
+  cert: fs.readFileSync('./server.crt', 'utf8')
+};
 
 require('dotenv').config({path: __dirname + '/.env'})
 const app = express();
@@ -90,7 +95,8 @@ app.use('/api',versionRoutes);
 app.use('/api',paymentRoutes);
 
 
-var httpsServer = https.createServer(credentials, app);
+// var httpsServer = https.createServer(credentials, app);
+var https_server = https.createServer(options, app);
 
 let port = process.env.PORT || 443;;
 //establishing DB connection
@@ -99,7 +105,7 @@ mongoConnect(()=>{
     //listening to incoming request on this port
    
     // app.listen(port);
-    httpsServer.listen(port);
+    https_server.listen(port);
 
 });
 
