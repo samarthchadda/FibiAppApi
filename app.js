@@ -5,10 +5,10 @@ const mongoConnect = require('./util/database').mongoConnect;
 
 const fs = require('fs');
 var https = require('https');
-// var privateKey  = fs.readFileSync('./sslcert/c3b1fabb5b44ce7a.pem','utf-8');
-// var certificate = fs.readFileSync('./sslcert/c3b1fabb5b44ce7a.crt','utf-8');
+var privateKey  = fs.readFileSync('./sslcert/c3b1fabb5b44ce7a.pem');
+var certificate = fs.readFileSync('./sslcert/c3b1fabb5b44ce7a.crt');
 
-// var credentials = {key: privateKey, cert: certificate};
+var credentials = {key: privateKey, cert: certificate};
 
 // var options = {
 //   key: fs.readFileSync('./key.pem', 'utf8'),
@@ -97,7 +97,7 @@ app.use('/api',versionRoutes);
 app.use('/api',paymentRoutes);
 
 
-// var httpsServer = https.createServer(credentials, app);
+var httpsServer = https.createServer(credentials, app);
 
 let port = process.env.PORT || 8000;
 //establishing DB connection
@@ -105,8 +105,8 @@ mongoConnect(()=>{
      
     //listening to incoming request on this port
    
-    app.listen(port);
-    // httpsServer.listen(port);
+    // app.listen(port);
+    httpsServer.listen(port);
 
 });
 // httpsServer.listen(PORT, logger.info(`Server listening on port: ${PORT}`));
