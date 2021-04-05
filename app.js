@@ -99,14 +99,14 @@ app.use('/api',paymentRoutes);
 // var httpsServer = https.createServer(credentials, app);
 var httpsServer  = https.createServer(credentials, app);
 
-let port = process.env.PORT || 8443;
-// //establishing DB connection
-// mongoConnect(()=>{
+let port = process.env.PORT || 8000;
+//establishing DB connection
+mongoConnect(()=>{
      
-//     //listening to incoming request on this port
+    //listening to incoming request on this port
    
-//     app.listen(port);
-//     // httpsServer.listen(port);
+    app.listen(port);
+    // httpsServer.listen(port);
 
-// });
-httpsServer.listen(PORT, logger.info(`Server listening on port: ${PORT}`));
+});
+// httpsServer.listen(PORT, logger.info(`Server listening on port: ${PORT}`));
