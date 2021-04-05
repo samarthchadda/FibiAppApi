@@ -106,7 +106,7 @@ mongoConnect(()=>{
     //listening to incoming request on this port
    
     // app.listen(port);
-    httpsServer.listen(port);
+    // httpsServer.listen(port);
 
 });
-// httpsServer.listen(PORT, logger.info(`Server listening on port: ${PORT}`));
+httpsServer.listen(PORT, logger.info(`Server listening on port: ${PORT}`));
