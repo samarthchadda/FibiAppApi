@@ -5,8 +5,8 @@ const mongoConnect = require('./util/database').mongoConnect;
 
 const fs = require('fs');
 var https = require('https');
-var privateKey  = fs.readFileSync('./sslcert/c3b1fabb5b44ce7a.pem','utf-8');
-var certificate = fs.readFileSync('./sslcert/c3b1fabb5b44ce7a.crt','utf-8');
+// var privateKey  = fs.readFileSync('./sslcert/c3b1fabb5b44ce7a.pem','utf-8');
+// var certificate = fs.readFileSync('./sslcert/c3b1fabb5b44ce7a.crt','utf-8');
 
 var credentials = {key: privateKey, cert: certificate};
 
