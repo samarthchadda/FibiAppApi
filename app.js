@@ -15,8 +15,8 @@ var https = require('https');
 //   cert: fs.readFileSync('./server.crt', 'utf8')
 // };
 
-var privateKey  = fs.readFileSync('./sslcert/generated-private-key');
-var certificate = fs.readFileSync('./sslcert/generated-csr');
+var privateKey  = fs.readFileSync('./sslcert/generated-private-key.txt');
+var certificate = fs.readFileSync('./sslcert/generated-csr.txt');
 
 var credentials = {key: privateKey, cert: certificate};
 
