@@ -15,20 +15,10 @@ var https = require('https');
 //   cert: fs.readFileSync('./server.crt', 'utf8')
 // };
 
-var https_options = {
-
-  key: fs.readFileSync('./sslcert/c3b1fabb5b44ce7a.pem'),
-
-  cert:  fs.readFileSync('./sslcert/c3b1fabb5b44ce7a.crt'),
-
-  ca: [
-
-          fs.readFileSync('./key.pem'),
-
-          fs.readFileSync('./server.crt')
-
-       ]
-};
+var options = {
+  pfx: fs.readFileSync('./sslcert/c3b1fabb5b44ce7a.crt'),
+  passphrase: './sslcert/c3b1fabb5b44ce7a.pem'
+}; 
 
 require('dotenv').config({path: __dirname + '/.env'})
 const app = express();
@@ -111,7 +101,7 @@ app.use('/api',paymentRoutes);
 
 
 // var httpsServer = https.createServer(credentials, app);
-// var https_server = https.createServer(options, app);
+var httpsServer  = https.createServer(options, app);
 
 let port = process.env.PORT || 8443;
 // //establishing DB connection
@@ -123,13 +113,4 @@ let port = process.env.PORT || 8443;
 //     // httpsServer.listen(port);
 
 // });
-
-https.createServer(https_options, function (req, res) {
-
-  res.writeHead(200);
- 
-  res.end("Welcome to Node.js HTTPS Servern");
- 
- }).listen(port)
-
-
+httpsServer.listen(PORT, logger.info(`Server listening on port: ${PORT}`));
