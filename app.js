@@ -98,14 +98,14 @@ app.use('/api',paymentRoutes);
 var httpsServer = https.createServer(credentials, app);
 // var https_server = https.createServer(options, app);
 
-let port = process.env.PORT || 8443;;
+let port = process.env.PORT || 8000;;
 //establishing DB connection
 mongoConnect(()=>{
      
     //listening to incoming request on this port
    
-    // app.listen(port);
-    httpsServer.listen(port);
+    app.listen(port);
+    // httpsServer.listen(port);
 
 });
 
