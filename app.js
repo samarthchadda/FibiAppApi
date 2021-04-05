@@ -5,8 +5,8 @@ const mongoConnect = require('./util/database').mongoConnect;
 
 const fs = require('fs');
 var https = require('https');
-// var privateKey  = fs.readFileSync('./sslcert/c3b1fabb5b44ce7a.pem');
-// var certificate = fs.readFileSync('./sslcert/c3b1fabb5b44ce7a.crt');
+// var privateKey  = fs.readFileSync('./sslcert/c3b1fabb5b44ce7a.pem','utf-8');
+// var certificate = fs.readFileSync('./sslcert/c3b1fabb5b44ce7a.crt','utf-8');
 
 // var credentials = {key: privateKey, cert: certificate};
 
@@ -14,6 +14,21 @@ var https = require('https');
 //   key: fs.readFileSync('./key.pem', 'utf8'),
 //   cert: fs.readFileSync('./server.crt', 'utf8')
 // };
+
+var https_options = {
+
+  key: fs.readFileSync('./sslcert/c3b1fabb5b44ce7a.pem'),
+
+  cert:  fs.readFileSync('./sslcert/c3b1fabb5b44ce7a.crt'),
+
+  ca: [
+
+          fs.readFileSync('./key.pem'),
+
+          fs.readFileSync('./server.crt')
+
+       ]
+};
 
 require('dotenv').config({path: __dirname + '/.env'})
 const app = express();
@@ -98,15 +113,23 @@ app.use('/api',paymentRoutes);
 // var httpsServer = https.createServer(credentials, app);
 // var https_server = https.createServer(options, app);
 
-let port = process.env.PORT || 8000;;
-//establishing DB connection
-mongoConnect(()=>{
+let port = process.env.PORT || 8443;
+// //establishing DB connection
+// mongoConnect(()=>{
      
-    //listening to incoming request on this port
+//     //listening to incoming request on this port
    
-    app.listen(port);
-    // httpsServer.listen(port);
+//     app.listen(port);
+//     // httpsServer.listen(port);
 
-});
+// });
+
+https.createServer(options, function (req, res) {
+
+  res.writeHead(200);
+ 
+  res.end("Welcome to Node.js HTTPS Servern");
+ 
+ }).listen(port)
 
 
