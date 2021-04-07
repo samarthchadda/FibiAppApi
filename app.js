@@ -5,7 +5,7 @@ const mongoConnect = require('./util/database').mongoConnect;
 
 const fs = require('fs');
 var https = require('https');
-var privateKey  = fs.readFileSync('./sslcert/fibi-private.txt');
+var privateKey  = fs.readFileSync('./sslcert/fibi-private.key');
 var certificate = fs.readFileSync('./sslcert/dd2f2515b64f6280.crt');
 
 var credentials = {cert: certificate,key: privateKey};
