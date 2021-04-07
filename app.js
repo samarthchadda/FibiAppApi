@@ -98,7 +98,7 @@ app.use('/api',paymentRoutes);
 
 var httpsServer = https.createServer(credentials, app);
 
-let port = process.env.PORT || 8010;
+let port = process.env.PORT || 8443;
 //establishing DB connection
 mongoConnect(()=>{
      
