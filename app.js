@@ -8,7 +8,7 @@ var https = require('https');
 var privateKey  = fs.readFileSync('./sslcert/fibi-private.key');
 var certificate = fs.readFileSync('./sslcert/gd_bundle-g2-g1.crt');
 
-var credentials = {cert: certificate,key: privateKey};
+var credentials = {key: privateKey,cert: certificate};
 
 // var options = {
 //   key: fs.readFileSync('./key.pem', 'utf8'),
