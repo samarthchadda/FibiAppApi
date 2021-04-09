@@ -5,10 +5,10 @@ const mongoConnect = require('./util/database').mongoConnect;
 
 const fs = require('fs');
 var https = require('https');
-// var privateKey  = fs.readFileSync('./sslcert/fibi-private.key');
-// var certificate = fs.readFileSync('./sslcert/dd2f2515b64f6280.crt');
+var privateKey = fs.readFileSync('./sslcert/fibi-private.key');
+var certificate = fs.readFileSync('./sslcert/a39ab6073feecc47.crt');
 
-// var credentials = {key: privateKey,cert: certificate};
+var credentials = { key: privateKey, cert: certificate };
 
 // var options = {
 //   key: fs.readFileSync('./key.pem', 'utf8'),
@@ -16,7 +16,7 @@ var https = require('https');
 // };
 
 
-require('dotenv').config({path: __dirname + '/.env'})
+require('dotenv').config({ path: __dirname + '/.env' })
 const app = express();
 
 const ownerRoutes = require('./routes/owner');
@@ -36,10 +36,10 @@ const paymentRoutes = require('./routes/payment');
 
 
 
-app.use('/uploads',express.static('uploads'));
-app.use('/uploadCourses',express.static('uploadCourses'));
-app.use('/uploadNews',express.static('uploadNews'));
-app.use('/uploadFaculty',express.static('uploadFaculty'));
+app.use('/uploads', express.static('uploads'));
+app.use('/uploadCourses', express.static('uploadCourses'));
+app.use('/uploadNews', express.static('uploadNews'));
+app.use('/uploadFaculty', express.static('uploadFaculty'));
 
 
 
@@ -48,16 +48,16 @@ app.use(bodyParser.json());  //for application/json data
 
 
 //enabling CORS package
-app.use((req,res,next)=>{
-    //setting header to all responses
-    res.setHeader('Access-Control-Allow-Origin','*');  
-                                           
-                        //specifying which methods are allowed
-    res.setHeader('Access-Control-Allow-Methods','GET,POST,PUT,PATCH,DELETE');
+app.use((req, res, next) => {
+  //setting header to all responses
+  res.setHeader('Access-Control-Allow-Origin', '*');
 
-    res.setHeader('Access-Control-Allow-Headers','Content-Type,Authorization');
+  //specifying which methods are allowed
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE');
 
-    next();  //so that request continues to next middleware
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+
+  next();  //so that request continues to next middleware
 });
 
 // serve static folder (admin-panel)
@@ -72,40 +72,40 @@ app.get("/admin*", (req, res) => {
 
 // show payment
 app.get("/web*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "dist1", "PaymentIntegration", "index.html"));
-  });
-
-
-app.get('/',(req,res)=>{
-    res.json({message:"deploy api"});
+  res.sendFile(path.resolve(__dirname, "dist1", "PaymentIntegration", "index.html"));
 });
 
-app.use('/api',ownerRoutes);
-app.use('/api',saloonRoutes);
-app.use('/api',servicesRoutes);
-app.use('/api',employeeRoutes);
-app.use('/api',availRoutes);
-app.use('/api',clientRoutes);
-app.use('/api',trainingRoutes);
-app.use('/api',adminRoutes);
-app.use('/api',appointmentRoutes);
-app.use('/api',reportRoutes);
-app.use('/api',legalRoutes);
-app.use('/api',notificationRoutes);
-app.use('/api',versionRoutes);
-app.use('/api',paymentRoutes);
+
+app.get('/', (req, res) => {
+  res.json({ message: "deploy api" });
+});
+
+app.use('/api', ownerRoutes);
+app.use('/api', saloonRoutes);
+app.use('/api', servicesRoutes);
+app.use('/api', employeeRoutes);
+app.use('/api', availRoutes);
+app.use('/api', clientRoutes);
+app.use('/api', trainingRoutes);
+app.use('/api', adminRoutes);
+app.use('/api', appointmentRoutes);
+app.use('/api', reportRoutes);
+app.use('/api', legalRoutes);
+app.use('/api', notificationRoutes);
+app.use('/api', versionRoutes);
+app.use('/api', paymentRoutes);
 
 
-// var httpsServer = https.createServer(credentials, app);
+var httpsServer = https.createServer(credentials, app);
 
-let port = process.env.PORT || 8000;
+let port = process.env.PORT || 8443;
 //establishing DB connection
-mongoConnect(()=>{
-     
-    //listening to incoming request on this port
-   
-    app.listen(port);
-    // httpsServer.listen(port);
+mongoConnect(() => {
+
+  //listening to incoming request on this port
+
+  // app.listen(port);
+  httpsServer.listen(port);
 
 });
 // httpsServer.listen(PORT, logger.info(`Server listening on port: ${PORT}`));
