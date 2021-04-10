@@ -39,7 +39,7 @@ router.post('/post-report',(req,res,next)=>{
         req.file.originalname = req.file.originalname.replace(/ /g, "");
         req.file.filename = req.file.filename.replace(/ /g, "");
         
-        // res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"http://160.153.254.97:8000/api/download/"+req.file.filename })
+        // res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"https://finditbookit.eu:8000/api/download/"+req.file.filename })
     
         let name = req.body.name; 
         let email = req.body.email; 
@@ -68,7 +68,7 @@ router.post('/post-report',(req,res,next)=>{
             //         console.log(result.url);
                     const db = getDb();     
         
-                    const report = new Report(name,email,phone,description,"http://160.153.254.97:8000/api/download/"+req.file.filename,reportDate,reporterType);
+                    const report = new Report(name,email,phone,description,"https://finditbookit.eu:8000/api/download/"+req.file.filename,reportDate,reporterType);
                     //saving in database
                     
                     report.save()

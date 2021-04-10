@@ -65,7 +65,7 @@ router.post('/add-saloon-photos',(req,res,next)=>{
             return res.json({message:"Error Occured",error:err})
         }
       
-        // res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"http://160.153.254.97:8000/api/download/"+req.file.filename })
+        // res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"https://finditbookit.eu:8000/api/download/"+req.file.filename })
         
         const saloonId = +req.body.saloonId;
     
@@ -100,9 +100,9 @@ router.post('/add-saloon-photos',(req,res,next)=>{
                         //     if(error) {console.log(error);}
                         //     else {
                                 // console.log(result.url);
-                                saloonImages.push("http://160.153.254.97:8000/api/download/"+f.filename);
+                                saloonImages.push("https://finditbookit.eu:8000/api/download/"+f.filename);
                                 console.log(saloonImages);
-                                saloon.saloonPhotos.push("http://160.153.254.97:8000/api/download/"+f.filename);
+                                saloon.saloonPhotos.push("https://finditbookit.eu:8000/api/download/"+f.filename);
     
                                 const db = getDb();
                                  db.collection('saloons').updateOne({saloonId:saloonId},{$set:saloon})
