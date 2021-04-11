@@ -365,6 +365,7 @@ exports.createSubscription=(req,res,next)=>{
                                             trial_end: tomorrow,
                                         items: [
                                           {price: priceId,tax_rates:['txr_1If743EEiYQYyt5L8YONUhJ0']},
+
                                         ]},function(err,subscription){
                                             if(err){
                                               //   console.log("Error Occured : ",err);
