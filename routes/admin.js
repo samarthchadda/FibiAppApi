@@ -1,0 +1,19 @@
+const express = require('express');
+const router = express.Router();
+const adminController = require('../controllers/admin');
+
+
+router.post('/admin-login',adminController.adminLogin);
+
+router.post('/admin-register',adminController.adminRegister);
+
+router.post('/admin-send-token',adminController.sendToken);
+
+router.post('/admin-forgot-pwd',adminController.adminForgotPassword);
+
+router.post('/admin-details',adminController.getSingleAdmin);
+
+router.post('/edit-admin-details',adminController.editAdminDetails);
+
+module.exports = router;
+
