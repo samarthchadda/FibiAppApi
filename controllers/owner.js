@@ -298,25 +298,13 @@ exports.createPrice=(req,res,next)=>{
 
 
 exports.createSubscription=(req,res,next)=>{
-    
-    // const saloonId = +req.body.saloonId;
-    // console.log(saloonId)
+   
     const customerId = req.body.customerId;
     const priceId = req.body.priceId;
     const card = req.body.card;
     const empCount = req.body.empCount;
     const status = +req.body.status;
-
-    // card = {
-    //     number: '4242424242424242',
-    //     exp_month: 1,
-    //     exp_year: 2022,
-    //     cvc: '314',
-    //   }
-
-    // customerId = 'cus_Iii15tAh1ZqRa7';
-
-    // priceId = 'price_1I70LjEEiYQYyt5LxSpwC8AB'
+   
     if(status == 2)
     {
         stripe.paymentMethods.create({
@@ -362,7 +350,7 @@ exports.createSubscription=(req,res,next)=>{
                                         console.log("Tomorrow : ",tomorrow)
                                         console.log(cust.id)
                                         stripe.subscriptions.create({customer: customerId,
-                                            trial_end: tomorrow,
+                                            trial_end: 'now',
                                         items: [
                                           {price: priceId,tax_rates:['txr_1ILTM6EEiYQYyt5Loh63cstX']},
 
@@ -426,7 +414,6 @@ exports.createSubscription=(req,res,next)=>{
             }
           });
     
-
     }
     else if(status == 0)
     {
@@ -523,8 +510,7 @@ exports.createSubscription=(req,res,next)=>{
                             res.json({status:false, message:"Something wrong Occured"})
                         }
                     }
-                  );
-    
+                  );    
               }
               else{
                   console.log("Something Wrong");              
@@ -635,10 +621,6 @@ exports.createSubscription=(req,res,next)=>{
           });
     
     }
-
-    
-
-      
 }
 
 
@@ -704,7 +686,7 @@ exports.changeSubscription=(req,res,next)=>{
                                         tomorrow = (tomorrow.getTime()/1000).toFixed(0);
                                         console.log(cust.id)
                                         stripe.subscriptions.create({customer: customerId,
-                                            trial_end : tomorrow,
+                                            trial_end: 'now',
                                         items: [
                                           {price: priceId,tax_rates:['txr_1ILTM6EEiYQYyt5Loh63cstX']},
                                         ]},function(err,subscription){
