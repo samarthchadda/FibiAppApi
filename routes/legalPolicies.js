@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const serverName = "https://finditbookit.eu:8000/api/download/";
+const serverName = "http://finditbookit.eu:5000/api/download/";
 
 const LegalPolicies = require('../models/legalPolicies');
 const path = require('path')

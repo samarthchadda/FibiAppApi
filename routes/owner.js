@@ -85,7 +85,7 @@ router.post('/edit-owner-photo',(req,res,next)=>{
         req.file.originalname = req.file.originalname.replace(/ /g, "");
         req.file.filename = req.file.filename.replace(/ /g, "");
         
-        // res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"https://finditbookit.eu:8000/api/download/"+req.file.filename })
+        // res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"http://finditbookit.eu:5000/api/download/"+req.file.filename })
     
         const ownerId = +req.body.ownerId;
 
@@ -108,13 +108,13 @@ router.post('/edit-owner-photo',(req,res,next)=>{
             }
             else{              
                 
-              empDoc.ownerImg ="https://finditbookit.eu:8000/api/download/"+req.file.filename;             
+              empDoc.ownerImg ="http://finditbookit.eu:5000/api/download/"+req.file.filename;             
                
                const db = getDb();
                db.collection('owners').updateOne({ownerId:ownerId},{$set:empDoc})
                            .then(resultData=>{
                                
-                               res.json({message:'Details Updated',status:true,imageUrl:"https://finditbookit.eu:8000/api/download/"+req.file.filename});
+                               res.json({message:'Details Updated',status:true,imageUrl:"http://finditbookit.eu:5000/api/download/"+req.file.filename});
                            })
                           .catch(err=>console.log(err));
         

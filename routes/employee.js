@@ -47,7 +47,7 @@ router.post('/post-employee',(req,res,next)=>{
         {
             return res.json({message:"Error Occured",error:err})
         }
-        // res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"https://finditbookit.eu:8000/api/download/"+req.file.filename })
+        // res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"http://finditbookit.eu:5000/api/download/"+req.file.filename })
         let empID;
         const saloonId = +req.body.saloonId;
         const empNm = req.body.empNm;
@@ -82,7 +82,7 @@ router.post('/post-employee',(req,res,next)=>{
                     
                                  const db = getDb();
                     
-                                const employee = new Employee(empID,saloonId,empNm,empType,"https://finditbookit.eu:8000/api/download/"+newImg,empServicesId,null,null);
+                                const employee = new Employee(empID,saloonId,empNm,empType,"http://finditbookit.eu:5000/api/download/"+newImg,empServicesId,null,null);
                                 //saving in database
                             
                                 employee.save()
@@ -144,7 +144,7 @@ router.post('/edit-employee',(req,res,next)=>{
         {
             return res.json({message:"Error Occured",error:err})
         }
-        // res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"https://finditbookit.eu:8000/api/download/"+req.file.filename })
+        // res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"http://finditbookit.eu:5000/api/download/"+req.file.filename })
         
         const empId = +req.body.empId;
         const empNm = req.body.empNm;
@@ -174,7 +174,7 @@ router.post('/edit-employee',(req,res,next)=>{
               empDoc.empName = empNm;   
               empDoc.empType = empType;   
               empDoc.empServices = empServicesId;              
-              empDoc.empImg = "https://finditbookit.eu:8000/api/download/"+req.file.filename;                           
+              empDoc.empImg = "http://finditbookit.eu:5000/api/download/"+req.file.filename;                           
                
                const db = getDb();
                db.collection('employees').updateOne({empId:empId},{$set:empDoc})
