@@ -364,7 +364,7 @@ exports.createSubscription=(req,res,next)=>{
                                         stripe.subscriptions.create({customer: customerId,
                                             trial_end: tomorrow,
                                         items: [
-                                          {price: priceId,tax_rates:['txr_1If743EEiYQYyt5L8YONUhJ0']},
+                                          {price: priceId,tax_rates:['txr_1ILTM6EEiYQYyt5Loh63cstX']},
 
                                         ]},function(err,subscription){
                                             if(err){
@@ -428,6 +428,110 @@ exports.createSubscription=(req,res,next)=>{
     
 
     }
+    else if(status == 0)
+    {
+        stripe.paymentMethods.create({
+            type: 'card',
+            card: card,
+          },function(err,payment){
+              if(err)
+              {
+                  console.log(err);
+                  res.json({status:false,message:"Error Occured",error:err})
+              }
+              if(payment)
+              {
+                  console.log(payment.id);
+                  stripe.paymentMethods.attach(
+                    payment.id,
+                    {customer: customerId},function(err,payMethod){
+                        if(err)
+                        {
+                            console.log(err);
+                            res.json({status:false,message:"Error Occured",error:err})
+                        }
+                        if(payMethod)
+                        {
+                            // console.log(payMethod)
+                            stripe.customers.update(
+                                customerId,
+                                 {
+                                    invoice_settings: {
+                                        default_payment_method: payment.id
+                                      }
+                                },function(err,cust){
+                                    if(err)
+                                    {
+                                        console.log(err);
+                                        res.json({status:false,message:"Error Occured",error:err})
+                                    }
+                                    if(cust)
+                                    {
+                                        console.log(cust.id)
+                                        stripe.subscriptions.create({customer: customerId,
+                                            trial_period_days:30,
+                                        items: [
+                                          {price: priceId,tax_rates:['txr_1ILTM6EEiYQYyt5Loh63cstX']},
+                                        ]},function(err,subscription){
+                                            if(err){
+                                              //   console.log("Error Occured : ",err);
+                                              res.json({status:false,message:"Error Occured",error:err})
+                                            }
+                                            if(subscription)
+                                            {
+                                                Saloon.findSaloonByCustomerId(customerId)
+                                                .then(saloon=>{
+                                                    if(!saloon)
+                                                    {   
+                                                       return res.json({status:false,message:"Saloon Does not exist"})
+                                                    }
+                                                    console.log("Saloon :",saloon.subscription.subscribedData)
+                                                    // subscription = {...subscription,saloonId:saloonId};
+                                                    saloon.subscription.subscribedData = subscription;
+                                                    saloon.empCount = +empCount;
+                                                    const db = getDb();
+                                                    db.collection('saloons').updateOne({saloonId:saloon.saloonId},{$set:saloon})
+                                                                .then(resultData=>{
+                                                                    
+                                                                    // res.json({ message:'Password successfully changed',status:true});
+                                                                    res.json({status:true,message:"Subscription Added Successfully",subscription:subscription})
+                                                                }) 
+                                                                .catch(err=>console.log(err));
+    
+                                                })
+                                              //   console.log("Price Created : ",price);
+                                            
+                                            }
+                                            else{
+                                                console.log("Something Wrong");
+                                                res.json({status:false, message:"Something wrong Occured"})
+                                            }
+                                        })
+                                        
+                                    }
+                                    else
+                                    {
+                                        console.log("Something Wrong")
+                                        res.json({status:false, message:"Something wrong Occured"})
+                                    }
+                                }
+                              );
+                           
+                        }   
+                        else{
+                            console.log("Something Wrong")
+                            res.json({status:false, message:"Something wrong Occured"})
+                        }
+                    }
+                  );
+    
+              }
+              else{
+                  console.log("Something Wrong");              
+                  res.json({status:false, message:"Something wrong Occured"})
+            }
+          });
+    }
     else{
         stripe.paymentMethods.create({
             type: 'card',
@@ -469,7 +573,7 @@ exports.createSubscription=(req,res,next)=>{
                                         console.log(cust.id)
                                         stripe.subscriptions.create({customer: customerId,
                                         items: [
-                                          {price: priceId,tax_rates:['txr_1If743EEiYQYyt5L8YONUhJ0']},
+                                          {price: priceId,tax_rates:['txr_1ILTM6EEiYQYyt5Loh63cstX']},
                                         ]},function(err,subscription){
                                             if(err){
                                               //   console.log("Error Occured : ",err);
@@ -602,7 +706,7 @@ exports.changeSubscription=(req,res,next)=>{
                                         stripe.subscriptions.create({customer: customerId,
                                             trial_end : tomorrow,
                                         items: [
-                                          {price: priceId,tax_rates:['txr_1If743EEiYQYyt5L8YONUhJ0']},
+                                          {price: priceId,tax_rates:['txr_1ILTM6EEiYQYyt5Loh63cstX']},
                                         ]},function(err,subscription){
                                             if(err){
                                               //   console.log("Error Occured : ",err);
@@ -672,7 +776,7 @@ exports.changeSubscription=(req,res,next)=>{
     {
         stripe.subscriptions.create({customer: customerId,
             items: [
-              {price: priceId,tax_rates:['txr_1If743EEiYQYyt5L8YONUhJ0']},
+              {price: priceId,tax_rates:['txr_1ILTM6EEiYQYyt5Loh63cstX']},
             ]},function(err,subscription){
                 if(err){
                   //   console.log("Error Occured : ",err);
