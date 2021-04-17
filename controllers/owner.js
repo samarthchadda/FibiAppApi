@@ -207,6 +207,18 @@ exports.getPaymentLogs = (req,res,next)=>{
 }
 
 
+exports.getPaymentIntent = async (req,res,next)=>{
+    const payIntentId = req.body.payIntentId;
+    
+    const paymentIntent = await stripe.paymentIntents.retrieve(
+        payIntentId
+    );
+
+    res.json({status:true,paymentIntent:paymentIntent })
+
+}
+
+
 exports.createProduct=(req,res,next)=>{
   
     // const customer =  stripe.customers.create({
