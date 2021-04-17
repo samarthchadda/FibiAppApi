@@ -423,8 +423,9 @@ exports.createSubscription=async (req,res,next)=>{
                                                                         }
                                                                     }
                                                                     ).then(pIResult=>{
-                                                                        console.log(pIResult, pIResult.next_action);
-                                                                        res.json({status:true,message:"Subscription Added Successfully",subscription:subscription});
+                                                                        console.log( pIResult.next_action);
+                                                                        // res.json({status:true,message:"Subscription Added Successfully",subscription:subscription});
+                                                                        res.redirect(pIResult.next_action.use_stripe_sdk.stripe_js);
 
                                                                     });
 
@@ -580,7 +581,8 @@ exports.createSubscription=async (req,res,next)=>{
                                                                     }
                                                                     ).then(pIResult=>{
                                                                         console.log(pIResult, pIResult.next_action);
-                                                                        res.json({status:true,message:"Subscription Added Successfully",subscription:subscription});
+                                                                        // res.json({status:true,message:"Subscription Added Successfully",subscription:subscription});
+                                                                        res.redirect(pIResult.next_action.use_stripe_sdk.stripe_js);
 
                                                                     });
                                                                    
@@ -729,8 +731,9 @@ exports.createSubscription=async (req,res,next)=>{
                                                                                 }
                                                                                 ).then(pIResult=>{
                                                                                     console.log(pIResult, pIResult.next_action);
-                                                                                    res.json({status:true,message:"Subscription Added Successfully",subscription:subscription});
-    
+                                                                                    // res.json({status:true,message:"Subscription Added Successfully",subscription:subscription});
+                                                                                    res.redirect(pIResult.next_action.use_stripe_sdk.stripe_js);
+                                                                                    
                                                                                 });
                                                                               
                                                                             }) 
