@@ -397,13 +397,15 @@ exports.createSubscription=async (req,res,next)=>{
                                                                     
                                                                     const paymentIntentConfirm = stripe.paymentIntents.confirm(
                                                                         payIntent.id,  
-                                                                        {payment_method: 'card'},
-                                                                        // payment_method_options.card.request_three_d_secure = 'automatic'
-                                                                        {payment_method_options : {
+                                                                        {payment_method: 'card',
+                                                                        payment_method_options : {
                                                                             card:{
                                                                                 request_three_d_secure : 'automatic'
                                                                             }
-                                                                        }}
+                                                                        }
+                                                                    }
+                                                                        // payment_method_options.card.request_three_d_secure = 'automatic'
+                                                                       
                                                                     );
                                                                     console.log(paymentIntentConfirm);
 
