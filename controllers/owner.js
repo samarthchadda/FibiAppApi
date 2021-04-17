@@ -6,9 +6,9 @@ const getDb = require('../util/database').getDB;
 const Employee = require('../models/employee');
 
 const Saloon = require('../models/saloon')
+const axios = require('axios');
 
 const stripe = require('stripe')(process.env.STRIPE_KEY);
-const axios = require('axios');
 
 const nodemailer = require('nodemailer');
 const sendgridTransport = require('nodemailer-sendgrid-transport');
