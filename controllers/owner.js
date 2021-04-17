@@ -397,7 +397,7 @@ exports.createSubscription=async (req,res,next)=>{
                                                                     
                                                                     const paymentIntentConfirm = stripe.paymentIntents.confirm(
                                                                         payIntent.id,  
-                                                                        {
+                                                                        {payment_method: 'pm_card_visa',
                                                                         payment_method_options : {
                                                                             card:{
                                                                                 request_three_d_secure : 'automatic'
