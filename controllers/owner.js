@@ -425,7 +425,7 @@ exports.createSubscription=async (req,res,next)=>{
                                         })
                                             } else{
                                                 console.log("Something Wrong");
-                                                res.json({status:false, message:"Something wrong Occured"})
+                                                return res.json({status:false, message:"Something wrong Occured"})
                                             }
                                         });
 
@@ -433,7 +433,7 @@ exports.createSubscription=async (req,res,next)=>{
                                     else
                                     {
                                         console.log("Something Wrong")
-                                        res.json({status:false, message:"Something wrong Occured"})
+                                        return res.json({status:false, message:"Something wrong Occured"})
                                     }
                                 }
                               );
@@ -494,6 +494,20 @@ exports.createSubscription=async (req,res,next)=>{
                                     if(cust)
                                     {
                                         console.log(cust.id)
+
+                                        stripe.paymentIntents.create({
+                                            amount: price.unit_amount,
+                                            currency: 'eur',
+                                            payment_method_types: ['card'],
+                                            customer:cust.id
+                                        },function(err,payIntent){
+                                            if(err){
+                                              //   console.log("Error Occured : ",err);
+                                              res.json({status:false,message:"Error Occured",error:err})
+                                            }
+                                            if(payIntent)
+                                            {
+                                            
                                         stripe.subscriptions.create({customer: customerId,
                                             trial_period_days:30,
                                         items: [
@@ -519,20 +533,39 @@ exports.createSubscription=async (req,res,next)=>{
                                                     db.collection('saloons').updateOne({saloonId:saloon.saloonId},{$set:saloon})
                                                                 .then(resultData=>{
                                                                     
-                                                                    // res.json({ message:'Password successfully changed',status:true});
+                                                                    const paymentIntentConfirm = stripe.paymentIntents.confirm(
+                                                                        payIntent.id,  
+                                                                        {payment_method: 'pm_card_visa',
+                                                                        payment_method_options : {
+                                                                            card:{
+                                                                                request_three_d_secure : 'automatic'
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                    );
+                                                                    console.log(paymentIntentConfirm);
+
+                                                                    setTimeout(()=>{
+                                                                   
                                                                     res.json({status:true,message:"Subscription Added Successfully",subscription:subscription})
+                                                                    },2000);
                                                                 }) 
                                                                 .catch(err=>console.log(err));
     
                                                 })
-                                              //   console.log("Price Created : ",price);
-                                            
+                                             
                                             }
                                             else{
                                                 console.log("Something Wrong");
-                                                res.json({status:false, message:"Something wrong Occured"})
+                                                return res.json({status:false, message:"Something wrong Occured"})
                                             }
                                         })
+                                        } else{
+                                            console.log("Something Wrong");
+                                            return res.json({status:false, message:"Something wrong Occured"})
+                                        }
+                                    });
+
                                         
                                     }
                                     else
@@ -596,44 +629,75 @@ exports.createSubscription=async (req,res,next)=>{
                                     if(cust)
                                     {
                                         console.log(cust.id)
-                                        stripe.subscriptions.create({customer: customerId,
-                                        items: [
-                                          {price: priceId,tax_rates:['txr_1ILTM6EEiYQYyt5Loh63cstX']},
-                                        ]},function(err,subscription){
+                                        stripe.paymentIntents.create({
+                                            amount: price.unit_amount,
+                                            currency: 'eur',
+                                            payment_method_types: ['card'],
+                                            customer:cust.id
+                                        },function(err,payIntent){
                                             if(err){
                                               //   console.log("Error Occured : ",err);
                                               res.json({status:false,message:"Error Occured",error:err})
                                             }
-                                            if(subscription)
+                                            if(payIntent)
                                             {
-                                                Saloon.findSaloonByCustomerId(customerId)
-                                                .then(saloon=>{
-                                                    if(!saloon)
-                                                    {   
-                                                       return res.json({status:false,message:"Saloon Does not exist"})
-                                                    }
-                                                    console.log("Saloon :",saloon.subscription.subscribedData)
-                                                    // subscription = {...subscription,saloonId:saloonId};
-                                                    saloon.subscription.subscribedData = subscription;
-                                                    saloon.empCount = +empCount;
-                                                    const db = getDb();
-                                                    db.collection('saloons').updateOne({saloonId:saloon.saloonId},{$set:saloon})
-                                                                .then(resultData=>{
-                                                                    
-                                                                    // res.json({ message:'Password successfully changed',status:true});
-                                                                    res.json({status:true,message:"Subscription Added Successfully",subscription:subscription})
-                                                                }) 
-                                                                .catch(err=>console.log(err));
-    
-                                                })
-                                              //   console.log("Price Created : ",price);
-                                            
-                                            }
-                                            else{
+                                                stripe.subscriptions.create({customer: customerId,
+                                                    items: [
+                                                      {price: priceId,tax_rates:['txr_1ILTM6EEiYQYyt5Loh63cstX']},
+                                                    ]},function(err,subscription){
+                                                        if(err){
+                                                          //   console.log("Error Occured : ",err);
+                                                          res.json({status:false,message:"Error Occured",error:err})
+                                                        }
+                                                        if(subscription)
+                                                        {
+                                                            Saloon.findSaloonByCustomerId(customerId)
+                                                            .then(saloon=>{
+                                                                if(!saloon)
+                                                                {   
+                                                                   return res.json({status:false,message:"Saloon Does not exist"})
+                                                                }
+                                                                console.log("Saloon :",saloon.subscription.subscribedData)
+                                                                // subscription = {...subscription,saloonId:saloonId};
+                                                                saloon.subscription.subscribedData = subscription;
+                                                                saloon.empCount = +empCount;
+                                                                const db = getDb();
+                                                                db.collection('saloons').updateOne({saloonId:saloon.saloonId},{$set:saloon})
+                                                                            .then(resultData=>{
+                                                                                
+                                                                                const paymentIntentConfirm = stripe.paymentIntents.confirm(
+                                                                                    payIntent.id,  
+                                                                                    {payment_method: 'pm_card_visa',
+                                                                                    payment_method_options : {
+                                                                                        card:{
+                                                                                            request_three_d_secure : 'automatic'
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                                );
+                                                                                console.log(paymentIntentConfirm);
+            
+                                                                                setTimeout(()=>{
+                                                                                    res.json({status:true,message:"Subscription Added Successfully",subscription:subscription});
+                                                                                },2000);
+                                                                            }) 
+                                                                            .catch(err=>console.log(err));
+                
+                                                            })
+                                                          //   console.log("Price Created : ",price);
+                                                        
+                                                        }
+                                                        else{
+                                                            console.log("Something Wrong");
+                                                            res.json({status:false, message:"Something wrong Occured"})
+                                                        }
+                                                    })
+                                            } else{
                                                 console.log("Something Wrong");
-                                                res.json({status:false, message:"Something wrong Occured"})
+                                                return res.json({status:false, message:"Something wrong Occured"})
                                             }
-                                        })
+                                        });
+                                 
                                         
                                     }
                                     else
