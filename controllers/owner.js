@@ -360,6 +360,7 @@ exports.createSubscription=async (req,res,next)=>{
                                             amount: price.unit_amount,
                                             currency: 'eur',
                                             payment_method_types: ['card'],
+                                            customer:cust.id
                                         },function(err,payIntent){
                                             if(err){
                                               //   console.log("Error Occured : ",err);
