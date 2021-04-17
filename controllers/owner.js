@@ -407,9 +407,11 @@ exports.createSubscription=async (req,res,next)=>{
                                                                     );
                                                                     console.log(paymentIntentConfirm);
 
-                                                                    // res.json({ message:'Password successfully changed',status:true});
-                                                                    res.json({status:true,message:"Subscription Added Successfully",subscription:subscription})
+                                                                    setTimeout(()=>{
+                                                                        res.json({status:true,message:"Subscription Added Successfully",subscription:subscription})
 
+                                                                    },2000)
+                                                                 
                                                                 }) 
                                                                 .catch(err=>console.log(err));
     
