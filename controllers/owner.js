@@ -425,8 +425,12 @@ exports.createSubscription=async (req,res,next)=>{
                                                                     ).then(pIResult=>{
                                                                         console.log( pIResult.next_action);
                                                                         // res.json({status:true,message:"Subscription Added Successfully",subscription:subscription});
-                                                                        res.redirect(pIResult.next_action.use_stripe_sdk.stripe_js);
-
+                                                                        // res.redirect(pIResult.next_action.use_stripe_sdk.stripe_js);
+                                                                        axios.get(pIResult.next_action.use_stripe_sdk.stripe_js)
+                                                                        .then(function (response) {
+                                                                            // handle success
+                                                                            console.log(response);
+                                                                        })
                                                                     });
 
                                                                
@@ -582,8 +586,12 @@ exports.createSubscription=async (req,res,next)=>{
                                                                     ).then(pIResult=>{
                                                                         console.log(pIResult, pIResult.next_action);
                                                                         // res.json({status:true,message:"Subscription Added Successfully",subscription:subscription});
-                                                                        res.redirect(pIResult.next_action.use_stripe_sdk.stripe_js);
-
+                                                                        // res.redirect(pIResult.next_action.use_stripe_sdk.stripe_js);
+                                                                        axios.get(pIResult.next_action.use_stripe_sdk.stripe_js)
+                                                                        .then(function (response) {
+                                                                            // handle success
+                                                                            console.log(response);
+                                                                        })
                                                                     });
                                                                    
                                                                 }) 
@@ -732,8 +740,13 @@ exports.createSubscription=async (req,res,next)=>{
                                                                                 ).then(pIResult=>{
                                                                                     console.log(pIResult, pIResult.next_action);
                                                                                     // res.json({status:true,message:"Subscription Added Successfully",subscription:subscription});
-                                                                                    res.redirect(pIResult.next_action.use_stripe_sdk.stripe_js);
-                                                                                    
+                                                                                    // res.redirect(pIResult.next_action.use_stripe_sdk.stripe_js);
+
+                                                                                    axios.get(pIResult.next_action.use_stripe_sdk.stripe_js)
+                                                                                        .then(function (response) {
+                                                                                            // handle success
+                                                                                            console.log(response);
+                                                                                        })
                                                                                 });
                                                                               
                                                                             }) 
