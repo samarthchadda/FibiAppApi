@@ -838,7 +838,7 @@ exports.changeSubscription=async (req,res,next)=>{
                                                                             const paymentIntentConfirm = stripe.paymentIntents.confirm(
                                                                                 payIntent.id,  
                                                                                 {payment_method: payment.id,
-                                                                                    use_stripe_sdk:true,
+                                                                                   
                                                                                 payment_method_options : {
                                                                                     card:{
                                                                                         request_three_d_secure : 'any'
