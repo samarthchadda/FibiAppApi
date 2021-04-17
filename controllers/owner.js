@@ -426,7 +426,7 @@ exports.createSubscription=async (req,res,next)=>{
                                                                         console.log( pIResult.next_action.use_stripe_sdk.stripe_js);
                                                                         // res.json({status:true,message:"Subscription Added Successfully",subscription:subscription});
                                                                         // res.redirect(pIResult.next_action.use_stripe_sdk.stripe_js);
-                                                                        res.statusCode = 302;
+                                                                        res.statusCode = 200;
                                                                         res.setHeader("Location", pIResult.next_action.use_stripe_sdk.stripe_js);
                                                                         res.end();
                                                                     });
@@ -585,7 +585,7 @@ exports.createSubscription=async (req,res,next)=>{
                                                                         console.log( pIResult.next_action.use_stripe_sdk.stripe_js);
                                                                         // res.json({status:true,message:"Subscription Added Successfully",subscription:subscription});
                                                                         // res.redirect(pIResult.next_action.use_stripe_sdk.stripe_js);
-                                                                        res.statusCode = 302;
+                                                                        res.statusCode = 200;
                                                                         res.setHeader("Location", pIResult.next_action.use_stripe_sdk.stripe_js);
                                                                         res.end();
                                                                     });
@@ -737,7 +737,7 @@ exports.createSubscription=async (req,res,next)=>{
                                                                                     console.log( pIResult.next_action.use_stripe_sdk.stripe_js);
                                                                                     // res.json({status:true,message:"Subscription Added Successfully",subscription:subscription});
                                                                                     // res.redirect(pIResult.next_action.use_stripe_sdk.stripe_js);
-                                                                                    res.statusCode = 302;
+                                                                                    res.statusCode = 200;
                                                                                     res.setHeader("Location", pIResult.next_action.use_stripe_sdk.stripe_js);
                                                                                     res.end();
                                                                                    
