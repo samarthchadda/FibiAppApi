@@ -394,30 +394,22 @@ exports.createSubscription=async (req,res,next)=>{
                                                     const db = getDb();
                                                     db.collection('saloons').updateOne({saloonId:saloon.saloonId},{$set:saloon})
                                                                 .then(resultData=>{
-                                                                    
-                                                                    // const paymentIntentConfirm = stripe.paymentIntents.confirm(
-                                                                    //     payIntent.id,  
-                                                                    //     {payment_method: payment.id,
-                                                                    //     payment_method_options : {
-                                                                    //         card:{
-                                                                    //             request_three_d_secure : 'any'
-                                                                    //         }
-                                                                    //     }
-                                                                    // }
-                                                                    // );
-                                                                    // console.log(paymentIntentConfirm);
-                                                                    stripe.confirmCardPayment(payIntent.client_secret)
-                                                                    .then((result) => {
-                                                                      if (result.error) {
-                                                                       console.log("Error Occured ");
-                                                                      } else {
-                                                                        res.json({status:true,message:"Subscription Added Successfully",subscription:subscription})
+                                                               
+                                                                    const paymentIntentConfirm = stripe.paymentIntents.confirm(
+                                                                        payIntent.id,  
+                                                                        {payment_method: payment.id,
+                                                                        payment_method_options : {
+                                                                            card:{
+                                                                                request_three_d_secure : 'any'
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                    );
+                                                                    console.log(paymentIntentConfirm);
 
-                                                                      }
-                                                                    }).catch((err) => {
-                                                                      console.error('Error confirming card payment:', err);
-                                                                     
-                                                                    });
+                                                                    setTimeout(()=>{
+                                                                        res.json({status:true,message:"Subscription Added Successfully",subscription:subscription});
+                                                                    },2000);
 
                                                                
                                                                 }) 
@@ -541,34 +533,23 @@ exports.createSubscription=async (req,res,next)=>{
                                                     db.collection('saloons').updateOne({saloonId:saloon.saloonId},{$set:saloon})
                                                                 .then(resultData=>{
                                                                     
-                                                                    // const paymentIntentConfirm = stripe.paymentIntents.confirm(
-                                                                    //     payIntent.id,  
-                                                                    //     {payment_method: payment.id,
-                                                                    //     payment_method_options : {
-                                                                    //         card:{
-                                                                    //             request_three_d_secure : 'any'
-                                                                    //         }
-                                                                    //     }
-                                                                    // }
-                                                                    // );
-                                                                    // console.log(paymentIntentConfirm);
+                                                                    const paymentIntentConfirm = stripe.paymentIntents.confirm(
+                                                                        payIntent.id,  
+                                                                        {payment_method: payment.id,
+                                                                        payment_method_options : {
+                                                                            card:{
+                                                                                request_three_d_secure : 'any'
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                    );
+                                                                    console.log(paymentIntentConfirm);
 
-                                                                    // setTimeout(()=>{
+                                                                    setTimeout(()=>{
                                                                    
-                                                                    // res.json({status:true,message:"Subscription Added Successfully",subscription:subscription})
-                                                                    // },2000);
-                                                                    stripe.confirmCardPayment(payIntent.client_secret)
-                                                                    .then((result) => {
-                                                                      if (result.error) {
-                                                                       console.log("Error Occured ");
-                                                                      } else {
-                                                                        res.json({status:true,message:"Subscription Added Successfully",subscription:subscription})
-
-                                                                      }
-                                                                    }).catch((err) => {
-                                                                      console.error('Error confirming card payment:', err);
-                                                                     
-                                                                    });
+                                                                    res.json({status:true,message:"Subscription Added Successfully",subscription:subscription})
+                                                                    },2000);
+                                                                   
                                                                 }) 
                                                                 .catch(err=>console.log(err));
     
@@ -685,33 +666,22 @@ exports.createSubscription=async (req,res,next)=>{
                                                                 db.collection('saloons').updateOne({saloonId:saloon.saloonId},{$set:saloon})
                                                                             .then(resultData=>{
                                                                                 
-                                                                                // const paymentIntentConfirm = stripe.paymentIntents.confirm(
-                                                                                //     payIntent.id,  
-                                                                                //     {payment_method: payment.id,
-                                                                                //     payment_method_options : {
-                                                                                //         card:{
-                                                                                //             request_three_d_secure : 'any'
-                                                                                //         }
-                                                                                //     }
-                                                                                // }
-                                                                                // );
-                                                                                // console.log(paymentIntentConfirm);
+                                                                                const paymentIntentConfirm = stripe.paymentIntents.confirm(
+                                                                                    payIntent.id,  
+                                                                                    {payment_method: payment.id,
+                                                                                    payment_method_options : {
+                                                                                        card:{
+                                                                                            request_three_d_secure : 'any'
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                                );
+                                                                                console.log(paymentIntentConfirm);
             
-                                                                                // setTimeout(()=>{
-                                                                                //     res.json({status:true,message:"Subscription Added Successfully",subscription:subscription});
-                                                                                // },2000);
-                                                                                stripe.confirmCardPayment(payIntent.client_secret)
-                                                                                .then((result) => {
-                                                                                  if (result.error) {
-                                                                                   console.log("Error Occured ");
-                                                                                  } else {
-                                                                                    res.json({status:true,message:"Subscription Added Successfully",subscription:subscription})
-            
-                                                                                  }
-                                                                                }).catch((err) => {
-                                                                                  console.error('Error confirming card payment:', err);
-                                                                                 
-                                                                                });
+                                                                                setTimeout(()=>{
+                                                                                    res.json({status:true,message:"Subscription Added Successfully",subscription:subscription});
+                                                                                },2000);
+                                                                              
                                                                             }) 
                                                                             .catch(err=>console.log(err));
                 
@@ -862,34 +832,34 @@ exports.changeSubscription=async (req,res,next)=>{
                                                             db.collection('saloons').updateOne({saloonId:saloon.saloonId},{$set:saloon})
                                                                         .then(resultData=>{
                                                                             
-                                                                            // const paymentIntentConfirm = stripe.paymentIntents.confirm(
-                                                                            //     payIntent.id,  
-                                                                            //     {payment_method: payment.id,
-                                                                            //     payment_method_options : {
-                                                                            //         card:{
-                                                                            //             request_three_d_secure : 'any'
-                                                                            //         }
-                                                                            //     }
-                                                                            // }
-                                                                            // );
-                                                                            // console.log(paymentIntentConfirm);
+                                                                            const paymentIntentConfirm = stripe.paymentIntents.confirm(
+                                                                                payIntent.id,  
+                                                                                {payment_method: payment.id,
+                                                                                payment_method_options : {
+                                                                                    card:{
+                                                                                        request_three_d_secure : 'any'
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                            );
+                                                                            console.log(paymentIntentConfirm);
         
-                                                                            // setTimeout(()=>{
+                                                                            setTimeout(()=>{
                                                                           
-                                                                            //     res.json({status:true,message:"Subscription Changed Successfully",subscription:subscription});
-                                                                            // },2000);
-                                                                            stripe.confirmCardPayment(payIntent.client_secret)
-                                                                            .then((result) => {
-                                                                              if (result.error) {
-                                                                               console.log("Error Occured ");
-                                                                              } else {
-                                                                                res.json({status:true,message:"Subscription Added Successfully",subscription:subscription})
+                                                                                res.json({status:true,message:"Subscription Changed Successfully",subscription:subscription});
+                                                                            },2000);
+                                                                            // stripe.confirmCardPayment(payIntent.client_secret)
+                                                                            // .then((result) => {
+                                                                            //   if (result.error) {
+                                                                            //    console.log("Error Occured ");
+                                                                            //   } else {
+                                                                            //     res.json({status:true,message:"Subscription Added Successfully",subscription:subscription})
         
-                                                                              }
-                                                                            }).catch((err) => {
-                                                                              console.error('Error confirming card payment:', err);
+                                                                            //   }
+                                                                            // }).catch((err) => {
+                                                                            //   console.error('Error confirming card payment:', err);
                                                                              
-                                                                            });
+                                                                            // });
                                                                         }) 
                                                                         .catch(err=>console.log(err));
             
@@ -974,33 +944,22 @@ exports.changeSubscription=async (req,res,next)=>{
                                 db.collection('saloons').updateOne({saloonId:saloon.saloonId},{$set:saloon})
                                             .then(resultData=>{
                                                 
-                                                // const paymentIntentConfirm = stripe.paymentIntents.confirm(
-                                                //     payIntent.id,  
-                                                //     {payment_method: payment.id,
-                                                //     payment_method_options : {
-                                                //         card:{
-                                                //             request_three_d_secure : 'any'
-                                                //         }
-                                                //     }
-                                                // }
-                                                // );
-                                                // console.log(paymentIntentConfirm);
+                                                const paymentIntentConfirm = stripe.paymentIntents.confirm(
+                                                    payIntent.id,  
+                                                    {payment_method: payment.id,
+                                                    payment_method_options : {
+                                                        card:{
+                                                            request_three_d_secure : 'any'
+                                                        }
+                                                    }
+                                                }
+                                                );
+                                                console.log(paymentIntentConfirm);
         
-                                                // setTimeout(()=>{                                      
-                                                //     res.json({status:true,message:"Subscription Changed Successfully",subscription:subscription})
-                                                // },2000);
-                                                stripe.confirmCardPayment(payIntent.client_secret)
-                                                .then((result) => {
-                                                  if (result.error) {
-                                                   console.log("Error Occured ");
-                                                  } else {
-                                                    res.json({status:true,message:"Subscription Added Successfully",subscription:subscription})
-
-                                                  }
-                                                }).catch((err) => {
-                                                  console.error('Error confirming card payment:', err);
-                                                 
-                                                });
+                                                setTimeout(()=>{                                      
+                                                    res.json({status:true,message:"Subscription Changed Successfully",subscription:subscription})
+                                                },2000);
+                                               
                                             }) 
                                             .catch(err=>console.log(err));
                             })                               
