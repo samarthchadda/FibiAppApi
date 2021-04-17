@@ -726,7 +726,7 @@ exports.createSubscription=async (req,res,next)=>{
 }
 
 
-exports.changeSubscription=(req,res,next)=>{
+exports.changeSubscription=async (req,res,next)=>{
  
     // const subscriptionId = req.body.subscriptionId;
     const customerId = req.body.customerId;
