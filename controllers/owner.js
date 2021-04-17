@@ -309,7 +309,7 @@ exports.createSubscription=async (req,res,next)=>{
         priceId
       );
 
-    console.log("Price :", price,price.unit_amount);
+    console.log("Price :", price.unit_amount);
 
     if(status == 2)
     {
