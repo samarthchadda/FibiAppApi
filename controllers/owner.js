@@ -862,22 +862,34 @@ exports.changeSubscription=async (req,res,next)=>{
                                                             db.collection('saloons').updateOne({saloonId:saloon.saloonId},{$set:saloon})
                                                                         .then(resultData=>{
                                                                             
-                                                                            const paymentIntentConfirm = stripe.paymentIntents.confirm(
-                                                                                payIntent.id,  
-                                                                                {payment_method: payment.id,
-                                                                                payment_method_options : {
-                                                                                    card:{
-                                                                                        request_three_d_secure : 'any'
-                                                                                    }
-                                                                                }
-                                                                            }
-                                                                            );
-                                                                            console.log(paymentIntentConfirm);
+                                                                            // const paymentIntentConfirm = stripe.paymentIntents.confirm(
+                                                                            //     payIntent.id,  
+                                                                            //     {payment_method: payment.id,
+                                                                            //     payment_method_options : {
+                                                                            //         card:{
+                                                                            //             request_three_d_secure : 'any'
+                                                                            //         }
+                                                                            //     }
+                                                                            // }
+                                                                            // );
+                                                                            // console.log(paymentIntentConfirm);
         
-                                                                            setTimeout(()=>{
+                                                                            // setTimeout(()=>{
                                                                           
-                                                                                res.json({status:true,message:"Subscription Changed Successfully",subscription:subscription});
-                                                                            },2000);
+                                                                            //     res.json({status:true,message:"Subscription Changed Successfully",subscription:subscription});
+                                                                            // },2000);
+                                                                            stripe.confirmCardPayment(payIntent.client_secret)
+                                                                            .then((result) => {
+                                                                              if (result.error) {
+                                                                               console.log("Error Occured ");
+                                                                              } else {
+                                                                                res.json({status:true,message:"Subscription Added Successfully",subscription:subscription})
+        
+                                                                              }
+                                                                            }).catch((err) => {
+                                                                              console.error('Error confirming card payment:', err);
+                                                                             
+                                                                            });
                                                                         }) 
                                                                         .catch(err=>console.log(err));
             
@@ -962,21 +974,33 @@ exports.changeSubscription=async (req,res,next)=>{
                                 db.collection('saloons').updateOne({saloonId:saloon.saloonId},{$set:saloon})
                                             .then(resultData=>{
                                                 
-                                                const paymentIntentConfirm = stripe.paymentIntents.confirm(
-                                                    payIntent.id,  
-                                                    {payment_method: payment.id,
-                                                    payment_method_options : {
-                                                        card:{
-                                                            request_three_d_secure : 'any'
-                                                        }
-                                                    }
-                                                }
-                                                );
-                                                console.log(paymentIntentConfirm);
+                                                // const paymentIntentConfirm = stripe.paymentIntents.confirm(
+                                                //     payIntent.id,  
+                                                //     {payment_method: payment.id,
+                                                //     payment_method_options : {
+                                                //         card:{
+                                                //             request_three_d_secure : 'any'
+                                                //         }
+                                                //     }
+                                                // }
+                                                // );
+                                                // console.log(paymentIntentConfirm);
         
-                                                setTimeout(()=>{                                      
-                                                    res.json({status:true,message:"Subscription Changed Successfully",subscription:subscription})
-                                                },2000);
+                                                // setTimeout(()=>{                                      
+                                                //     res.json({status:true,message:"Subscription Changed Successfully",subscription:subscription})
+                                                // },2000);
+                                                stripe.confirmCardPayment(payIntent.client_secret)
+                                                .then((result) => {
+                                                  if (result.error) {
+                                                   console.log("Error Occured ");
+                                                  } else {
+                                                    res.json({status:true,message:"Subscription Added Successfully",subscription:subscription})
+
+                                                  }
+                                                }).catch((err) => {
+                                                  console.error('Error confirming card payment:', err);
+                                                 
+                                                });
                                             }) 
                                             .catch(err=>console.log(err));
                             })                               
