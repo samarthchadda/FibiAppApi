@@ -399,6 +399,7 @@ exports.createSubscription=async (req,res,next)=>{
                                                                         payIntent.id,  
                                                                         {payment_method: payment.id,
                                                                             use_stripe_sdk:true,
+                                                                            return_url:'https://www.google.com/',
                                                                         payment_method_options : {
                                                                             card:{
                                                                                 request_three_d_secure : 'any'
@@ -538,6 +539,7 @@ exports.createSubscription=async (req,res,next)=>{
                                                                         payIntent.id,  
                                                                         {payment_method: payment.id,
                                                                             use_stripe_sdk:true,
+                                                                            return_url:'https://www.google.com/',
                                                                         payment_method_options : {
                                                                             card:{
                                                                                 request_three_d_secure : 'any'
@@ -671,6 +673,7 @@ exports.createSubscription=async (req,res,next)=>{
                                                                                 const paymentIntentConfirm = stripe.paymentIntents.confirm(
                                                                                     payIntent.id,  
                                                                                     {payment_method: payment.id,
+                                                                                        return_url:'https://www.google.com/',
                                                                                         use_stripe_sdk:true,
                                                                                     payment_method_options : {
                                                                                         card:{
