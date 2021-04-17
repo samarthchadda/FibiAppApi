@@ -358,7 +358,7 @@ exports.createSubscription=async (req,res,next)=>{
                                         stripe.subscriptions.create({customer: customerId,
                                             trial_end: 'now',
                                         items: [
-                                          {price: priceId,tax_rates:['txr_1IEuIGEEiYQYyt5L2KmMDezA']},
+                                          {price: priceId,tax_rates:['txr_1ILTM6EEiYQYyt5Loh63cstX']},
 
                                         ]},function(err,subscription){
                                             if(err){
@@ -464,7 +464,7 @@ exports.createSubscription=async (req,res,next)=>{
                                         stripe.subscriptions.create({customer: customerId,
                                             trial_period_days:30,
                                         items: [
-                                          {price: priceId,tax_rates:['txr_1IEuIGEEiYQYyt5L2KmMDezA']},
+                                          {price: priceId,tax_rates:['txr_1ILTM6EEiYQYyt5Loh63cstX']},
                                         ]},function(err,subscription){
                                             if(err){
                                               //   console.log("Error Occured : ",err);
@@ -565,7 +565,7 @@ exports.createSubscription=async (req,res,next)=>{
                                         console.log(cust.id)
                                         stripe.subscriptions.create({customer: customerId,
                                         items: [
-                                          {price: priceId,tax_rates:['txr_1IEuIGEEiYQYyt5L2KmMDezA']},
+                                          {price: priceId,tax_rates:['txr_1ILTM6EEiYQYyt5Loh63cstX']},
                                         ]},function(err,subscription){
                                             if(err){
                                               //   console.log("Error Occured : ",err);
@@ -694,7 +694,7 @@ exports.changeSubscription=(req,res,next)=>{
                                         stripe.subscriptions.create({customer: customerId,
                                             trial_end: 'now',
                                         items: [
-                                          {price: priceId,tax_rates:['txr_1IEuIGEEiYQYyt5L2KmMDezA']},
+                                          {price: priceId,tax_rates:['txr_1ILTM6EEiYQYyt5Loh63cstX']},
                                         ]},function(err,subscription){
                                             if(err){
                                               //   console.log("Error Occured : ",err);
@@ -764,7 +764,7 @@ exports.changeSubscription=(req,res,next)=>{
     {
         stripe.subscriptions.create({customer: customerId,
             items: [
-              {price: priceId,tax_rates:['txr_1IEuIGEEiYQYyt5L2KmMDezA']},
+              {price: priceId,tax_rates:['txr_1ILTM6EEiYQYyt5Loh63cstX']},
             ]},function(err,subscription){
                 if(err){
                   //   console.log("Error Occured : ",err);
