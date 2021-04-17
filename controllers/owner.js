@@ -355,6 +355,19 @@ exports.createSubscription=async (req,res,next)=>{
                                         tomorrow = (tomorrow.getTime()/1000).toFixed(0);
                                         console.log("Tomorrow : ",tomorrow)
                                         console.log(cust.id)
+
+                                        stripe.paymentIntents.create({
+                                            amount: price.unit_amount,
+                                            currency: 'eur',
+                                            payment_method_types: ['card'],
+                                        },function(err,payIntent){
+                                            if(err){
+                                              //   console.log("Error Occured : ",err);
+                                              res.json({status:false,message:"Error Occured",error:err})
+                                            }
+                                            if(payIntent)
+                                            {
+                                                
                                         stripe.subscriptions.create({customer: customerId,
                                             trial_end: 'now',
                                         items: [
@@ -381,13 +394,19 @@ exports.createSubscription=async (req,res,next)=>{
                                                     db.collection('saloons').updateOne({saloonId:saloon.saloonId},{$set:saloon})
                                                                 .then(resultData=>{
                                                                     
+                                                                    const paymentIntentConfirm = await stripe.paymentIntents.confirm(
+                                                                        payIntent.id,
+                                                                        payment_method_options.card.request_three_d_secure = 'automatic'
+                                                                    );
+                                                                    console.log(paymentIntentConfirm);
+
                                                                     // res.json({ message:'Password successfully changed',status:true});
                                                                     res.json({status:true,message:"Subscription Added Successfully",subscription:subscription})
+
                                                                 }) 
                                                                 .catch(err=>console.log(err));
     
                                                 })
-                                              //   console.log("Price Created : ",price);
                                             
                                             }
                                             else{
@@ -395,7 +414,12 @@ exports.createSubscription=async (req,res,next)=>{
                                                 res.json({status:false, message:"Something wrong Occured"})
                                             }
                                         })
-                                        
+                                            } else{
+                                                console.log("Something Wrong");
+                                                res.json({status:false, message:"Something wrong Occured"})
+                                            }
+                                        });
+
                                     }
                                     else
                                     {
