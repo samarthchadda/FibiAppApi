@@ -394,7 +394,7 @@ exports.createSubscription=async (req,res,next)=>{
                                                     db.collection('saloons').updateOne({saloonId:saloon.saloonId},{$set:saloon})
                                                                 .then(resultData=>{
                                                                     
-                                                                    const paymentIntentConfirm = await stripe.paymentIntents.confirm(
+                                                                    const paymentIntentConfirm = stripe.paymentIntents.confirm(
                                                                         payIntent.id,
                                                                         payment_method_options.card.request_three_d_secure = 'automatic'
                                                                     );
