@@ -297,7 +297,7 @@ exports.createPrice=(req,res,next)=>{
 }
 
 
-exports.createSubscription=(req,res,next)=>{
+exports.createSubscription=async (req,res,next)=>{
    
     const customerId = req.body.customerId;
     const priceId = req.body.priceId;
@@ -305,6 +305,12 @@ exports.createSubscription=(req,res,next)=>{
     const empCount = req.body.empCount;
     const status = +req.body.status;
    
+    const price = await stripe.prices.retrieve(
+        priceId
+      );
+
+    console.log("Price :", price,price.unit_amount);
+
     if(status == 2)
     {
         stripe.paymentMethods.create({
