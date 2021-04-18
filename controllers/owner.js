@@ -428,7 +428,7 @@ exports.createSubscription=async (req,res,next)=>{
                                                                         payIntent.id,  
                                                                         {payment_method: payment.id,
                                                                             use_stripe_sdk:true,
-                                                                            return_url:'https://finditbookit.eu:8000/loading-result',
+                                                                            return_url:'https://finditbookit.eu:8000/web/loading-result',
                                                                         payment_method_options : {
                                                                             card:{
                                                                                 request_three_d_secure : 'any'
@@ -588,7 +588,7 @@ exports.createSubscription=async (req,res,next)=>{
                                                                         payIntent.id,  
                                                                         {payment_method: payment.id,
                                                                             use_stripe_sdk:true,
-                                                                            return_url:'https://finditbookit.eu:8000/loading-result',
+                                                                            return_url:'https://finditbookit.eu:8000/web/loading-result',
                                                                         payment_method_options : {
                                                                             card:{
                                                                                 request_three_d_secure : 'any'
@@ -741,7 +741,7 @@ exports.createSubscription=async (req,res,next)=>{
                                                                                     payIntent.id,  
                                                                                     {payment_method: payment.id,
                                                                                         use_stripe_sdk:true,
-                                                                                        return_url:'https://finditbookit.eu:8000/loading-result',
+                                                                                        return_url:'https://finditbookit.eu:8000/web/loading-result',
                                                                                     payment_method_options : {
                                                                                         card:{
                                                                                             request_three_d_secure : 'any'
@@ -912,7 +912,7 @@ exports.changeSubscription=async (req,res,next)=>{
                                                                                 payIntent.id,  
                                                                                 {payment_method: payment.id,
                                                                                     use_stripe_sdk:true,
-                                                                                    return_url:'https://finditbookit.eu:8000/loading-result',
+                                                                                    return_url:'https://finditbookit.eu:8000/web/loading-result',
                                                                                 payment_method_options : {
                                                                                     card:{
                                                                                         request_three_d_secure : 'any'
@@ -1035,7 +1035,7 @@ exports.changeSubscription=async (req,res,next)=>{
                                                     payIntent.id,  
                                                     {payment_method: payment.id,
                                                         use_stripe_sdk:true,
-                                                        return_url:'https://finditbookit.eu:8000/loading-result',
+                                                        return_url:'https://finditbookit.eu:8000/web/loading-result',
                                                     payment_method_options : {
                                                         card:{
                                                             request_three_d_secure : 'any'
