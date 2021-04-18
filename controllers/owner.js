@@ -428,7 +428,7 @@ exports.createSubscription=async (req,res,next)=>{
                                                                         payIntent.id,  
                                                                         {payment_method: payment.id,
                                                                             use_stripe_sdk:true,
-                                                                            return_url:'http://localhost:4200/loading-result',
+                                                                            return_url:'https://finditbookit.eu:8000/loading-result',
                                                                         payment_method_options : {
                                                                             card:{
                                                                                 request_three_d_secure : 'any'
@@ -588,7 +588,7 @@ exports.createSubscription=async (req,res,next)=>{
                                                                         payIntent.id,  
                                                                         {payment_method: payment.id,
                                                                             use_stripe_sdk:true,
-                                                                            return_url:'http://localhost:4200/loading-result',
+                                                                            return_url:'https://finditbookit.eu:8000/loading-result',
                                                                         payment_method_options : {
                                                                             card:{
                                                                                 request_three_d_secure : 'any'
@@ -741,7 +741,7 @@ exports.createSubscription=async (req,res,next)=>{
                                                                                     payIntent.id,  
                                                                                     {payment_method: payment.id,
                                                                                         use_stripe_sdk:true,
-                                                                                        return_url:'http://localhost:4200/loading-result',
+                                                                                        return_url:'https://finditbookit.eu:8000/loading-result',
                                                                                     payment_method_options : {
                                                                                         card:{
                                                                                             request_three_d_secure : 'any'
@@ -912,6 +912,7 @@ exports.changeSubscription=async (req,res,next)=>{
                                                                                 payIntent.id,  
                                                                                 {payment_method: payment.id,
                                                                                     use_stripe_sdk:true,
+                                                                                    return_url:'https://finditbookit.eu:8000/loading-result',
                                                                                 payment_method_options : {
                                                                                     card:{
                                                                                         request_three_d_secure : 'any'
@@ -920,7 +921,7 @@ exports.changeSubscription=async (req,res,next)=>{
                                                                             }
                                                                             ).then(pIResult=>{
                                                                                 console.log(pIResult, pIResult.next_action);
-                                                                                res.json({status:true,message:"Subscription Changed Successfully",subscription:subscription});
+                                                                                res.json({status:true,message:"Subscription Changed Successfully",subscription:subscription, urlHook:pIResult.next_action.use_stripe_sdk.stripe_js});
 
                                                                             });
                                                                             // console.log(paymentIntentConfirm);
@@ -1034,6 +1035,7 @@ exports.changeSubscription=async (req,res,next)=>{
                                                     payIntent.id,  
                                                     {payment_method: payment.id,
                                                         use_stripe_sdk:true,
+                                                        return_url:'https://finditbookit.eu:8000/loading-result',
                                                     payment_method_options : {
                                                         card:{
                                                             request_three_d_secure : 'any'
@@ -1042,7 +1044,7 @@ exports.changeSubscription=async (req,res,next)=>{
                                                 }
                                                 ).then(pIResult=>{
                                                     console.log(pIResult, pIResult.next_action);
-                                                    res.json({status:true,message:"Subscription Changed Successfully",subscription:subscription});
+                                                    res.json({status:true,message:"Subscription Changed Successfully",subscription:subscription, urlHook:pIResult.next_action.use_stripe_sdk.stripe_js});
 
                                                 });
                                                
