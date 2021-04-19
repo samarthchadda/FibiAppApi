@@ -1422,7 +1422,7 @@ exports.sendToken = (req,res,next)=>{
 
     transporter.sendMail({
         to:email,
-        from:'finditbookit.es@gmail.com',
+        from:'test@example.com',
         subject:'Fibi App - OTP',
         html:`
         <p> You requested a password reset</p>
