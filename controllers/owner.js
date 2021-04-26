@@ -542,7 +542,7 @@ exports.createSubscription=async (req,res,next)=>{
                                             {
                                             
                                         stripe.subscriptions.create({customer: customerId,
-                                            trial_period_days:30,
+                                            trial_period_days:90,
                                         items: [
                                           {price: priceId,tax_rates:['txr_1IEuIGEEiYQYyt5L2KmMDezA']},
                                         ]},function(err,subscription){
