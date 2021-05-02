@@ -529,8 +529,8 @@ exports.createSubscription=async (req,res,next)=>{
                                         console.log(cust.id)
 
                                         stripe.paymentIntents.create({
-                                            // amount: price.unit_amount,
-                                            amount: 500,
+                                            amount: price.unit_amount,
+                                            // amount: 500,
                                             currency: 'eur',
                                             payment_method_types: ['card'],
                                             customer:cust.id
@@ -597,7 +597,7 @@ exports.createSubscription=async (req,res,next)=>{
                                                                         }
                                                                     }
                                                                     ).then(pIResult=>{
-                                                                        console.log( pIResult.next_action.use_stripe_sdk.stripe_js);
+                                                                        console.log( "URL HOOK : ",pIResult.next_action.use_stripe_sdk.stripe_js);
                                                                         res.json({status:true,message:"Subscription Added Successfully",subscription:subscription, urlHook:pIResult.next_action.use_stripe_sdk.stripe_js});
                                                                         
                                                                         // res.statusCode = 302;
