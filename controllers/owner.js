@@ -598,8 +598,19 @@ exports.createSubscription=async (req,res,next)=>{
                                                                     }
                                                                     ).then(pIResult=>{
                                                                         console.log( "URL HOOK : ",pIResult.next_action.use_stripe_sdk.stripe_js);
-                                                                        res.json({status:true,message:"Subscription Added Successfully",subscription:subscription, urlHook:pIResult.next_action.use_stripe_sdk.stripe_js});
+                                                                        console.log("Charge ID : ",pIResult.charges.data[0].id);
+
+                                                                        stripe.refunds.create({
+                                                                            charge: pIResult.charges.data[0].id,
+                                                                          }).then(chargeResult=>{
+                                                                            console.log("Charge Result : ", chargeResult);
+                                                                            res.json({status:true,message:"Subscription Added Successfully",subscription:subscription, urlHook:pIResult.next_action.use_stripe_sdk.stripe_js});
                                                                         
+                                                                          }).catch(err=>{
+                                                                              console.log("Error Occured : ", err);
+                                                                          })
+
+                                                                      
                                                                         // res.statusCode = 302;
                                                                         // res.setHeader("Location", pIResult.next_action.use_stripe_sdk.stripe_js);
                                                                         // res.end();
