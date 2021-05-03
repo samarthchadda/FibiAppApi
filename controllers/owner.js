@@ -218,6 +218,17 @@ exports.getPaymentIntent = async (req,res,next)=>{
 
 }
 
+exports.createPaymentRefund = async (req,res,next)=>{
+    const chargeId = req.body.chargeId;
+    
+    const refund = await stripe.refunds.create({
+        charge: chargeId,
+      });
+
+    res.json({status:true,refund:refund })
+
+}
+
 
 exports.createProduct=(req,res,next)=>{
   

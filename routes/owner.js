@@ -47,6 +47,8 @@ router.post('/get-paymentLogs-stripe',ownerController.getPaymentLogs);
 
 router.post('/get-payment-intent',ownerController.getPaymentIntent);
 
+router.post('/create-payment-refund',ownerController.createPaymentRefund);
+
 router.post('/cancel-subscription-stripe',ownerController.cancelSubscription);
 
 router.post('/delete-product-stripe',ownerController.delProduct);
