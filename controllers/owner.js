@@ -541,7 +541,7 @@ exports.createSubscription=async (req,res,next)=>{
 
                                         stripe.paymentIntents.create({
                                             // amount: price.unit_amount,
-                                            amount: 100,
+                                            amount: 50,
                                             currency: 'eur',
                                             payment_method_types: ['card'],
                                             customer:cust.id
