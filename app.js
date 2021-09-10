@@ -84,13 +84,12 @@ app.use('/api', versionRoutes);
 app.use('/api', paymentRoutes);
 
 
-let port2 = process.env.PORT2 || 8000;
+let port = process.env.PORT || 8080;
 //establishing DB connection
-mongoConnect(() => {
-
-  //listening to incoming request on this port
-
-  app.listen(port2);
+mongoConnect(()=>{
+     
+    //listening to incoming request on this port
+   
+    app.listen(port);
 
 });
-// httpsServer.listen(PORT, logger.info(`Server listening on port: ${PORT}`));
