@@ -84,7 +84,7 @@ app.use('/api', versionRoutes);
 app.use('/api', paymentRoutes);
 
 
-let port2 = process.env.PORT2 || 5000;
+let port2 = process.env.PORT2 || 8080;
 //establishing DB connection
 mongoConnect(() => {
 
