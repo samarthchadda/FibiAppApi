@@ -54,14 +54,14 @@ app.use(express.static("dist1/PaymentIntegration"));
 
 
 // show admin panel (built react app)
-app.get("/admin*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "dist", "HosamAppAdmin", "index.html"));
-});
+// app.get("/admin*", (req, res) => {
+//   res.sendFile(path.resolve(__dirname, "dist", "HosamAppAdmin", "index.html"));
+// });
 
-// show payment
-app.get("/web*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "dist1", "PaymentIntegration", "index.html"));
-});
+// // show payment
+// app.get("/web*", (req, res) => {
+//   res.sendFile(path.resolve(__dirname, "dist1", "PaymentIntegration", "index.html"));
+// });
 
 
 app.get('/', (req, res) => {
@@ -84,7 +84,7 @@ app.use('/api', versionRoutes);
 app.use('/api', paymentRoutes);
 
 
-let port2 = process.env.PORT2 || 8080;
+let port2 = process.env.PORT2 || 8000;
 //establishing DB connection
 mongoConnect(() => {
 
