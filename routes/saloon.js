@@ -74,7 +74,7 @@ router.post('/add-saloon-photos',(req,res,next)=>{
         // var imagekit = new ImageKit({
         //     publicKey : process.env.IMAGE_KIT_PUBLIC_KEY,
         //     privateKey : process.env.IMAGE_KIT_PRIVATE_KEY,
-        //     urlEndpoint : "https://ik.imagekit.io/4afsv20kjs"
+        //     urlEndpoint : "https://ik.imagekit.io/hosamapp"
         // });
                   
     

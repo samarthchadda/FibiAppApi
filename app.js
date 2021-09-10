@@ -4,17 +4,6 @@ const bodyParser = require('body-parser');
 const mongoConnect = require('./util/database').mongoConnect;
 
 const fs = require('fs');
-var https = require('https');
-var privateKey = fs.readFileSync('./sslcert/fibi-private.key');
-var certificate = fs.readFileSync('./sslcert/a39ab6073feecc47.crt');
-
-var credentials = { key: privateKey, cert: certificate };
-
-// var options = {
-//   key: fs.readFileSync('./key.pem', 'utf8'),
-//   cert: fs.readFileSync('./server.crt', 'utf8')
-// };
-
 
 require('dotenv').config({ path: __dirname + '/.env' })
 const app = express();
@@ -42,7 +31,6 @@ app.use('/uploadNews', express.static('uploadNews'));
 app.use('/uploadFaculty', express.static('uploadFaculty'));
 
 
-
 app.use(bodyParser.json());  //for application/json data
 
 
@@ -61,13 +49,13 @@ app.use((req, res, next) => {
 });
 
 // serve static folder (admin-panel)
-app.use(express.static("dist/FibiAppAdmin"));
+app.use(express.static("dist/HosamAppAdmin"));
 app.use(express.static("dist1/PaymentIntegration"));
 
 
 // show admin panel (built react app)
 app.get("/admin*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "dist", "FibiAppAdmin", "index.html"));
+  res.sendFile(path.resolve(__dirname, "dist", "HosamAppAdmin", "index.html"));
 });
 
 // show payment
@@ -96,16 +84,12 @@ app.use('/api', versionRoutes);
 app.use('/api', paymentRoutes);
 
 
-var httpsServer = https.createServer(credentials, app);
-
-let port1 = process.env.PORT || 8443;
 let port2 = process.env.PORT2 || 5000;
 //establishing DB connection
 mongoConnect(() => {
 
   //listening to incoming request on this port
 
-  httpsServer.listen(port1);
   app.listen(port2);
 
 });

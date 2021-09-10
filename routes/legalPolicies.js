@@ -134,7 +134,6 @@ router.post('/edit-privacyPolicyClientOwnerEng',(req,res,next)=>{
         {
             return res.json({message:"Error Occured",error:err})
         }
-        // res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"https://fibiapp.herokuapp.com/api/download/"+req.file.filename })
         const id = +req.body.id;
         const newClientImg = req.file.filename;
       
@@ -175,7 +174,6 @@ router.post('/edit-privacyPolicyClientOwnerEs',(req,res,next)=>{
         {
             return res.json({message:"Error Occured",error:err})
         }
-        // res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"https://fibiapp.herokuapp.com/api/download/"+req.file.filename })
         const id = +req.body.id;
         const newClientImg = req.file.filename;
       
@@ -216,7 +214,6 @@ router.post('/edit-legalNoticeClientOwnerEng',(req,res,next)=>{
         {
             return res.json({message:"Error Occured",error:err})
         }
-        // res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"https://fibiapp.herokuapp.com/api/download/"+req.file.filename })
         const id = +req.body.id;
         const newClientImg = req.file.filename;
       
@@ -257,7 +254,6 @@ router.post('/edit-legalNoticeClientOwnerEs',(req,res,next)=>{
         {
             return res.json({message:"Error Occured",error:err})
         }
-        // res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"https://fibiapp.herokuapp.com/api/download/"+req.file.filename })
         const id = +req.body.id;
         const newClientImg = req.file.filename;
       
@@ -297,7 +293,6 @@ router.post('/edit-tcClientEng',(req,res,next)=>{
         {
             return res.json({message:"Error Occured",error:err})
         }
-        // res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"https://fibiapp.herokuapp.com/api/download/"+req.file.filename })
         const id = +req.body.id;
         const newClientImg = req.file.filename;
       
@@ -337,7 +332,6 @@ router.post('/edit-tcOwnerEng',(req,res,next)=>{
         {
             return res.json({message:"Error Occured",error:err})
         }
-        // res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"https://fibiapp.herokuapp.com/api/download/"+req.file.filename })
         const id = +req.body.id;
         const newClientImg = req.file.filename;
       
@@ -378,7 +372,6 @@ router.post('/edit-tcClientEs',(req,res,next)=>{
         {
             return res.json({message:"Error Occured",error:err})
         }
-        // res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"https://fibiapp.herokuapp.com/api/download/"+req.file.filename })
         const id = +req.body.id;
         const newClientImg = req.file.filename;
       
@@ -419,7 +412,6 @@ router.post('/edit-tcOwnerEs',(req,res,next)=>{
         {
             return res.json({message:"Error Occured",error:err})
         }
-        // res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"https://fibiapp.herokuapp.com/api/download/"+req.file.filename })
         const id = +req.body.id;
         const newClientImg = req.file.filename;
       
@@ -460,7 +452,6 @@ router.post('/edit-cookieClientOwnerEng',(req,res,next)=>{
         {
             return res.json({message:"Error Occured",error:err})
         }
-        // res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"https://fibiapp.herokuapp.com/api/download/"+req.file.filename })
         const id = +req.body.id;
         const newClientImg = req.file.filename;
       
@@ -501,7 +492,6 @@ router.post('/edit-cookieClientOwnerEs',(req,res,next)=>{
         {
             return res.json({message:"Error Occured",error:err})
         }
-        // res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"https://fibiapp.herokuapp.com/api/download/"+req.file.filename })
         const id = +req.body.id;
         const newClientImg = req.file.filename;
       
@@ -541,7 +531,6 @@ router.post('/edit-infoClientOwnerEng',(req,res,next)=>{
         {
             return res.json({message:"Error Occured",error:err})
         }
-        // res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"https://fibiapp.herokuapp.com/api/download/"+req.file.filename })
         const id = +req.body.id;
         const newClientImg = req.file.filename;
       
@@ -581,7 +570,6 @@ router.post('/edit-infoClientOwnerEs',(req,res,next)=>{
         {
             return res.json({message:"Error Occured",error:err})
         }
-        // res.json({orignalName:req.file.originalname,uploadName:req.file.filename,path:"https://fibiapp.herokuapp.com/api/download/"+req.file.filename })
         const id = +req.body.id;
         const newClientImg = req.file.filename;
       

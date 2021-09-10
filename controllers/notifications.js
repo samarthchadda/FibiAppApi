@@ -210,7 +210,7 @@ exports.sendPushNotification = (req,res,next)=>{
     let playerId = req.body.playerId;
 
     var myJSONObject = {
-        "app_id": "fec0b1c3-f072-4b70-9048-f79388e01968",
+        "app_id": process.env.ONE_SIGNAL_APP_ID,
         "include_player_ids": [],
         "data": {"foo": "Title101"},
         "contents": {"en": "APPOINTMENT CANCELLED\nEmployee Deleted"}
@@ -225,7 +225,7 @@ exports.sendPushNotification = (req,res,next)=>{
        body: myJSONObject,
        headers:{
            'Content-Type': 'application/json',
-          'Authorization': 'Basic NjQzMjNjYzktYmI2OC00YWMxLWJmMTgtYjQ1NjYzYzViOTZl'
+          'Authorization': process.env.ONE_SIGNAL_AUTHORIZATION
        }
    }, function (error, response, body){
        if(response)
